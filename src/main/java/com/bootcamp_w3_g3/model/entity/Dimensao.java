@@ -2,6 +2,8 @@ package com.bootcamp_w3_g3.model.entity;
 
 /**
  * @author Marcelo de Oliveira Santos
+ * Classe Dimensao: usada como um atributo de classes dimensionahveis do projeto,
+ * retornando medidas e propriedades geomehtricas bahsicas para a logihstica.
  */
 
 public class Dimensao {
@@ -9,6 +11,8 @@ public class Dimensao {
     private Double comprimento;
     private Double largura;
     private Double altura;
+
+    public Dimensao(){}
 
     public Dimensao(Double comprimento, Double largura, Double altura) {
         this.comprimento = comprimento;

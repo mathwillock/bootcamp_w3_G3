@@ -3,6 +3,10 @@ package com.bootcamp_w3_g3.model.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Joaquim Borges
+ */
+
 @Getter
 @Setter
 public abstract class Pessoa {

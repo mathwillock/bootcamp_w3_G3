@@ -14,14 +14,14 @@ import java.util.List;
 @Getter
 public class LoteDTO {
 
-    private int numero;
+    private Integer numero;
     private LocalDate dataDeValidade;
     private Integer quantidadeDeIntens;
 
     public LoteDTO() {
     }
 
-    public LoteDTO(int numero, LocalDate dataDeValidade, Integer quantidadeDeIntens) {
+    public LoteDTO(Integer numero, LocalDate dataDeValidade, Integer quantidadeDeIntens) {
         this.numero = numero;
         this.dataDeValidade = dataDeValidade;
         this.quantidadeDeIntens = quantidadeDeIntens;

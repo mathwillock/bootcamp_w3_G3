@@ -7,12 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Joaquim Borges
+ */
+
 @Service
 public class LoteService {
 
-    @Autowired
-    private LoteRepository loteRepository;
 
+    private final LoteRepository loteRepository;
+
+    @Autowired
     public LoteService(LoteRepository loteRepository) {
         this.loteRepository = loteRepository;
     }
@@ -36,4 +41,11 @@ public class LoteService {
 
         return loteRepository.save(editedLote);
     }
+
+    public Lote apagar(Integer numeroDoLote) {
+        return loteRepository.deleteByNumero(numeroDoLote);
+    }
+
+
+
 }

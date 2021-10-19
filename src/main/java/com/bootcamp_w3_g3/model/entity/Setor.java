@@ -32,6 +32,7 @@ public class Setor extends Dimensao {
         this.representante = representante;
     }
 
+    
     @Autowired
     public Setor(String nome, String tipoProduto, float temperaturaMin, float temperaturaMax, Dimensao dimensao, Representante representante) {
     }

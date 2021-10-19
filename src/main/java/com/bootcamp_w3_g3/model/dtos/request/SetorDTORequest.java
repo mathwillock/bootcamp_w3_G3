@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 public class SetorDTORequest {
 
+
     private String nome;
     private String tipoProduto;
     private float temperaturaMin;

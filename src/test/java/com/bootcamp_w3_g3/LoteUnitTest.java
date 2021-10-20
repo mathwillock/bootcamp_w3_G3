@@ -1,5 +1,6 @@
 package com.bootcamp_w3_g3;
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Dimensao;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.repository.LoteRepository;
@@ -45,11 +46,28 @@ public class LoteUnitTest {
         Lote loteForm = new Lote(10, LocalDate.now(),
                 new Dimensao(2.1, 1.1, 2.0), 10, new ArrayList<>());
 
-        Mockito.when(loteService.obter(loteForm.getNumero()))
+        Mockito.when(loteService.obter(loteForm.getId()))
                 .thenReturn(new Lote());
 
         loteService.salvar(loteForm);
         Mockito.verify(loteRepository).save(Mockito.any());
+    }
+
+    /**
+     * teste deve lançar uma exception de payload invalido.
+     */
+    @Test
+    void should_throwException_createLote_whenPayloadIsInvalid(){
+        Lote loteForm = new Lote(1L, 9, LocalDate.now(),
+                new Dimensao(2.1, 1.1, 2.0), 10, new ArrayList<>());
+
+        String error = "Lote não encontrado.";
+        loteService.salvar(loteForm);
+
+        Mockito.when(loteService.obter(2L))
+                .thenThrow(new EntityNotFoundException(error));
+
+        assertEquals("Lote não encontrado.", error);
     }
 
 }

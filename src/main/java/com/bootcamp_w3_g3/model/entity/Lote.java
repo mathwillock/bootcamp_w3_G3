@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,17 @@ public class Lote {
         this.produtos = produtos;
     }
 
+    public Lote(Long id, Integer numero, LocalDate dataDeValidade, Dimensao dimensao, Integer quantidadeDeIntens, List<Produto> produtos) {
+        this.id = id;
+        this.numero = numero;
+        this.dataDeValidade = dataDeValidade;
+        this.dimensao = dimensao;
+        this.quantidadeDeIntens = quantidadeDeIntens;
+        this.produtos = produtos;
+    }
+
     public Lote() {
     }
+
+
 }

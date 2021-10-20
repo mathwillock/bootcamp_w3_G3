@@ -1,8 +1,10 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
 import com.bootcamp_w3_g3.model.entity.Dimensao;
+
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
+
 import lombok.Getter;
 
 import java.time.LocalDate;

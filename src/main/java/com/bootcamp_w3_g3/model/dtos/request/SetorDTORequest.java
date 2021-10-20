@@ -15,25 +15,26 @@ public class SetorDTORequest {
 
     private String nome;
     private String tipoProduto;
-    private float temperaturaMin;
-    private float temperaturaMax;
-    private Dimensao dimensao;
+    private double temperaturaMin;
+    private double temperaturaMax;
+    private Dimensao dimensoes;
     private Representante representante;
 
     public SetorDTORequest(){
     }
 
-    public SetorDTORequest(String nome, String tipoProduto, float temperaturaMin, float temperaturaMax, Dimensao dimensao, Representante representante) {
+    public SetorDTORequest(String nome, String tipoProduto, double temperaturaMin, double temperaturaMax, Dimensao dimensoes, Representante representante) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;
         this.temperaturaMax = temperaturaMax;
-        this.dimensao = dimensao;
+        this.dimensoes = dimensoes;
         this.representante = representante;
     }
 
     public Setor converte(){
-        return new Setor(nome, tipoProduto, temperaturaMin, temperaturaMax, dimensao, representante );
+        return new Setor(nome, tipoProduto, temperaturaMin, temperaturaMin, dimensoes, representante );
     }
+
 }
 

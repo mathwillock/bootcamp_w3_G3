@@ -19,20 +19,20 @@ public class SetorDTO {
 
     private String nome;
     private String tipoProduto;
-    private float temperaturaMin;
-    private float temperaturaMax;
-    private Dimensao dimensao;
+    private double temperaturaMin;
+    private double temperaturaMax;
+    private Dimensao dimensoes;
     private Representante representante;
 
     public SetorDTO() {
     }
 
-    public SetorDTO(String nome, String tipoProduto, float temperaturaMin, float temperaturaMax, Dimensao dimensao, Representante representante) {
+    public SetorDTO(String nome, String tipoProduto, double temperaturaMin, double temperaturaMax, Dimensao dimensoes, Representante representante) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;
         this.temperaturaMax = temperaturaMax;
-        this.dimensao = dimensao;
+        this.dimensoes = dimensoes;
         this.representante = representante;
     }
 
@@ -42,7 +42,7 @@ public class SetorDTO {
                 setor.getTipoProduto(),
                 setor.getTemperaturaMin(),
                 setor.getTemperaturaMax(),
-                new Dimensao(setor.getLargura(),setor.getComprimento(),setor.getAltura()),
+                setor.getDimensoes(),
                 setor.getRepresentante()
         );
     }
@@ -55,10 +55,11 @@ public class SetorDTO {
                     setor.getTipoProduto(),
                     setor.getTemperaturaMin(),
                     setor.getTemperaturaMax(),
-                    new Dimensao(setor.getLargura(),setor.getComprimento(),setor.getAltura()),
+                    setor.getDimensoes(),
                     setor.getRepresentante()
             ));
         }
         return setorDTOList;
     }
+
 }

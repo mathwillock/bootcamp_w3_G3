@@ -1,11 +1,7 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
-import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import lombok.Getter;
-
-import java.time.LocalDate;
-
 
 /**
  * Criado para recceber payload com as informacõesmm do representante.

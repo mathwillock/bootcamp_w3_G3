@@ -34,7 +34,7 @@ public class RepresentanteForm {
     /**
      * Método criado sem reccebimento sem parametro, e retornando apenas um nono Representante.
      *
-     * @return
+     * @return representante
      */
     public Representante converte(){
         return new Representante(nome, sobrenome, cpf, telefone,endereco);

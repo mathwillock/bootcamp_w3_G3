@@ -19,15 +19,15 @@ public class SetorDTO {
 
     private String nome;
     private String tipoProduto;
-    private double temperaturaMin;
-    private double temperaturaMax;
+    private Double temperaturaMin;
+    private Double temperaturaMax;
     private Dimensao dimensoes;
     private Representante representante;
 
     public SetorDTO() {
     }
 
-    public SetorDTO(String nome, String tipoProduto, double temperaturaMin, double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public SetorDTO(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;

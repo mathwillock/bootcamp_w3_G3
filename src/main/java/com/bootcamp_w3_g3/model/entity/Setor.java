@@ -15,14 +15,14 @@ public class Setor {
     private String id;
     private String nome;
     private String tipoProduto;
-    private double temperaturaMin;
-    private double temperaturaMax;
+    private Double temperaturaMin;
+    private Double temperaturaMax;
     private Dimensao dimensoes;
     private Representante representante;
 
     public Setor(){}
 
-    public Setor(String id, String nome, String tipoProduto, double temperaturaMin, double temperaturaMax, Dimensao dimensoes, Representante representante ) {
+    public Setor(String id, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante ) {
         this.id = id;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
@@ -32,7 +32,6 @@ public class Setor {
         this.representante = representante;
     }
 
-    @Autowired
-    public Setor(String nome, String tipoProduto, double temperaturaMin, double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public Setor(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
     }
 }

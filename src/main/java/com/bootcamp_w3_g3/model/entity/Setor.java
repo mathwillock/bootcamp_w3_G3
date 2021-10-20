@@ -2,6 +2,7 @@ package com.bootcamp_w3_g3.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author hugo damm
@@ -9,26 +10,28 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Setor extends Dimensao {
+public class Setor {
 
     private String id;
     private String nome;
     private String tipoProduto;
-    private float temperaturaMin;
-    private float temperaturaMax;
+    private Double temperaturaMin;
+    private Double temperaturaMax;
+    private Dimensao dimensoes;
     private Representante representante;
 
-    public Setor() {
-    }
+    public Setor(){}
 
-    public Setor(Double comprimento, Double largura, Double altura, String id, String nome, String tipoProduto, float temperaturaMin, float temperaturaMax, Representante representante ) {
-        super(comprimento, largura, altura);
+    public Setor(String id, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante ) {
         this.id = id;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;
         this.temperaturaMax = temperaturaMax;
+        this.dimensoes = dimensoes;
         this.representante = representante;
     }
 
+    public Setor(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    }
 }

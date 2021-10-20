@@ -1,34 +1,31 @@
 package com.bootcamp_w3_g3.model.entity;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Armazem {
 
+    private long id;
     private String nome;
     private String endereco;
     private String uf;
 
-    public String getNome() {
-        return nome;
+
+    public Armazem() {
     }
 
-    public void setNome(String nome) {
+    public Armazem(String nome, String endereco, String uf) {
         this.nome = nome;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
         this.endereco = endereco;
+        this.uf = uf;
     }
 
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
+    public Armazem(long id, String nome, String endereco, String uf) {
+        this.id = id;
+        this.nome = nome;
+        this.endereco = endereco;
         this.uf = uf;
     }
 }

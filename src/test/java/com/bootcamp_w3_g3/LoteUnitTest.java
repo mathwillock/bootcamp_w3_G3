@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,17 +58,15 @@ public class LoteUnitTest {
      * teste deve lançar uma exception de payload invalido.
      */
     @Test
-    void should_throwException_createLote_whenPayloadIsInvalid(){
-        Lote loteForm = new Lote(1L, 9, LocalDate.now(),
-                new Dimensao(2.1, 1.1, 2.0), 10, new ArrayList<>());
-
+    void should_throwException_createLote_whenPayloadDontExist(){
         String error = "Lote não encontrado.";
-        loteService.salvar(loteForm);
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
+                ()-> loteService.obter(2L));
 
-        Mockito.when(loteService.obter(2L))
-                .thenThrow(new EntityNotFoundException(error));
-
-        assertEquals("Lote não encontrado.", error);
+        assertTrue(ex.getMessage().contains(error));
     }
+
+
+
 
 }

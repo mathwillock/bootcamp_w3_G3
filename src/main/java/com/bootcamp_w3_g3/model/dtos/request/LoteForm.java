@@ -29,7 +29,7 @@ public class LoteForm {
     public LoteForm() {
     }
 
-//    public Lote converte() {
-//        return new Lote(numero, dataDeValidade, dimensao, quantidadeDeIntens);
-//    }
+    public Lote converte() {
+        return new Lote(numero, dataDeValidade, dimensao, quantidadeDeIntens);
+    }
 }

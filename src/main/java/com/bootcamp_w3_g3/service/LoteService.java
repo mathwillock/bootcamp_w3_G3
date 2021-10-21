@@ -29,12 +29,7 @@ public class LoteService {
     }
 
     public Lote obter(Long id) {
-        Optional<Lote> lote = loteRepository.findById(id);
-        if (lote.isPresent())
-            return lote.get();
-
-        throw new EntityNotFoundException("Lote não encontrado.");
-
+        return loteRepository.getById(id);
     }
 
     public List<Lote> listar() {

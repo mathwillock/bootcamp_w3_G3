@@ -1,9 +1,15 @@
 package com.bootcamp_w3_g3.model.entity;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @author Marcelo de Oliveira Santos
  */
-
 public class Dimensao {
 
     private Double comprimento;

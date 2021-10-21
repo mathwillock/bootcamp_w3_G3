@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 public class Produto {
 
+    private Long id;
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;

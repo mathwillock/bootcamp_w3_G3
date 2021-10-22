@@ -5,7 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Interface RepresentanteRepository extendendo de JpaRepository que já consta vários métodos de CRUD, bem como de localização.
+ * Criado três métodos específicos
+ *  findByCodigo - para buscar pelo código do representante.
+ *  deletebyCodigo - deletando pelo código do representante.
+ *  getByCodigo - retornando o código do representando.
  *
  * @autor
  */

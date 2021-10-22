@@ -16,10 +16,6 @@ public interface ArmazemRepository extends JpaRepository<Armazem, Long> {
 
     Armazem findBySetoresDoArmazemEquals(String nome);
 
-
-
-
-
     Armazem findAllByRepresentantesValidos();
 
     Armazem findAllBySetoresDoArmazem();

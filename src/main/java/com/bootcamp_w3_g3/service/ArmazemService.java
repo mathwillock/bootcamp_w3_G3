@@ -28,7 +28,7 @@ public class ArmazemService {
         return armazemRepository.save(armazem);
     }
 
-    public Armazem obterArmzem(Integer numero) {
+    public Armazem obterArmazem(Integer numero) {
         return armazemRepository.findByNumero(numero);
     }
 
@@ -49,8 +49,7 @@ public class ArmazemService {
 
     }
 
-
-    public Armazem buscarReoresentaante(String cpf) {
+    public Armazem buscarRepresentante(String cpf) {
         return armazemRepository.findByRepresentantesValidosEquals(cpf);
     }
 
@@ -65,8 +64,5 @@ public class ArmazemService {
     public List<Setor> listarSetoresDoArmazem() {
         return (List<Setor>) armazemRepository.findAllBySetoresDoArmazem();
     }
-
-
-
 
 }

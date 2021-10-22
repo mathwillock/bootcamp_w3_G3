@@ -11,21 +11,21 @@ public class ArmazemDTO {
     private String nome;
     private String endereco;
     private String uf;
-//    private List<Setor> listaDeSetor;
+    private List<Setor> listaDeSetor;
     private List<Representante> RepresentantesValidos;
-
 
     public ArmazemDTO() {}
 
-    public ArmazemDTO(String nome, String endereco, String uf, List<Representante> representantesValidos) {
+    public ArmazemDTO(String nome, String endereco, String uf, List<Setor> listaDeSetor, List<Representante> representantesValidos) {
         this.nome = nome;
         this.endereco = endereco;
         this.uf = uf;
+        this.listaDeSetor = listaDeSetor;
         RepresentantesValidos = representantesValidos;
     }
 
     public static ArmazemDTO converter(Armazem armazem) {
-        return new ArmazemDTO(armazem.getNome(), armazem.getEndereco(), armazem.getUf(), armazem.getRepresentantesValidos());
+        return new ArmazemDTO(armazem.getNome(), armazem.getEndereco(), armazem.getUf(), armazem.getSetoresDoArmazem(), armazem.getRepresentantesValidos());
     }
 
 

@@ -33,6 +33,7 @@ public class Lote {
     private Dimensao dimensao;
 
     private Integer quantidadeDeIntens;
+
     @OneToMany
     private List<Produto> produtos;
 

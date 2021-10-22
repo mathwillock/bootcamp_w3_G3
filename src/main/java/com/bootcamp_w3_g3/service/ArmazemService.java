@@ -50,19 +50,19 @@ public class ArmazemService {
     }
 
     public Armazem buscarRepresentante(String cpf) {
-        return armazemRepository.findByRepresentantesValidosEquals(cpf);
+        return null;
     }
 
     public Armazem buscarSetor(String nome) {
-        return armazemRepository.findBySetoresDoArmazemEquals(nome);
+        return null;
     }
 
     public List<Representante> listarRepresentantesValidos() {
-        return (List<Representante>) armazemRepository.findAllByRepresentantesValidos();
+        return null;
     }
 
     public List<Setor> listarSetoresDoArmazem() {
-        return (List<Setor>) armazemRepository.findAllBySetoresDoArmazem();
+        return null;
     }
 
 }

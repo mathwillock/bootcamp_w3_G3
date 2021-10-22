@@ -29,12 +29,12 @@ public class Lote {
 
     private LocalDate dataDeValidade;
 
-    @OneToOne
+    @Embedded
     private Dimensao dimensao;
 
     private Integer quantidadeDeIntens;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
     private List<Produto> produtos;
 
 

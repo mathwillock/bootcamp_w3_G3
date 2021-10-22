@@ -3,10 +3,7 @@ package com.bootcamp_w3_g3.model.entity;
 
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Marcelo de Oliveira Santos
@@ -14,13 +11,10 @@ import javax.persistence.Id;
  * retornando medidas e propriedades geomehtricas bahsicas para a logihstica.
  */
 
-@Entity
+@Embeddable
 @Setter
 public class Dimensao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    
     private Double comprimento;
     private Double largura;
     private Double altura;

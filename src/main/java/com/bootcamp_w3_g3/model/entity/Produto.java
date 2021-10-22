@@ -27,8 +27,10 @@ public class Produto {
     private BigDecimal preco;
     private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
-  
-    @OneToOne
+    @ManyToOne
+    private Lote lote;
+
+    @Embedded
     private Dimensao dimensoes;
 
     public Produto(){}

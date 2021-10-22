@@ -12,13 +12,8 @@ public interface ArmazemRepository extends JpaRepository<Armazem, Long> {
 
     Armazem deleteByNumero(Integer numero);
 
-    Armazem findByRepresentantesValidosEquals(String CPF);
 
-    Armazem findBySetoresDoArmazemEquals(String nome);
 
-    Armazem findAllByRepresentantesValidos();
-
-    Armazem findAllBySetoresDoArmazem();
 
 
 

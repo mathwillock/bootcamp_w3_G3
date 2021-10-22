@@ -49,14 +49,14 @@ public class ProdutoServiceUnitTest {
 
     @Test
     void obterTest(){
-        Mockito.when(produtoRepository.findByCodigo(Mockito.any(Integer.class))).thenReturn(produto);
+        Mockito.when(produtoRepository.findByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
 
         produtoService = new ProdutoService(produtoRepository);
         Produto obtido = produtoService.obter(produto.getCodigoDoProduto());
 
         Mockito.verify(produtoRepository,
                 Mockito.times(1))
-                .findByCodigo(produto.getCodigoDoProduto());
+                .findByCodigoDoProduto(produto.getCodigoDoProduto());
 
         assertEquals(obtido.getPreco(), produto.getPreco());
     }
@@ -78,15 +78,15 @@ public class ProdutoServiceUnitTest {
 
     @Test
     void atualizarTest(){
-        produto.setPreco(new BigDecimal(15.05));
+        produto.setPreco(new BigDecimal("15.05"));
         produto.setTemperaturaIndicada(15.00);
-        Mockito.when(produtoRepository.getByCodigo(Mockito.any(Integer.class))).thenReturn(produto);
+        Mockito.when(produtoRepository.getByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
         Mockito.when(produtoRepository.save(Mockito.any(Produto.class))).thenReturn(produto);
 
         produtoService = new ProdutoService(produtoRepository);
         Produto atualizado = produtoService.atualizar(produto);
 
-        Mockito.verify(produtoRepository, Mockito.times(1)).getByCodigo(produto.getCodigoDoProduto());
+        Mockito.verify(produtoRepository, Mockito.times(1)).getByCodigoDoProduto(produto.getCodigoDoProduto());
         Mockito.verify(produtoRepository, Mockito.times(1)).save(produto);
 
         assertNotNull(atualizado);
@@ -97,12 +97,12 @@ public class ProdutoServiceUnitTest {
     @Test
     void apagarTest(){
         produto.setCodigoDoProduto(23);
-        Mockito.when(produtoRepository.deleteByCodigo(Mockito.any(Integer.class))).thenReturn(null);
+        Mockito.when(produtoRepository.deleteByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(null);
 
         produtoService = new ProdutoService(produtoRepository);
         Produto deletado = produtoService.apagar(produto.getCodigoDoProduto());
 
-        Mockito.verify(produtoRepository, Mockito.times(1)).deleteByCodigo(produto.getCodigoDoProduto());
+        Mockito.verify(produtoRepository, Mockito.times(1)).deleteByCodigoDoProduto(produto.getCodigoDoProduto());
 
         assertNotEquals(deletado,produto);
     }

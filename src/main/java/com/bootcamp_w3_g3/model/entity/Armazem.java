@@ -1,40 +1,36 @@
 package com.bootcamp_w3_g3.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@AllArgsConstructor
+@Builder
 public class Armazem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private Integer numero;
     private String nome;
     private String endereco;
     private String uf;
-    private List<Representante> RepresentantesValidos;
-    private List<Setor> SetoresDoArmazem;
+
+    @OneToOne
+    private Representante representantesValidos;
+    @OneToMany
+    private List<Setor> setoresDoArmazem;
 
     public Armazem() {
     }
 
-    public Armazem(String nome, String endereco, String uf, List<Representante> representantesValidos, List<Setor> setoresDoArmazem) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.uf = uf;
-        RepresentantesValidos = representantesValidos;
-        SetoresDoArmazem = setoresDoArmazem;
-    }
-
-    public Armazem(long id, String nome, String endereco, String uf, List<Representante> representantesValidos, List<Setor> setoresDoArmazem) {
-        this.id = id;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.uf = uf;
-        RepresentantesValidos = representantesValidos;
-        SetoresDoArmazem = setoresDoArmazem;
-    }
 
     @Override
     public String toString() {

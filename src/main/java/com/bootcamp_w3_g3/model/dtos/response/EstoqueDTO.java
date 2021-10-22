@@ -16,9 +16,10 @@ public class EstoqueDTO
     private Double quantidade;
     private Long codEstoque;
 
-    @Autowired
+    
     public EstoqueDTO() {}
 
+    @Autowired
     public EstoqueDTO(TipoProduto tipoDeProduto, Double quantidade, Long codEstoque)
     {
         this.tipoDeProduto = tipoDeProduto;

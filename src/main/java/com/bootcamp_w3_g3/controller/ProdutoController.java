@@ -86,7 +86,7 @@ public class ProdutoController {
     {
                Produto editedProduto = (produtoService.obter(cod_prod));
 
-               editedProduto.setDimensoes(produto.getDimensoes());
+               editedProduto.setDimensao(produto.getDimensoes());
                editedProduto.setPreco(produto.getPreco());
                editedProduto.setNome(produto.getNome());
                editedProduto.setTemperaturaIndicada(produto.getTemperaturaIndicada());
@@ -104,7 +104,7 @@ public class ProdutoController {
      * @return produtoDTO
      */
     @DeleteMapping(value="/deletar")
-    public void cadastro(@RequestParam Long cod_prod)
+    public void cadastro(@RequestParam Integer cod_prod)
     {
         produtoService.apagar(cod_prod);
     }

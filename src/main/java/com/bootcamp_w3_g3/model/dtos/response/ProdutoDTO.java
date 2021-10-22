@@ -71,9 +71,9 @@ public class ProdutoDTO {
                                     produto.getPreco(),
                                     produto.getDataDeValidadae(), 
                                     produto.getTemperaturaIndicada(),
-                                    new Dimensao(produto.getDimensoes().getComprimento(),
-                                    produto.getDimensoes().getAltura(),
-                                    produto.getDimensoes().getLargura())));
+                                    new Dimensao(produto.getDimensao().getComprimento(),
+                                    produto.getDimensao().getAltura(),
+                                    produto.getDimensao().getLargura())));
         }
         return produtoDTOList;
     }

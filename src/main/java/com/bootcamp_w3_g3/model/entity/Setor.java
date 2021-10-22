@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 public class Setor {
 
-    private String id;
+    private Long id;
+    private Integer codigo;
     private String nome;
     private String tipoProduto;
     private Double temperaturaMin;
@@ -22,8 +23,8 @@ public class Setor {
 
     public Setor(){}
 
-    public Setor(String id, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante ) {
-        this.id = id;
+    public Setor(Integer codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante ) {
+        this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;
@@ -34,4 +35,5 @@ public class Setor {
 
     public Setor(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
     }
+
 }

@@ -1,11 +1,13 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Joaquim Borges
@@ -26,8 +28,8 @@ public class LoteService {
         return loteRepository.save(lote);
     }
 
-    public Lote obter(Integer numero) {
-        return loteRepository.findByNumero(numero);
+    public Lote obter(Long id) {
+        return loteRepository.getById(id);
     }
 
     public List<Lote> listar() {

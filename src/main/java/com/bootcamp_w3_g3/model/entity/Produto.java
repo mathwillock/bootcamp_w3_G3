@@ -25,17 +25,18 @@ public class Produto {
     private BigDecimal preco;
     private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
-    private Dimensao dimensoes;
+    @OneToOne
+    private Dimensao dimensao;
 
     public Produto(){}
 
-    public Produto(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada, Dimensao dimensoes) {
+    public Produto(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada, Dimensao dimensao) {
         this.codigoDoProduto = codigoDoProduto;
         this.nome = nome;
         this.preco = preco;
         this.dataDeValidadae = dataDeValidadae;
         this.temperaturaIndicada = temperaturaIndicada;
-        this.dimensoes = dimensoes;
+        this.dimensao = dimensao;
     }
 
 

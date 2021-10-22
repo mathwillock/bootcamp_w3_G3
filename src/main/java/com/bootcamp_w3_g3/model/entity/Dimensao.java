@@ -29,7 +29,6 @@ public class Dimensao {
     private Double largura;
     private Double altura;
 
-
     @Autowired
     public Dimensao(Double comprimento, Double largura, Double altura) {
         this.comprimento = comprimento;

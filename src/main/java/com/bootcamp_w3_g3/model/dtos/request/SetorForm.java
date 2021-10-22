@@ -10,9 +10,9 @@ import lombok.Getter;
  */
 
 @Getter
-public class SetorDTORequest {
+public class SetorForm {
 
-
+    private Integer codigo;
     private String nome;
     private String tipoProduto;
     private Double temperaturaMin;
@@ -20,10 +20,11 @@ public class SetorDTORequest {
     private Dimensao dimensoes;
     private Representante representante;
 
-    public SetorDTORequest(){
+    public SetorForm(){
     }
 
-    public SetorDTORequest(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public SetorForm(Integer codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+        this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
         this.temperaturaMin = temperaturaMin;
@@ -33,7 +34,7 @@ public class SetorDTORequest {
     }
 
     public Setor converte(){
-        return new Setor(nome, tipoProduto, temperaturaMin, temperaturaMin, dimensoes, representante );
+        return new Setor(codigo, nome, tipoProduto, temperaturaMin, temperaturaMin, dimensoes, representante );
     }
 
 }

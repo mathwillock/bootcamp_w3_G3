@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 public class Representante extends Pessoa{
 
+    private Long id;
     private Integer codigo;
 
     public Representante(String nome, String sobrenome, String cpf, String telefone, String endereco) {

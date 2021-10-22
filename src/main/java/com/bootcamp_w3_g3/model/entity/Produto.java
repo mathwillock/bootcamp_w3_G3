@@ -17,14 +17,17 @@ import java.time.LocalDate;
 @Entity
 public class Produto {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+  
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
     private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
+  
     @OneToOne
     private Dimensao dimensao;
 

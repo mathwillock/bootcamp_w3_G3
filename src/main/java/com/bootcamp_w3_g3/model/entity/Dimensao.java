@@ -10,6 +10,8 @@ import javax.persistence.Id;
 
 /**
  * @author Marcelo de Oliveira Santos
+ * Classe Dimensao: usada como um atributo de classes dimensionahveis do projeto,
+ * retornando medidas e propriedades geomehtricas bahsicas para a logihstica.
  */
 @Entity
 @NoArgsConstructor
@@ -22,6 +24,8 @@ public class Dimensao {
     private Double comprimento;
     private Double largura;
     private Double altura;
+
+    public Dimensao(){}
 
     public Dimensao(Double comprimento, Double largura, Double altura) {
         this.comprimento = comprimento;

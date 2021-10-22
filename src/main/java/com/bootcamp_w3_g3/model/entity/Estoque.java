@@ -1,51 +1,34 @@
 package com.bootcamp_w3_g3.model.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Getter
 public class Estoque {
 
     private Long id;
-    private Produto TipoDeProduto = new Produto();
+    private TipoProduto tipoDeProduto;
     private Double quantidade;
-    private Long CodProduto;
+    private Long codEstoque;
 
-    public Long getId() {
-        return id;
+    public Estoque() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Produto getTipoDeProduto() {
-        return TipoDeProduto;
-    }
-
-    public void setTipoDeProduto(Produto tipoDeProduto) {
-        TipoDeProduto = tipoDeProduto;
-    }
-
-    public Double getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Double quantidade) {
+    public Estoque(TipoProduto tipoDeProduto, Double quantidade, Long codEstoque) {
+        this.tipoDeProduto = tipoDeProduto;
         this.quantidade = quantidade;
-    }
-
-    public Long getCodProduto() {
-        return CodProduto;
-    }
-
-    public void setCodProduto(Long codProduto) {
-        CodProduto = codProduto;
+        this.codEstoque = codEstoque;
     }
 
 
-    public Estoque(Long id, Produto tipoDeProduto, Double quantidade, Long codProduto) {
+    public Estoque(Long id, TipoProduto tipoDeProduto, Double quantidade, Long codEstoque) {
         this.id = id;
-        TipoDeProduto = tipoDeProduto;
+        this.tipoDeProduto = tipoDeProduto;
         this.quantidade = quantidade;
-        CodProduto = codProduto;
+        this.codEstoque = codEstoque;
     }
-
-    
 }

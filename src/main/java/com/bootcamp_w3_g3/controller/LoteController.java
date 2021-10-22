@@ -25,4 +25,6 @@ public class LoteController {
         Lote lote = loteForm.converte();
         return new ResponseEntity<>(LoteDTO.converter(lote), HttpStatus.CREATED);
     }
+
+
 }

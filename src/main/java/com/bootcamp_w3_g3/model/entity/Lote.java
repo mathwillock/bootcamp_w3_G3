@@ -1,6 +1,8 @@
 package com.bootcamp_w3_g3.model.entity;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.*;
 
 import javax.persistence.*;

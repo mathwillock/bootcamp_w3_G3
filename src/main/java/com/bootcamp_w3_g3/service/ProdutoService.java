@@ -1,6 +1,5 @@
 package com.bootcamp_w3_g3.service;
 
-
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-
     private ProdutoRepository produtoRepository;
 
     @Autowired
@@ -27,24 +25,21 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public Produto salvar(Produto produto){
-        return produtoRepository.save(produto);
-    }
+    public Produto salvar(Produto produto) { return produtoRepository.save(produto); }
 
-
-    public Produto obter(Integer numero) {
-        return produtoRepository.findByNumero(numero);
-    }
+    public Produto obter(Integer codigo) { return produtoRepository.findByCodigo(codigo); }
 
     public List<Produto> listar() {
         return produtoRepository.findAll();
     }
 
     public Produto atualizar(Produto produto) {
-        Produto editedProduto = produtoRepository.getById(produto.getId());
-        editedProduto.setPreco(produto.getPreco());
-        editedProduto.setTemperaturaIndicada(produto.getTemperaturaIndicada());
+        Produto produtoEdited = produtoRepository.getByCodigo(produto.getCodigoDoProduto());
+        produtoEdited.setPreco(produto.getPreco());
+        produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
-        return produtoRepository.save(editedProduto);
+        return produtoRepository.save(produtoEdited);
     }
+
+    public Produto apagar(Integer codigo) {return produtoRepository.deleteByCodigo(codigo);}
 }

@@ -1,7 +1,10 @@
 package com.bootcamp_w3_g3.model.dtos.response;
 
 import com.bootcamp_w3_g3.model.entity.Lote;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,29 +15,32 @@ import java.util.List;
  */
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoteDTO {
 
     private Integer numero;
     private LocalDate dataDeValidade;
     private Integer quantidadeDeIntens;
 
-    public LoteDTO() {
-    }
-
-    public LoteDTO(Integer numero, LocalDate dataDeValidade, Integer quantidadeDeIntens) {
-        this.numero = numero;
-        this.dataDeValidade = dataDeValidade;
-        this.quantidadeDeIntens = quantidadeDeIntens;
-    }
 
     public static LoteDTO converter(Lote lote) {
-        return new LoteDTO(lote.getNumero(), lote.getDataDeValidade(), lote.getQuantidadeDeIntens());
+        return LoteDTO.builder()
+                .numero(lote.getNumero())
+                .dataDeValidade(lote.getDataDeValidade())
+                .quantidadeDeIntens(lote.getQuantidadeDeIntens())
+                .build();
     }
 
     public static List<LoteDTO> converterLista(List<Lote> loteList) {
         List<LoteDTO> loteDTOList = new ArrayList<>();
         for (Lote lote : loteList) {
-            loteDTOList.add(new LoteDTO(lote.getNumero(), lote.getDataDeValidade(), lote.getQuantidadeDeIntens()));
+            loteDTOList.add(LoteDTO.builder()
+                    .numero(lote.getNumero())
+                    .dataDeValidade(lote.getDataDeValidade())
+                    .quantidadeDeIntens(lote.getQuantidadeDeIntens())
+                    .build());
         }
         return loteDTOList;
     }

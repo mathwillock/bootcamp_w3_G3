@@ -1,7 +1,6 @@
 package com.bootcamp_w3_g3.controller;
 
 
-import com.bootcamp_w3_g3.model.dtos.request.LoteForm;
 import com.bootcamp_w3_g3.model.entity.Dimensao;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
@@ -26,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LoteImplementTest {
+public class LoteIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,8 +56,20 @@ public class LoteImplementTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    private Lote criarPayloadInvalido(){
-        return new Lote();
+    private Lote alterarDadosDoPayloadValido(){
+        List<Produto> produtos = new ArrayList<>();
+        Produto produto = new Produto(123, "carne", new BigDecimal(60), LocalDate.now(),
+                16.0, new Dimensao(1.1, 1.2, 1.0));
+        produtos.add(produto);
+
+        return Lote.builder()
+                .id(1L)
+                .numero(9)
+                .dataDeValidade(LocalDate.now())
+                .dimensao(new Dimensao(1.1, 2.0, 1.0))
+                .produtos(produtos)
+                .quantidadeDeIntens(3)
+                .build();
     }
 
     private Lote criarPayloadValido(){
@@ -68,6 +80,7 @@ public class LoteImplementTest {
         produtos.add(produto);
 
         return    Lote.builder()
+                .id(1L)
                 .numero(9)
                 .dataDeValidade(LocalDate.now())
                 .dimensao(new Dimensao(1.1, 2.0, 1.0))
@@ -94,15 +107,51 @@ public class LoteImplementTest {
     }
 
     @Test
-    void deveObterUmLote() throws Exception{
+    void deveObterUmLote() throws Exception {
         Lote lote = this.criarPayloadValido();
         Lote loteCriado = loteRepository.save(lote);
 
-        this.mockMvc.perform(get("http://localhost:8080/lote/obter" + loteCriado.getId()))
+        this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + loteCriado.getNumero()))
                 .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void deveListarOsLotes() throws Exception {
+        Lote lote = this.criarPayloadValido();
+        loteRepository.save(lote);
+
+
+        this.mockMvc.perform(get("http://localhost:8080/lote/listar"))
+                .andExpect(status().isOk());
+
+    }
+
+
+    @Test
+    void deveAlterar_dadosDoLote() throws Exception {
+        Lote lote = this.criarPayloadValido();
+        loteRepository.save(lote);
+
+        Lote loteAlterado = this.alterarDadosDoPayloadValido();
+        String requestPayload = objectMapper.writeValueAsString(loteAlterado);
+
+
+        this.mockMvc.perform(put("http://localhost:8080/lote/alterar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestPayload))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.quantidadeDeIntens", is(loteAlterado.getQuantidadeDeIntens())));
+
+
+
+
+
 
 
     }
+
+
 
 
 

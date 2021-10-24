@@ -56,7 +56,7 @@ public class LoteService {
     }
 
     public Lote atualizar(Lote lote) {
-        Lote editedLote = loteRepository.getById(lote.getId());
+        Lote editedLote = loteRepository.findByNumero(lote.getNumero());
         editedLote.setDataDeValidade(lote.getDataDeValidade());
         editedLote.setQuantidadeDeIntens(lote.getQuantidadeDeIntens());
 

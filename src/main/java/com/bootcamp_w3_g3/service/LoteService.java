@@ -34,11 +34,7 @@ public class LoteService {
      */
     private boolean representanteExiste(Integer codigo) {
 
-        if(armazemService.buscarRepresentante(codigo).getCodigo().equals(codigo)) {
-            return true;
-        }
-
-        return false;
+        return armazemService.buscarRepresentante(codigo).getCodigo().equals(codigo);
 
     }
 

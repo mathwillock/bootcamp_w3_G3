@@ -19,19 +19,15 @@ public class SetorDTO {
 
     private String nome;
     private String tipoProduto;
-    private Double temperaturaMin;
-    private Double temperaturaMax;
     private Dimensao dimensoes;
     private Representante representante;
 
     public SetorDTO() {
     }
 
-    public SetorDTO(String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public SetorDTO(String nome, String tipoProduto, Dimensao dimensoes, Representante representante) {
         this.nome = nome;
         this.tipoProduto = tipoProduto;
-        this.temperaturaMin = temperaturaMin;
-        this.temperaturaMax = temperaturaMax;
         this.dimensoes = dimensoes;
         this.representante = representante;
     }
@@ -40,8 +36,6 @@ public class SetorDTO {
         return new SetorDTO(
                 setor.getNome(),
                 setor.getTipoProduto(),
-                setor.getTemperaturaMin(),
-                setor.getTemperaturaMax(),
                 setor.getDimensoes(),
                 setor.getRepresentante()
         );
@@ -53,8 +47,6 @@ public class SetorDTO {
             setorDTOList.add(new SetorDTO(
                     setor.getNome(),
                     setor.getTipoProduto(),
-                    setor.getTemperaturaMin(),
-                    setor.getTemperaturaMax(),
                     setor.getDimensoes(),
                     setor.getRepresentante()
             ));

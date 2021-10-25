@@ -14,13 +14,13 @@ public class EstoqueDTO
 
     private TipoProduto tipoDeProduto;
     private Double quantidade;
-    private Long codEstoque;
+    private Integer codEstoque;
 
     
     public EstoqueDTO() {}
 
     @Autowired
-    public EstoqueDTO(TipoProduto tipoDeProduto, Double quantidade, Long codEstoque)
+    public EstoqueDTO(TipoProduto tipoDeProduto, Double quantidade, Integer codEstoque)
     {
         this.tipoDeProduto = tipoDeProduto;
         this.quantidade = quantidade;

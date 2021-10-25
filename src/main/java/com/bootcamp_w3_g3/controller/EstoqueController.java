@@ -64,7 +64,7 @@ public class EstoqueController {
      * @return estoqueDTO
      */
     @GetMapping("/obter")
-    public ResponseEntity<EstoqueDTO> obter(@RequestParam Long cod_prod)
+    public ResponseEntity<EstoqueDTO> obter(@RequestParam Integer cod_prod)
     {
         return new ResponseEntity<>
                 (
@@ -82,7 +82,7 @@ public class EstoqueController {
      * @return estoqueDTO
      */
     @PutMapping("/alterar")
-    public ResponseEntity<EstoqueDTO> alterar(@RequestParam Long cod_prod, EstoqueDTO estoque)
+    public ResponseEntity<EstoqueDTO> alterar(@RequestParam Integer cod_prod, EstoqueDTO estoque)
     {
         Estoque editedEstoque = (estoqueService.obter(cod_prod));
 
@@ -103,7 +103,7 @@ public class EstoqueController {
      * @return estoqueDTO
      */
     @DeleteMapping(value="/deletar")
-    public void cadastro(@RequestParam Long cod_prod)
+    public void cadastro(@RequestParam Integer cod_prod)
     {
         estoqueService.apagar(cod_prod);
     }

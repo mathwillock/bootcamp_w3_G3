@@ -8,6 +8,9 @@ import com.bootcamp_w3_g3.repository.OrdemDeEntradaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Joaquim Borges
+ */
 @Service
 public class OrdemDeEntradaService {
 

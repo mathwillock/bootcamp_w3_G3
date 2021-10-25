@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @author Joaquim Borges
+ */
 @RestController
 @RequestMapping("ordemEntrada/")
 public class OrdemEntradaController {

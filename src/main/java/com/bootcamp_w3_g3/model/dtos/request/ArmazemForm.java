@@ -4,15 +4,17 @@ import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class ArmazemForm {
 
-    private long codArmazem;
+    private String codArmazem;
     private String nome;
     private String endereco;
     private String uf;

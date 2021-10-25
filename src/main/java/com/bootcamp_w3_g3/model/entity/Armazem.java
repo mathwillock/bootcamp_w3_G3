@@ -20,7 +20,7 @@ public class Armazem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long codArmazem;
+    private String codArmazem;
     private String nome;
     private String endereco;
     private String uf;
@@ -31,7 +31,7 @@ public class Armazem {
     @OneToMany
     private List<Setor> SetoresDoArmazem;
 
-    public Armazem(long codArmazem, String nome, String endereco, String uf, Representante representante, List<Setor> setoresDoArmazem) {
+    public Armazem(String codArmazem, String nome, String endereco, String uf, Representante representante, List<Setor> setoresDoArmazem) {
         this.codArmazem = codArmazem;
         this.nome = nome;
         this.endereco = endereco;

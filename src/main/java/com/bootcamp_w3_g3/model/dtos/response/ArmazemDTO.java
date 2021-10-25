@@ -3,30 +3,37 @@ package com.bootcamp_w3_g3.model.dtos.response;
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArmazemDTO {
 
+    private long codArmazem;
     private String nome;
     private String endereco;
     private String uf;
-    private List<Setor> listaDeSetor;
-    private List<Representante> RepresentantesValidos;
-
-    public ArmazemDTO() {}
-
-    public ArmazemDTO(String nome, String endereco, String uf, List<Setor> listaDeSetor, List<Representante> representantesValidos) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.uf = uf;
-        this.listaDeSetor = listaDeSetor;
-        RepresentantesValidos = representantesValidos;
-    }
+    private Representante representante;
+    private List<Setor> SetoresDoArmazem;
 
     public static ArmazemDTO converter(Armazem armazem) {
-        return new ArmazemDTO(armazem.getNome(), armazem.getEndereco(), armazem.getUf(), armazem.getSetoresDoArmazem(), armazem.getRepresentantesValidos());
+
+        return new ArmazemDTO(
+                armazem.getCodArmazem(),
+                armazem.getNome(),
+                armazem.getEndereco(),
+                armazem.getUf(),
+                armazem.getRepresentante(),
+                armazem.getSetoresDoArmazem()
+        );
+
     }
+
 
 
 }

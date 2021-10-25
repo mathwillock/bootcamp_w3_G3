@@ -42,7 +42,7 @@ public class ProdutoDTO {
      * Método que converte Produto em ProdutoDTO
      * 
      * @param produto
-     * @return produtoDTO
+     * @return produtoDTO9
      */
     public ProdutoDTO convertEmProdutoDTO(Produto produto){
 
@@ -71,9 +71,9 @@ public class ProdutoDTO {
                                     produto.getPreco(),
                                     produto.getDataDeValidadae(), 
                                     produto.getTemperaturaIndicada(),
-                                    new Dimensao(produto.getDimensao().getComprimento(),
-                                    produto.getDimensao().getAltura(),
-                                    produto.getDimensao().getLargura())));
+                                    new Dimensao(produto.getDimensoes().getComprimento(),
+                                    produto.getDimensoes().getAltura(),
+                                    produto.getDimensoes().getLargura())));
         }
         return produtoDTOList;
     }

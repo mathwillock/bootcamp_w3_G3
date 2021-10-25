@@ -35,8 +35,6 @@ public class SetorService {
     public Setor atualizar(Setor setor){
         Setor editedSetor = setorRepository.findByCodigo(setor.getCodigo());
         editedSetor.setTipoProduto(setor.getTipoProduto());
-        editedSetor.setTemperaturaMin(setor.getTemperaturaMin());
-        editedSetor.setTemperaturaMax(setor.getTemperaturaMax());
         editedSetor.setRepresentante(setor.getRepresentante());
 
         return setorRepository.save(editedSetor);

@@ -15,26 +15,23 @@ public class SetorForm {
     private String codigo;
     private String nome;
     private String tipoProduto;
-    private Double temperaturaMin;
-    private Double temperaturaMax;
     private Dimensao dimensoes;
     private Representante representante;
 
     public SetorForm(){
     }
 
+
     public SetorForm(String codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
-        this.temperaturaMin = temperaturaMin;
-        this.temperaturaMax = temperaturaMax;
         this.dimensoes = dimensoes;
         this.representante = representante;
     }
 
     public Setor converte(){
-        return new Setor(codigo, nome, tipoProduto, temperaturaMin, temperaturaMin, dimensoes, representante );
+        return new Setor(codigo, nome, tipoProduto, dimensoes, representante );
     }
 
 }

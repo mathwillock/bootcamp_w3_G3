@@ -16,9 +16,6 @@ public class EstoqueService
 {
     private EstoqueRepository estoqueRepository;
 
-
-    EstoqueService(){}
-
     @Autowired
     EstoqueService(EstoqueRepository estoqueRepository)
     {
@@ -30,15 +27,15 @@ public class EstoqueService
         return estoqueRepository.save(estoque);
     }
 
-    public Estoque obter (Long codEstoque)
+    public Estoque obter (Integer codEstoque)
     {
-        return estoqueRepository.findByCodigo(codEstoque);
+        return estoqueRepository.findByCodEstoque(codEstoque);
     }
 
 
     public Estoque atualizar (Estoque estoque)
     {
-        Estoque estoqueAtualizado = estoqueRepository.findByCodigo(estoque.getCodEstoque());
+        Estoque estoqueAtualizado = estoqueRepository.findByCodEstoque(estoque.getCodEstoque());
 
         estoqueAtualizado.setCodEstoque(estoque.getCodEstoque());
         estoqueAtualizado.setTipoDeProduto(estoque.getTipoDeProduto());
@@ -48,9 +45,9 @@ public class EstoqueService
 
     }
 
-    public Estoque apagar (Long codEstoque)
+    public Estoque apagar (Integer codEstoque)
     {
-        return estoqueRepository.deleteByCodigo(codEstoque);
+        return estoqueRepository.deleteByCodEstoque(codEstoque);
     }
 
     public List<Estoque> listar()

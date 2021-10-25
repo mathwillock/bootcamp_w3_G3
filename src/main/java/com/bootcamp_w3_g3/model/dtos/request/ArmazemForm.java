@@ -3,30 +3,44 @@ package com.bootcamp_w3_g3.model.dtos.request;
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
+@AllArgsConstructor
+
+@NoArgsConstructor
+@Getter
 public class ArmazemForm {
 
+    private String codArmazem;
     private String nome;
     private String endereco;
+    private Integer numero;
     private String uf;
-    private List<Representante> RepresentantesValidos;
-    private List<Setor> SetoresDoArmazem;
 
-    public ArmazemForm() {
-    }
+    private Representante representante;
 
-    public ArmazemForm(String nome, String endereco, String uf, List<Representante> representantesValidos, List<Setor> setoresDoArmazem) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.uf = uf;
-        RepresentantesValidos = representantesValidos;
-        SetoresDoArmazem = setoresDoArmazem;
-    }
+    private List<Setor> setoresDoArmazem;
 
     public Armazem converte() {
-        return new Armazem(nome, endereco, uf, RepresentantesValidos, SetoresDoArmazem);
+
+
+        return Armazem.builder()
+                .codArmazem(codArmazem)
+                .nome(nome)
+                .endereco(endereco)
+                .uf(uf)
+                .representante(representante)
+                .SetoresDoArmazem(setoresDoArmazem)
+                .build()
+        ;
+
+
     }
 
 }

@@ -7,9 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 public class ArmazemForm {
@@ -17,11 +20,15 @@ public class ArmazemForm {
     private String codArmazem;
     private String nome;
     private String endereco;
+    private Integer numero;
     private String uf;
+
     private Representante representante;
+
     private List<Setor> setoresDoArmazem;
 
     public Armazem converte() {
+
 
         return Armazem.builder()
                 .codArmazem(codArmazem)
@@ -32,6 +39,7 @@ public class ArmazemForm {
                 .SetoresDoArmazem(setoresDoArmazem)
                 .build()
         ;
+
 
     }
 

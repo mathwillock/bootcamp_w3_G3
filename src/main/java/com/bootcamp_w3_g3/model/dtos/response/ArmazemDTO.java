@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
 
 @AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 public class ArmazemDTO {
@@ -20,8 +22,10 @@ public class ArmazemDTO {
     private String nome;
     private String endereco;
     private String uf;
+
     private Representante representante;
     private List<Setor> SetoresDoArmazem;
+
 
     public static ArmazemDTO converter(Armazem armazem) {
 
@@ -33,6 +37,7 @@ public class ArmazemDTO {
                 armazem.getRepresentante(),
                 armazem.getSetoresDoArmazem()
         );
+
 
     }
 

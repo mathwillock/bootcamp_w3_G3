@@ -1,9 +1,16 @@
 package com.bootcamp_w3_g3.model.entity;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Matheus Willock
  */
 import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,8 +26,8 @@ public class Armazem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String codArmazem;
+
     private String nome;
     private String endereco;
     private String uf;
@@ -37,6 +44,7 @@ public class Armazem {
         this.endereco = endereco;
         this.uf = uf;
         this.representante = representante;
-        SetoresDoArmazem = setoresDoArmazem;
+        this.SetoresDoArmazem = setoresDoArmazem;
+
     }
 }

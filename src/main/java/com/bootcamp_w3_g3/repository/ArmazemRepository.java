@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface ArmazemRepository extends JpaRepository<Armazem, Long> {
 
+
     Armazem findByCodArmazem(String cod);
 
     Armazem deleteByCodArmazem(String cod);
@@ -20,6 +21,7 @@ public interface ArmazemRepository extends JpaRepository<Armazem, Long> {
     Armazem findByRepresentanteCodigo(Integer codigo);
 
     Armazem findAllBySetoresDoArmazem(List<Setor> setoresDoArmazem);
+
 
 
 

@@ -1,4 +1,4 @@
-package com.bootcamp_w3_g3;
+package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.repository.RepresentanteRepository;

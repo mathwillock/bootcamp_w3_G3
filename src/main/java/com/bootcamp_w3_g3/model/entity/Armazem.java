@@ -1,43 +1,50 @@
 package com.bootcamp_w3_g3.model.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+/**
+ * @author Matheus Willock
+ */
+import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Entity
 public class Armazem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Integer numero;
+    private String codArmazem;
+
     private String nome;
     private String endereco;
     private String uf;
 
     @OneToOne
-    private Representante representantesValidos;
+    private Representante representante;
+
     @OneToMany
-    private List<Setor> setoresDoArmazem;
+    private List<Setor> SetoresDoArmazem;
 
-    public Armazem() {
-    }
+    public Armazem(String codArmazem, String nome, String endereco, String uf, Representante representante, List<Setor> setoresDoArmazem) {
+        this.codArmazem = codArmazem;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.uf = uf;
+        this.representante = representante;
+        this.SetoresDoArmazem = setoresDoArmazem;
 
-
-    @Override
-    public String toString() {
-        return "Armazem{" +
-                "nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", uf='" + uf + '\'' +
-                '}';
     }
 }

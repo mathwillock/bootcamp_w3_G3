@@ -42,7 +42,7 @@ public class ProdutoDTO {
      * Método que converte Produto em ProdutoDTO
      * 
      * @param produto
-     * @return produtoDTO
+     * @return produtoDTO9
      */
     public ProdutoDTO convertEmProdutoDTO(Produto produto){
 

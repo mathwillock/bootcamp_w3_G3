@@ -47,4 +47,9 @@ public class Armazem {
         this.SetoresDoArmazem = setoresDoArmazem;
 
     }
+
+
+    public Armazem(String codigoArmazem){
+        this.codArmazem = codigoArmazem;
+    }
 }

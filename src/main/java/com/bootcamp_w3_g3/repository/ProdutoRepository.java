@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 
-    Produto findByCodigo(Integer codigo);
+    Produto findByCodigoDoProduto(Integer codigo);
 
-    Produto deleteByCodigo(Integer codigo);
+    Produto deleteByCodigoDoProduto(Integer codigo);
 
-    Produto getByCodigo(Integer codigo);
+    Produto getByCodigoDoProduto(Integer codigo);
 }
 
 

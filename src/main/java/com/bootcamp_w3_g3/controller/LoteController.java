@@ -25,9 +25,9 @@ public class LoteController {
         return new ResponseEntity<>(LoteDTO.converter(lote), HttpStatus.CREATED);
     }
 
-    @GetMapping("/obter/{id}")
-    public ResponseEntity<LoteDTO> obter(@PathVariable long id) {
-        Lote lote = loteService.obter(id);
+    @GetMapping("/obter/{numero}")
+    public ResponseEntity<LoteDTO> obter(@PathVariable Integer numero) {
+        Lote lote = loteService.obter(numero);
         return new ResponseEntity<>(LoteDTO.converter(lote), HttpStatus.OK);
     }
 

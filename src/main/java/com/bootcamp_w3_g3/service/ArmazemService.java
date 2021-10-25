@@ -49,12 +49,14 @@ public class ArmazemService {
 
     }
 
+
     public Armazem buscarRepresentante(Integer codigo) {
         return armazemRepository.findByRepresentanteCodigo(codigo);
     }
 
     public Armazem listarSetoresDoArmazem(List<Setor> setoresDoArmazem) {
        return armazemRepository.findAllBySetoresDoArmazem(setoresDoArmazem);
+
     }
 
 }

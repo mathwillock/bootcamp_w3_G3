@@ -27,19 +27,19 @@ public class ProdutoService {
 
     public Produto salvar(Produto produto) { return produtoRepository.save(produto); }
 
-    public Produto obter(Integer codigo) { return produtoRepository.findByCodigo(codigo); }
+    public Produto obter(Integer codigo) { return produtoRepository.findByCodigoDoProduto(codigo); }
 
     public List<Produto> listar() {
         return produtoRepository.findAll();
     }
 
     public Produto atualizar(Produto produto) {
-        Produto produtoEdited = produtoRepository.getByCodigo(produto.getCodigoDoProduto());
+        Produto produtoEdited = produtoRepository.getByCodigoDoProduto(produto.getCodigoDoProduto());
         produtoEdited.setPreco(produto.getPreco());
         produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
         return produtoRepository.save(produtoEdited);
     }
 
-    public Produto apagar(Integer codigo) {return produtoRepository.deleteByCodigo(codigo);}
+    public Produto apagar(Integer codigo) {return produtoRepository.deleteByCodigoDoProduto(codigo);}
 }

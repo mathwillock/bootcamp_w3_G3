@@ -4,21 +4,28 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.*;
+
 /**
  * @author hugo damm
  */
 
 @Setter
 @Getter
+@Entity
 public class Setor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer codigo;
     private String nome;
     private String tipoProduto;
     private Double temperaturaMin;
     private Double temperaturaMax;
+    @Embedded
     private Dimensao dimensoes;
+    @OneToOne
     private Representante representante;
 
     public Setor(){}

@@ -24,7 +24,7 @@ public class SetorService {
         return setorRepository.save(setor);
     }
 
-    public Setor obter(Integer codigo){
+    public Setor obter(String codigo){
         return setorRepository.findByCodigo(codigo);
     }
 

@@ -22,8 +22,9 @@ public class SetorUnitTest {
     private SetorService setorService;
     private SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
 
-    Setor setor1 = new Setor(123,"Setor123", "Frescos", 10.0, 20.0, new Dimensao(10.0,10.0,10.0), new Representante("João", "Paulo", "123.123.122-92", "21 9 9956-6538", "Rua A"));
-    Setor setor2 = new Setor(124,"Setor124", "Congelados", 0.0, 5.0, new Dimensao(20.0,20.0,20.0), new Representante("Ernani", "Santos", "123.345.678-92", "11 9 7867-3456", "Rua B"));
+    Setor setor1 = new Setor(
+            "123","Setor123", "Frescos", 10.0, 20.0, new Dimensao(10.0,10.0,10.0), new Representante("João", "Paulo", "123.123.122-92", "21 9 9956-6538", "Rua A"));
+    Setor setor2 = new Setor("124","Setor124", "Congelados", 0.0, 5.0, new Dimensao(20.0,20.0,20.0), new Representante("Ernani", "Santos", "123.345.678-92", "11 9 7867-3456", "Rua B"));
     List<Setor> setorList = new ArrayList<>();
 
     @Test
@@ -39,8 +40,8 @@ public class SetorUnitTest {
 
     @Test
     void obterSetorTest(){
-        setor1.setCodigo(123);
-        Mockito.when(setorRepository.findByCodigo(Mockito.any(Integer.class))).thenReturn(setor1);
+        setor1.setCodigo("123");
+        Mockito.when(setorRepository.findByCodigo(Mockito.any(String.class))).thenReturn(setor1);
 
         setorService = new SetorService(setorRepository);
         Setor obtido = setorService.obter(setor1.getCodigo());
@@ -69,11 +70,11 @@ public class SetorUnitTest {
 
     @Test
     void atualizarSetorTest(){
-        setor1.setCodigo(1234);
+        setor1.setCodigo("1234");
         setor1.setNome("Setor1234");
         setor1.setTipoProduto("Frescos01");
 
-        Mockito.when(setorRepository.findByCodigo(Mockito.any(Integer.class))).thenReturn(setor1);
+        Mockito.when(setorRepository.findByCodigo(Mockito.any(String.class))).thenReturn(setor1);
         Mockito.when(setorRepository.save(Mockito.any(Setor.class))).thenReturn(setor1);
 
         setorService = new SetorService(setorRepository);

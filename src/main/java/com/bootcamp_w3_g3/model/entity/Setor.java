@@ -18,7 +18,7 @@ public class Setor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer codigo;
+    private String codigo;
     private String nome;
     private String tipoProduto;
     @Embedded
@@ -28,7 +28,8 @@ public class Setor {
 
     public Setor(){}
 
-    public Setor(Integer codigo, String nome, String tipoProduto, Dimensao dimensoes, Representante representante ) {
+
+    public Setor(String codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante ) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
@@ -38,5 +39,13 @@ public class Setor {
 
     public Setor(String nome, String tipoProduto, Dimensao dimensoes, Representante representante) {
     }
+
+
+
+
+    public Setor(String codigo){
+        this.codigo = codigo;
+    }
+
 
 }

@@ -24,8 +24,10 @@ public class OrdemDeEntrada {
     private Long id;
     private Integer numeroDaOrdem;
     private LocalDate dataDaOrdem;
-    private String codigoSetor;
-    private String codigoArmazem;
+    @ManyToOne
+    private Setor codigoSetor;
+    @ManyToOne
+    private Armazem codigoArmazem;
     @OneToMany
     private List<Lote> loteList;
 

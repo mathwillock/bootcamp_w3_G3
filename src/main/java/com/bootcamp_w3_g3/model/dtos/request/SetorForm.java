@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public class SetorForm {
 
-    private Integer codigo;
+    private String codigo;
     private String nome;
     private String tipoProduto;
     private Double temperaturaMin;
@@ -23,7 +23,7 @@ public class SetorForm {
     public SetorForm(){
     }
 
-    public SetorForm(Integer codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public SetorForm(String codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;

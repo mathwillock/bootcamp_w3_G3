@@ -7,12 +7,12 @@ public class EstoqueForm {
 
     private TipoProduto tipoDeProduto;
     private Double quantidade;
-    private Long codEstoque;
+    private Integer codEstoque;
 
     public EstoqueForm() {
     }
 
-    public EstoqueForm(TipoProduto tipoDeProduto, Double quantidade, Long codEstoque) {
+    public EstoqueForm(TipoProduto tipoDeProduto, Double quantidade, Integer codEstoque) {
         this.tipoDeProduto = tipoDeProduto;
         this.quantidade = quantidade;
         this.codEstoque = codEstoque;

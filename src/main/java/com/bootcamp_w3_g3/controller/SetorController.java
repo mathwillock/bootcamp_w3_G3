@@ -29,7 +29,7 @@ public class SetorController {
     }
 
     @GetMapping("/obter/{id}")
-    public ResponseEntity<SetorDTO> obter(@PathVariable Integer codigo){
+    public ResponseEntity<SetorDTO> obter(@PathVariable String codigo){
         Setor setor = setorService.obter(codigo);
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.OK);
     }

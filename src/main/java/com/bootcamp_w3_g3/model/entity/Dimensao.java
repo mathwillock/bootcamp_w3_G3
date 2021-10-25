@@ -1,32 +1,28 @@
 package com.bootcamp_w3_g3.model.entity;
 
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 
 /**
  * @author Marcelo de Oliveira Santos
+ * @author Joaquim Borges
  * Classe Dimensao: usada como um atributo de classes dimensionahveis do projeto,
  * retornando medidas e propriedades geomehtricas bahsicas para a logihstica.
  */
-@Entity
-@NoArgsConstructor
+
+
+@Embeddable
 @Setter
 public class Dimensao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    
     private Double comprimento;
     private Double largura;
     private Double altura;
 
-    public Dimensao(){}
-
+    @Autowired
     public Dimensao(Double comprimento, Double largura, Double altura) {
         this.comprimento = comprimento;
         this.largura = largura;

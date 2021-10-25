@@ -27,19 +27,21 @@ public class Produto {
     private BigDecimal preco;
     private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
-  
-    @OneToOne
-    private Dimensao dimensao;
+    @ManyToOne
+    private Lote lote;
+
+    @Embedded
+    private Dimensao dimensoes;
 
     public Produto(){}
 
-    public Produto(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada, Dimensao dimensao) {
+    public Produto(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada, Dimensao dimensoes) {
         this.codigoDoProduto = codigoDoProduto;
         this.nome = nome;
         this.preco = preco;
         this.dataDeValidadae = dataDeValidadae;
         this.temperaturaIndicada = temperaturaIndicada;
-        this.dimensao = dimensao;
+        this.dimensoes = dimensoes;
     }
 
 

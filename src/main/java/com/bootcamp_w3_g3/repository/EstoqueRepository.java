@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.repository;
 
 import com.bootcamp_w3_g3.model.entity.Estoque;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,13 +11,9 @@ import java.util.List;
  */
 
 @Repository
-public interface EstoqueRepository
-{
-    Estoque findByCodigo (Long codigo);
+public interface EstoqueRepository extends JpaRepository< Estoque, Long> {
+    Estoque findByCodEstoque(Integer codigo);
 
-    Estoque deleteByCodigo(Long codigo);
+    Estoque deleteByCodEstoque(Integer codigo);
 
-    Estoque save(Estoque estoque);
-
-    List<Estoque> findAll();
 }

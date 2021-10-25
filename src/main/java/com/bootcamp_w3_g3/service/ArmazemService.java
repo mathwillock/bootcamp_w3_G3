@@ -5,6 +5,7 @@ package com.bootcamp_w3_g3.service;
  * @author Matheus Willock
  */
 import com.bootcamp_w3_g3.model.entity.Armazem;
+import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.ArmazemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +50,9 @@ public class ArmazemService {
 
     }
 
-
-    public Armazem buscarRepresentante(Integer codigo) {
+    public Representante buscarRepresentante(Integer codigo) {
         return armazemRepository.findByRepresentanteCodigo(codigo);
     }
 
-    public Armazem listarSetoresDoArmazem(List<Setor> setoresDoArmazem) {
-       return armazemRepository.findAllBySetoresDoArmazem(setoresDoArmazem);
-
-    }
 
 }

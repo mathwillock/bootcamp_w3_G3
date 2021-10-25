@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SetorRepository extends JpaRepository<Setor, Long> {
 
-    Setor findByCodigo(Integer codigo);
+    Setor findByCodigo(String codigo);
 
 }

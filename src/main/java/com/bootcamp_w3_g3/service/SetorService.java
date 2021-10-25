@@ -24,7 +24,7 @@ public class SetorService {
         return setorRepository.save(setor);
     }
 
-    public Setor obter(Integer codigo){
+    public Setor obter(String codigo){
         return setorRepository.findByCodigo(codigo);
     }
 
@@ -35,8 +35,6 @@ public class SetorService {
     public Setor atualizar(Setor setor){
         Setor editedSetor = setorRepository.findByCodigo(setor.getCodigo());
         editedSetor.setTipoProduto(setor.getTipoProduto());
-        editedSetor.setTemperaturaMin(setor.getTemperaturaMin());
-        editedSetor.setTemperaturaMax(setor.getTemperaturaMax());
         editedSetor.setRepresentante(setor.getRepresentante());
 
         return setorRepository.save(editedSetor);

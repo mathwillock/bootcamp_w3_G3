@@ -28,11 +28,11 @@ public class ArmazemService {
         return armazemRepository.save(armazem);
     }
 
-    public Armazem obterArmazem(Integer cod) {
+    public Armazem obterArmazem(String cod) {
         return armazemRepository.findByCodArmazem(cod);
     }
 
-    public Armazem deletarArmazem(Integer cod){
+    public Armazem deletarArmazem(String cod){
         return armazemRepository.deleteByCodArmazem(cod);
     }
 

@@ -1,10 +1,13 @@
 package com.bootcamp_w3_g3.model.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Joaquim Borges
@@ -12,21 +15,28 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
 public class Lote {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Integer numero;
+
     private LocalDate dataDeValidade;
+
+    @Embedded
     private Dimensao dimensao;
+
     private Integer quantidadeDeIntens;
 
-    public Lote(Integer numero, LocalDate dataDeValidade, Dimensao dimensao, Integer quantidadeDeIntens) {
-        this.numero = numero;
-        this.dataDeValidade = dataDeValidade;
-        this.dimensao = dimensao;
-        this.quantidadeDeIntens = quantidadeDeIntens;
-    }
+    @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
+    private List<Produto> produtos;
 
-    public Lote() {
-    }
+
+
 }

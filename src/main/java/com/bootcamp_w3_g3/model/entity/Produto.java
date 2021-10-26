@@ -3,6 +3,7 @@ package com.bootcamp_w3_g3.model.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,13 +14,23 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@Entity
 public class Produto {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+  
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
     private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
+    @ManyToOne
+    private Lote lote;
+
+    @Embedded
     private Dimensao dimensoes;
 
     public Produto(){}

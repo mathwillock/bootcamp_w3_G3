@@ -26,7 +26,7 @@ public class OrdemEntradaController {
 
     @PostMapping("/salvar")
     public ResponseEntity<List<Lote>> criarOrdem(@RequestBody OrdemDeEntradaDTO ordemDeEntradaDTO){
-        OrdemDeEntrada ordemDeEntrada = ordemDeEntradaDTO.converterParaEntity();
+        OrdemDeEntrada ordemDeEntrada = ordemDeEntradaService.salvarOrdem(ordemDeEntradaDTO.converterParaEntity());
         return new ResponseEntity<>(ordemDeEntradaDTO.retorna(ordemDeEntradaDTO), HttpStatus.OK);
     }
 }

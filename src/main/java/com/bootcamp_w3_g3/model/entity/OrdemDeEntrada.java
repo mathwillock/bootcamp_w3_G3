@@ -29,7 +29,11 @@ public class OrdemDeEntrada {
     @ManyToOne
     private Representante representante;
     @OneToMany
-    private Lote loteList;
+    private Lote lote;
+    @OneToOne
+    private Vendedor vendedor;
+    
+    
 
 
 }

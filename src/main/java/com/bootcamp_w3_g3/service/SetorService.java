@@ -38,7 +38,6 @@ public class SetorService {
         editedSetor.setCodigo(setor.getCodigo());
         editedSetor.setNome(setor.getNome());
         editedSetor.setTipoProduto(setor.getTipoProduto());
-        editedSetor.setDimensoes(setor.getDimensoes());
         editedSetor.setArmazem(setor.getArmazem());
 
         return setorRepository.save(editedSetor);

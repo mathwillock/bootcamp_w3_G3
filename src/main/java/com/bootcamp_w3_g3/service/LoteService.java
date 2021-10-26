@@ -29,14 +29,6 @@ public class LoteService {
     }
 
 
-    /**
-     * metodo auxiliar para validar o representante ao acessar o lote
-     */
-    private boolean representanteExiste(Integer codigo) {
-
-        return armazemService.buscarRepresentante(codigo).getCodigo().equals(codigo);
-
-    }
 
     public Lote salvar(Lote lote) {
         return loteRepository.save(lote);

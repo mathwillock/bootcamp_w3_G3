@@ -1,12 +1,11 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
-import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.Dimensao;
-import com.bootcamp_w3_g3.model.entity.Representante;
-import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.model.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author hugo damm
@@ -20,11 +19,11 @@ public class SetorForm {
     private String codigo;
     private String nome;
     private String tipoProduto;
-    private Dimensao dimensoes;
     private Armazem armazem;
+    private List<Lote> lote;
 
     public Setor converte(){
-        return new Setor(codigo, nome, tipoProduto, dimensoes, armazem);
+        return new Setor(codigo, nome, tipoProduto, armazem,lote);
     }
 
 }

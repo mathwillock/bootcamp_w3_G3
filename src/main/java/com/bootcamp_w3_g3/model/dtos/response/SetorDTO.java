@@ -1,9 +1,6 @@
 package com.bootcamp_w3_g3.model.dtos.response;
 
-import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.Dimensao;
-import com.bootcamp_w3_g3.model.entity.Representante;
-import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.model.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,16 +21,16 @@ public class SetorDTO {
     private String codigo;
     private String nome;
     private String tipoProduto;
-    private Dimensao dimensoes;
     private Armazem armazem;
+    private List<Lote> lote;
 
     public static SetorDTO converter(Setor setor){
         return new SetorDTO(
                 setor.getCodigo(),
                 setor.getNome(),
                 setor.getTipoProduto(),
-                setor.getDimensoes(),
-                setor.getArmazem()
+                setor.getArmazem(),
+                setor.getLote()
         );
     }
 
@@ -44,8 +41,8 @@ public class SetorDTO {
                     setor.getCodigo(),
                     setor.getNome(),
                     setor.getTipoProduto(),
-                    setor.getDimensoes(),
-                    setor.getArmazem()
+                    setor.getArmazem(),
+                    setor.getLote()
             ));
         }
         return setorDTOList;

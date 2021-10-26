@@ -40,7 +40,9 @@ public class RepresentanteServiceUnitTest {
     }
 
     @Test
+
     void obterRepresentanteTest(){
+
         representante.setCodigo("25");
         Mockito.when(representanteRepository.findByCodigo(Mockito.any(String.class))).thenReturn(representante);
 
@@ -90,7 +92,9 @@ public class RepresentanteServiceUnitTest {
     }
 
    @Test
+
    void apagarRepresentanteTest(){
+
        representante.setCodigo("25");
        Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
 

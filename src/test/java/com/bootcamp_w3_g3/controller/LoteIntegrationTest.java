@@ -109,9 +109,9 @@ public class LoteIntegrationTest {
     @Test
     void deveObterUmLote() throws Exception {
         Lote lote = this.criarPayloadValido();
-        Lote loteCriado = loteRepository.save(lote);
+        loteRepository.save(lote);
 
-        this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + loteCriado.getNumero()))
+        this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + lote.getNumero()))
                 .andExpect(status().isOk());
 
     }

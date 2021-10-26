@@ -17,12 +17,10 @@ import java.util.List;
 @Service
 public class LoteService {
 
-    //@Autowired
+
     private final LoteRepository loteRepository;
 
-    //@Autowired
     private final ArmazemService armazemService;
-
 
     @Autowired
     public LoteService(LoteRepository loteRepository, ArmazemService armazemService) {
@@ -35,12 +33,9 @@ public class LoteService {
      * metodo auxiliar para validar o representante ao acessar o lote
      */
     private boolean representanteExiste(Integer codigo) {
-        for (Representante representante : armazemService.listarRepresentantesValidos()) {
-            if (representante.getCodigo().equals(codigo)) {
-                return true;
-            }
-        }
-        return false;
+
+        return armazemService.buscarRepresentante(codigo).getCodigo().equals(codigo);
+
     }
 
     public Lote salvar(Lote lote) {

@@ -31,8 +31,6 @@ public class LoteForm {
     private Integer quantidadeDeIntens;
     private List<Produto> produtos;
 
-
-
     public Lote converte() {
         return Lote.builder()
                 .numero(numero)

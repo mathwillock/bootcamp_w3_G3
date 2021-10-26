@@ -5,15 +5,20 @@ package com.bootcamp_w3_g3.service;
  * @author Matheus Willock
  */
 import com.bootcamp_w3_g3.model.entity.Armazem;
+import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.ArmazemRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Service
 public class ArmazemService {
+
+    private SetorService setorService;
 
     private ArmazemRepository armazemRepository;
 
@@ -21,8 +26,6 @@ public class ArmazemService {
     public ArmazemService(ArmazemRepository armazemRepository){
         this.armazemRepository = armazemRepository;
     }
-
-    public ArmazemService() {}
 
     public Armazem criarArmazem(Armazem armazem){
         return armazemRepository.save(armazem);
@@ -37,7 +40,7 @@ public class ArmazemService {
     }
 
     public Armazem atualizarArmazem(Armazem armazem) {
-        Armazem editedArmazem = armazemRepository.getById(armazem.getId());
+        Armazem editedArmazem = armazemRepository.findByCodArmazem(armazem.getCodArmazem());
 
         editedArmazem.setSetoresDoArmazem(armazem.getSetoresDoArmazem());
         editedArmazem.setRepresentante(armazem.getRepresentante());
@@ -49,14 +52,12 @@ public class ArmazemService {
 
     }
 
-
-    public Armazem buscarRepresentante(Integer codigo) {
+    public Representante buscarRepresentante(Integer codigo) {
         return armazemRepository.findByRepresentanteCodigo(codigo);
     }
 
-    public Armazem listarSetoresDoArmazem(List<Setor> setoresDoArmazem) {
-       return armazemRepository.findAllBySetoresDoArmazem(setoresDoArmazem);
-
+    public List<Setor> listarSetores() {
+        return setorService.listar();
     }
 
 }

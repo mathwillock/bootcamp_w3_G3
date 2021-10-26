@@ -26,6 +26,7 @@ public class Armazem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String codArmazem;
 
     private String nome;
@@ -46,5 +47,10 @@ public class Armazem {
         this.representante = representante;
         this.SetoresDoArmazem = setoresDoArmazem;
 
+    }
+
+
+    public Armazem(String codigoArmazem){
+        this.codArmazem = codigoArmazem;
     }
 }

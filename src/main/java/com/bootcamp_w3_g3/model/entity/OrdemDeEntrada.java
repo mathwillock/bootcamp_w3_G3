@@ -27,9 +27,13 @@ public class OrdemDeEntrada {
     @ManyToOne
     private Setor codigoSetor;
     @ManyToOne
-    private Armazem codigoArmazem;
+    private Representante representante;
     @OneToMany
-    private List<Lote> loteList;
+    private Lote lote;
+    @OneToOne
+    private Vendedor vendedor;
+    
+    
 
 
 }

@@ -22,7 +22,7 @@ public class SetorForm {
     }
 
 
-    public SetorForm(String codigo, String nome, String tipoProduto, Double temperaturaMin, Double temperaturaMax, Dimensao dimensoes, Representante representante) {
+    public SetorForm(String codigo, String nome, String tipoProduto, Dimensao dimensoes, Representante representante) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
@@ -31,7 +31,7 @@ public class SetorForm {
     }
 
     public Setor converte(){
-        return new Setor(codigo, nome, tipoProduto, dimensoes, representante );
+        return new Setor(codigo, nome, tipoProduto, dimensoes, representante);
     }
 
 }

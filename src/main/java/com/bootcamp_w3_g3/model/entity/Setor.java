@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author hugo damm
@@ -23,18 +24,20 @@ public class Setor {
     private String nome;
     private String tipoProduto;
 
-    @Embedded
-    private Dimensao dimensoes;
+    @OneToMany
+    private List<Lote> lote;
+
+    private Integer espacoDisponivel = 100;
 
     @OneToOne
     private Armazem armazem;
 
-    public Setor(String codigo, String nome, String tipoProduto, Dimensao dimensoes, Armazem armazem) {
+    public Setor(String codigo, String nome, String tipoProduto, Armazem armazem, List<Lote> lote) {
         this.codigo = codigo;
         this.nome = nome;
         this.tipoProduto = tipoProduto;
-        this.dimensoes = dimensoes;
         this.armazem = armazem;
+        this.lote = lote;
     }
 
 

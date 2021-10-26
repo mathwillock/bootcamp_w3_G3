@@ -54,5 +54,9 @@ public class ArmazemService {
         return armazemRepository.findByRepresentanteCodigo(codigo);
     }
 
+//    public List<Armazem> listarSetores() {
+//        return armazemRepository.findAll();
+//    }
+
 
 }

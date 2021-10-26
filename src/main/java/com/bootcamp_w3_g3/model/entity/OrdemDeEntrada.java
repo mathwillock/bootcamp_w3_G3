@@ -29,7 +29,7 @@ public class OrdemDeEntrada {
     @ManyToOne
     private Representante representante;
     @OneToMany
-    private List<Lote> loteList;
+    private Lote loteList;
 
 
 }

@@ -23,8 +23,8 @@ public class SetorUnitTest {
     private SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
 
     Setor setor1 = new Setor(
-            "123","Setor123", "Frescos", 10.0, 20.0, new Dimensao(10.0,10.0,10.0), new Representante("João", "Paulo", "123.123.122-92", "21 9 9956-6538", "Rua A"));
-    Setor setor2 = new Setor("124","Setor124", "Congelados", 0.0, 5.0, new Dimensao(20.0,20.0,20.0), new Representante("Ernani", "Santos", "123.345.678-92", "11 9 7867-3456", "Rua B"));
+            "123","Setor123", "Frescos",  new Dimensao(10.0,10.0,10.0), new Representante("João", "Paulo", "123.123.122-92", "21 9 9956-6538", "Rua A"));
+    Setor setor2 = new Setor("124","Setor124", "Congelados",  new Dimensao(20.0,20.0,20.0), new Representante("Ernani", "Santos", "123.345.678-92", "11 9 7867-3456", "Rua B"));
     List<Setor> setorList = new ArrayList<>();
 
     @Test

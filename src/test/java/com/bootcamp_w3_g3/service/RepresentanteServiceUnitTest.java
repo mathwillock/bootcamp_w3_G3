@@ -41,8 +41,8 @@ public class RepresentanteServiceUnitTest {
 
     @Test
     void obterTest(){
-        representante.setCodigo(25);
-        Mockito.when(representanteRepository.findByCodigo(Mockito.any(Integer.class))).thenReturn(representante);
+        representante.setCodigo("25");
+        Mockito.when(representanteRepository.findByCodigo(Mockito.any(String.class))).thenReturn(representante);
 
         representanteService = new RepresentanteService(representanteRepository);
         Representante obtido = representanteService.obter(representante.getCodigo());
@@ -72,10 +72,10 @@ public class RepresentanteServiceUnitTest {
     @Test
     void atualizarTest(){
         representante.setId(22222L);
-        representante.setCodigo(25);
+        representante.setCodigo("25");
         representante.setTelefone("777777777");
         representante.setEndereco("Rua A");
-        Mockito.when(representanteRepository.getByCodigo(Mockito.any(Integer.class))).thenReturn(representante);
+        Mockito.when(representanteRepository.getByCodigo(Mockito.any(String.class))).thenReturn(representante);
         Mockito.when(representanteRepository.save(Mockito.any(Representante.class))).thenReturn(representante);
 
         representanteService = new RepresentanteService(representanteRepository);
@@ -91,8 +91,8 @@ public class RepresentanteServiceUnitTest {
 
    @Test
    void apagarTest(){
-       representante.setCodigo(25);
-       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(Integer.class))).thenReturn(null);
+       representante.setCodigo("25");
+       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
 
        representanteService = new RepresentanteService(representanteRepository);
        Representante deletado = representanteService.apagar(representante.getCodigo());

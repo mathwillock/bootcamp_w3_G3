@@ -16,9 +16,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepresentanteRepository extends JpaRepository <Representante, Long>{
 
-    Representante findByCodigo(Integer codigo);
+    Representante findByCodigo(String codigo);
 
-    Representante deleteByCodigo(Integer codigo);
+    Representante deleteByCodigo(String codigo);
 
-    Representante getByCodigo(Integer codigo);
+    Representante getByCodigo(String codigo);
 }

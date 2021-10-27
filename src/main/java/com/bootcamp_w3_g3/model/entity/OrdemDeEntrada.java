@@ -25,10 +25,10 @@ public class OrdemDeEntrada {
     private Integer numeroDaOrdem;
     private LocalDate dataDaOrdem;
     @ManyToOne
-    private Setor codigoSetor;
+    private Setor setor;
     @ManyToOne
     private Representante representante;
-    @OneToMany
+    @ManyToOne
     private Lote lote;
     @OneToOne
     private Vendedor vendedor;

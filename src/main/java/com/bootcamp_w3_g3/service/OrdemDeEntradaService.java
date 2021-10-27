@@ -143,5 +143,21 @@ public class OrdemDeEntradaService {
         return null;
     }
 
+    private OrdemDeEntrada retornaOrdem(Integer numeroOrdem) {
+        return ordemDeEntradaRepository.findByNumeroDaOrdem(numeroOrdem);
+    }
+
+    public OrdemDeEntrada atualizaOrdem(OrdemDeEntrada ordemDeEntrada) {
+        if (ordemDeEntrada != null) {
+            OrdemDeEntrada ordemEncontro = retornaOrdem(ordemDeEntrada.getNumeroDaOrdem());
+            ordemDeEntrada.setLote(ordemDeEntrada.getLote());
+            loteService.atualizar(ordemDeEntrada.getLote());
+
+            ordemDeEntrada.setVendedor(ordemDeEntrada.getVendedor());
+
+        }
+         return null;
+    }
+
 
 }

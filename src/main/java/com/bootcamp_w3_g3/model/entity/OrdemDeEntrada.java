@@ -28,12 +28,9 @@ public class OrdemDeEntrada {
     private Setor setor;
     @ManyToOne
     private Representante representante;
-    @ManyToOne
+    @OneToOne
     private Lote lote;
     @OneToOne
     private Vendedor vendedor;
-    
-    
-
 
 }

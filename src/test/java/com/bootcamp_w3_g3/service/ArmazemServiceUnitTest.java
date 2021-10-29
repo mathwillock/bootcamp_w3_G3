@@ -15,15 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ArmazemServiceUnitTest {
 
     private ArmazemService armazemService;
-    private ArmazemRepository armazemRepository = Mockito.mock(ArmazemRepository.class);
+    private final ArmazemRepository armazemRepository = Mockito.mock(ArmazemRepository.class);
 
-
-    List<Setor> setorList = new ArrayList<>();
-
-    Representante representante = new Representante("Alex","Cruz","2345678910","5555555","Rua Joao neves 18");
+    Representante representante = Representante.builder()
+            .nome("Alex").sobrenome("Cruz").cpf("2345678910").telefone("5555555").endereco("Rua Joao neves 18").build()
+    ;
 
     Armazem armazem1 = Armazem.builder()
-            .setoresDoArmazem(setorList)
             .codArmazem("Ar-123")
             .representante(representante)
             .nome("AR1")
@@ -31,7 +29,6 @@ public class ArmazemServiceUnitTest {
             .uf("SP").build();
 
     Armazem armazem2= Armazem.builder()
-            .setoresDoArmazem(setorList)
             .codArmazem("Ar-123")
             .representante(representante)
             .nome("AR1")
@@ -89,23 +86,6 @@ public class ArmazemServiceUnitTest {
 
     }
 
-    @Test
-    void atualizarSetorTest(){
 
-        Mockito.when(armazemRepository.findByCodArmazem(Mockito.any(String.class))).thenReturn(armazem1);
-
-        Mockito.when(armazemRepository.save(Mockito.any(Armazem.class))).thenReturn(armazem1);
-
-
-        armazemService = new ArmazemService(armazemRepository);
-        Armazem uptaded = armazemService.atualizarArmazem(armazem1);
-
-        Mockito.verify(armazemRepository, Mockito.times(1)).findByCodArmazem(armazem1.getCodArmazem());
-        Mockito.verify(armazemRepository, Mockito.times(1)).save(armazem1);
-
-        assertNotNull(uptaded);
-        assertEquals(uptaded.getCodArmazem(), armazem1.getCodArmazem());
-
-    }
 
 }

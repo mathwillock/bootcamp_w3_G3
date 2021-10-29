@@ -26,14 +26,6 @@ public class RepresentanteForm {
     public RepresentanteForm() {
     }
 
-    public RepresentanteForm(String nome, String sobrenome, String cpf, String telefone, String endereco) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.endereco = endereco;
-    }
-
     /**
      * Método criado sem reccebimento sem parametro, e retornando apenas um nono Representante.
      *
@@ -41,6 +33,7 @@ public class RepresentanteForm {
      */
     public Representante converte(){
         return  Representante.builder()
+                .codigo(this.codigo)
                 .nome(this.nome)
                 .sobrenome(this.sobrenome)
                 .cpf(this.cpf)

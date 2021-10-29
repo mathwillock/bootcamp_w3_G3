@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("armazem")
 public class ArmazemController {
@@ -34,7 +36,7 @@ public class ArmazemController {
     //    OK
     @GetMapping("/listar")
     public ResponseEntity<List<ArmazemDTO>> listar() {
-        List<Armazem> armazemList = armazemService.listar();
+        List<Armazem> armazemList = armazemService.listarArmazens();
 
         return new ResponseEntity<>(
                 ArmazemDTO.armazemDTOListConverte(armazemList),

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,6 +34,29 @@ public class ArmazemDTO {
         );
 
     }
+
+
+    public static List<ArmazemDTO> armazemDTOListConverte(List<Armazem> armazemList) {
+        List<ArmazemDTO> armazemDTOList = new ArrayList<>();
+
+        for (Armazem armazem : armazemList) {
+
+            armazemDTOList.add(
+                    new ArmazemDTO(
+                            armazem.getCodArmazem(),
+                            armazem.getNome(),
+                            armazem.getEndereco(),
+                            armazem.getUf(),
+                            armazem.getRepresentante()
+                    )
+            );
+        }
+
+        return armazemDTOList;
+
+
+    }
+
 
 
 

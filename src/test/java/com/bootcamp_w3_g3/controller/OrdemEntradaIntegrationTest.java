@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -265,7 +264,6 @@ public class OrdemEntradaIntegrationTest {
                 .setor(setor).build();
 
         this.ordemDeEntradaService.registra(ordemDeEntrada);
-        //apenas preparamos o ambiente
 
         RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
         ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representanteForm(joaquim).build();

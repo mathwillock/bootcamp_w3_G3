@@ -1,9 +1,8 @@
 package com.bootcamp_w3_g3.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import javax.persistence.*;
 import java.util.List;

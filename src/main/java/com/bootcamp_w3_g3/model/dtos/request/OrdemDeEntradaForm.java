@@ -1,7 +1,6 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
 
-import com.bootcamp_w3_g3.model.dtos.response.LoteDTO;
 import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.service.ArmazemService;
 import com.bootcamp_w3_g3.service.ProdutoService;

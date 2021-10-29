@@ -28,16 +28,4 @@ public class Representante extends Pessoa{
     private String codigo;
 
 
-    /**
-     *     private String nome;
-     *     private String sobrenome;
-     *     private String cpf;
-     *     private String telefone;
-     *     private String endereco;
-     */
-//    public Representante(String nome, String sobreNome, String cpf, String telefone, String endereco, Long id, String codigo) {
-//        super(nome, sobreNome, cpf, telefone, endereco);
-//        this.id = id;
-//        this.codigo = codigo;
-//    }
 }

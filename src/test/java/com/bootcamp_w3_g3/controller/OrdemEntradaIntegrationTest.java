@@ -6,11 +6,8 @@ import com.bootcamp_w3_g3.repository.*;
 import com.bootcamp_w3_g3.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,12 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.is;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +52,7 @@ public class OrdemEntradaIntegrationTest {
 
     private static ObjectMapper objectMapper;
     private OrdemDeEntradaForm ordemDeEntradaForm;
+    private OrdemDeEntradaForm ordemDeEntradaAlteradaForm;
 
     @BeforeAll
     static void setup() {
@@ -96,13 +90,6 @@ public class OrdemEntradaIntegrationTest {
                 .produtoForm(produtoForm).build();
     }
 
-/*    private RepresentanteForm payloadRepresentante() {
-
-        return RepresentanteForm.builder()
-                .codigo(representante.getCodigo())
-                .nome(representante.getNome())
-                .build();
-    }*/
 
 
     private VendedorForm payloadVendedor(VendedorForm vendedorForm) {
@@ -142,11 +129,6 @@ public class OrdemEntradaIntegrationTest {
         persisteArmazem(armazemForm, representante);
         Armazem armazem = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
 
-/*
-        List<Setor> listaDeSetores = this.setorService.lista(armazem.getId());
-        List<SetorForm> setoresForm = listaDeSetores.stream().map(
-                s -> SetorForm.builder().codigo(s.getCodigo()).nome(s.getNome()).build()).collect(Collectors.toList()
-        );*/
 
         return ArmazemForm.builder()
                 .codArmazem(armazem.getCodArmazem())
@@ -155,6 +137,7 @@ public class OrdemEntradaIntegrationTest {
                 .endereco(armazem.getEndereco())
                 .uf(armazem.getUf()).build();
     }
+
 
     private SetorForm payloadSetor(SetorForm setorForm) {
         Armazem armazem = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
@@ -274,27 +257,47 @@ public class OrdemEntradaIntegrationTest {
 
         OrdemDeEntrada ordemDeEntrada = OrdemDeEntrada.builder()
                 .dataDaOrdem(LocalDate.now())
-                .numeroDaOrdem(100).lote(lote)
+                .numeroDaOrdem(100)
+                .lote(lote)
                 .vendedor(vendedor)
                 .representante(representante)
                 .setor(setor).build();
 
         this.ordemDeEntradaService.registra(ordemDeEntrada);
-        //apenas preparamos o ambiente
+
+        RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
+        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representanteForm(joaquim).build();
+        ArmazemForm armazemForm = payloadArmazem(a);
+
+        SetorForm setor_de_peixes = SetorForm.builder().codigo("888").nome("setor de peixes").armazem(armazemForm).build();
+        setor_de_peixes = payloadSetor(setor_de_peixes);
+
+        ProdutoForm robalo = payloadProduto(ProdutoForm.builder().codigoDoProduto(777).nome("robalo").build());
+        LoteForm loterobaloForm = payloadLote(LoteForm.builder().setorForm(setor_de_peixes).produtoForm(robalo).dataDeValidade(LocalDate.now()).numero(666).build());
+
+        VendedorForm v = VendedorForm.builder().codigo("mlb-452").nome("matheus").build();
+        VendedorForm vendedorForm = payloadVendedor(v);
+
+        this.ordemDeEntradaAlteradaForm = OrdemDeEntradaForm.builder()
+                .numeroOrdem(100)
+                .codigoSetor( setor_de_peixes.getCodigo())
+                .loteForm(loterobaloForm)
+                .dataOrdem(LocalDate.now())
+                .codigoRepresentante( armazemForm.getRepresentanteForm().getCodigo())
+                .codigoVendedor(vendedorForm.getCodigo()).build();
 
 
 
 
 
+        String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaAlteradaForm);
 
-//        String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaForm);
-//
-//        System.out.println(requestPayload);
-//
-//        this.mockMvc.perform(put("http://localhost:8080/api/ordem-entrada/alterar")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestPayload))
-//                .andExpect(status().isCreated());
+        System.out.println(requestPayload);
+
+        this.mockMvc.perform(put("http://localhost:8080/api/ordem-entrada/alterar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestPayload))
+                .andExpect(status().isCreated());
     }
 
 

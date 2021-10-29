@@ -20,10 +20,7 @@ public class ArmazemDTO {
     private String nome;
     private String endereco;
     private String uf;
-
     private Representante representante;
-    private List<Setor> SetoresDoArmazem;
-
 
     public static ArmazemDTO converter(Armazem armazem) {
 
@@ -32,10 +29,8 @@ public class ArmazemDTO {
                 armazem.getNome(),
                 armazem.getEndereco(),
                 armazem.getUf(),
-                armazem.getRepresentante(),
-                armazem.getSetoresDoArmazem()
+                armazem.getRepresentante()
         );
-
 
     }
 

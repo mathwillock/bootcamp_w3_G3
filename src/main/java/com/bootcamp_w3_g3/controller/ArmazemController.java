@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("armazem/")
+@RequestMapping("armazem")
 public class ArmazemController {
 
     @Autowired
@@ -23,11 +23,6 @@ public class ArmazemController {
 
     @Autowired
     private SetorService setorService;
-
-    @GetMapping("ping/")
-    public String pong() {
-        return "pong";
-    }
 
     @PostMapping("/criar")
     public ResponseEntity<ArmazemDTO> criarArmazem(@RequestBody ArmazemForm armazemForm) {

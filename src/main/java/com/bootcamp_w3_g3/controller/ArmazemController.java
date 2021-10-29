@@ -31,6 +31,18 @@ public class ArmazemController {
         return new ResponseEntity<>(ArmazemDTO.converter(armazem), HttpStatus.CREATED);
     }
 
+    //    OK
+    @GetMapping("/listar")
+    public ResponseEntity<List<ArmazemDTO>> listar() {
+        List<Armazem> armazemList = armazemService.listar();
+
+        return new ResponseEntity<>(
+                ArmazemDTO.armazemDTOListConverte(armazemList),
+                HttpStatus.OK
+        );
+
+    }
+
 
 
 

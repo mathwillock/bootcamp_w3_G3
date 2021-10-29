@@ -28,7 +28,7 @@ public class OrdemDeEntrada {
     private Setor setor;
     @ManyToOne
     private Representante representante;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Lote lote;
     @OneToOne
     private Vendedor vendedor;

@@ -62,6 +62,7 @@ public class OrdemDeEntradaForm {
                 .representante(representante)
                 .setor(setor)
                 .vendedor(vendedor)
+                .lote(lote)
                 .build();
     }
 

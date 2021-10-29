@@ -4,6 +4,7 @@ import com.bootcamp_w3_g3.model.entity.Produto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,22 +19,13 @@ import java.time.LocalDate;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProdutoForm {
 
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
     private Double temperaturaIndicada;
-
-    public ProdutoForm() {
-    }
-
-    public ProdutoForm(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada) {
-        this.codigoDoProduto = codigoDoProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.temperaturaIndicada = temperaturaIndicada;
-    }
 
     /**
      *

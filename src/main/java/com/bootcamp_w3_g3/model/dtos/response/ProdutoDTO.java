@@ -39,7 +39,7 @@ public class ProdutoDTO {
      * @param produto
      * @return produtoDTO9
      */
-    public ProdutoDTO convertEmProdutoDTO(Produto produto){
+    public static ProdutoDTO convertEmProdutoDTO(Produto produto){
 
         return new ProdutoDTO(produto.getCodigoDoProduto(),
                                 produto.getNome(),
@@ -54,7 +54,7 @@ public class ProdutoDTO {
      * @param produtoList
      * @return produtoDTOList
      */
-    public List<ProdutoDTO> convert(List<Produto> produtoList){
+    public static List<ProdutoDTO> convert(List<Produto> produtoList){
         List<ProdutoDTO> produtoDTOList = new ArrayList<>();
         
         for (Produto produto : produtoList){

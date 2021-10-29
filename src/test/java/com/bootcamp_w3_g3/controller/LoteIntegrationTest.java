@@ -59,7 +59,7 @@ public class LoteIntegrationTest {
                 .codigoDoProduto(123)
                 .nome("carne")
                 .preco(new BigDecimal(60))
-                .dataDeValidadae(LocalDate.now()).build();
+                .build();
 
         return Lote.builder()
                 .id(1L)
@@ -75,7 +75,7 @@ public class LoteIntegrationTest {
                 .codigoDoProduto(123)
                 .nome("carne")
                 .preco(new BigDecimal(60))
-                .dataDeValidadae(LocalDate.now()).build();
+                .build();
 
         return    Lote.builder()
                 .id(1L)

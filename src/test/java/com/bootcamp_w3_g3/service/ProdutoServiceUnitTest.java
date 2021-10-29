@@ -27,13 +27,13 @@ public class ProdutoServiceUnitTest {
             .codigoDoProduto(123)
             .nome("carne")
             .preco(new BigDecimal(60))
-            .dataDeValidadae(LocalDate.now()).build();
+            .build();
 
     Produto produto2 = Produto.builder()
             .codigoDoProduto(123)
             .nome("Arroz")
             .preco(new BigDecimal(60))
-            .dataDeValidadae(LocalDate.now()).build();
+            .build();
 
 
     List<Produto> produtosList = new ArrayList<>();

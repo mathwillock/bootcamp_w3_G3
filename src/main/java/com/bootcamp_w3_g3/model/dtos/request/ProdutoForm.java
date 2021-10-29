@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
 import com.bootcamp_w3_g3.model.entity.Produto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,12 +17,12 @@ import java.time.LocalDate;
  */
 @Data
 @Builder
+@AllArgsConstructor
 public class ProdutoForm {
 
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
-    private LocalDate dataDeValidade;
     private Double temperaturaIndicada;
 
     public ProdutoForm() {
@@ -31,7 +32,6 @@ public class ProdutoForm {
         this.codigoDoProduto = codigoDoProduto;
         this.nome = nome;
         this.preco = preco;
-        this.dataDeValidade = dataDeValidadae;
         this.temperaturaIndicada = temperaturaIndicada;
     }
 
@@ -46,7 +46,6 @@ public class ProdutoForm {
                 .codigoDoProduto(codigoDoProduto)
                 .nome(nome)
                 .preco(preco)
-                .dataDeValidadae(dataDeValidade)
                 .temperaturaIndicada(temperaturaIndicada).build();
     }
 }

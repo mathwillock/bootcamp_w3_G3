@@ -28,6 +28,7 @@ public class OrdemDeEntradaForm {
     private String codigoRepresentante;
     private String codigoVendedor;
     private Integer quantidade;
+    private ProdutoForm produtoForm;
     private LocalDate dataFabricacao;
     private LocalDate dataVencimento;
     private LocalDate dataOrdem;

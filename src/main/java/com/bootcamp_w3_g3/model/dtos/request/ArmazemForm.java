@@ -3,9 +3,12 @@ package com.bootcamp_w3_g3.model.dtos.request;
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.service.RepresentanteService;
+import com.bootcamp_w3_g3.service.SetorService;
 import lombok.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,10 +23,10 @@ public class ArmazemForm {
     private String endereco;
     private Integer numero;
     private String uf;
-    private Representante representante;
-    private List<Setor> setoresDoArmazem;
+    private RepresentanteForm representanteForm;
 
-    public Armazem converte() {
+    public Armazem converte(RepresentanteService representanteService, SetorService setorService) {
+        Representante representante = representanteService.obter(representanteForm.getCodigo());
 
         return Armazem.builder()
                 .codArmazem(codArmazem)
@@ -31,10 +34,10 @@ public class ArmazemForm {
                 .endereco(endereco)
                 .uf(uf)
                 .representante(representante)
-                .setoresDoArmazem(setoresDoArmazem)
                 .build()
         ;
-
     }
+
+
 
 }

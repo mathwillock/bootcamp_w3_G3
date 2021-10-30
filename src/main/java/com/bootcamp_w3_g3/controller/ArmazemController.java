@@ -23,12 +23,10 @@ public class ArmazemController {
     @Autowired
     private RepresentanteService representanteService;
 
-    @Autowired
-    private SetorService setorService;
 
     @PostMapping("/criar")
     public ResponseEntity<ArmazemDTO> criarArmazem(@RequestBody ArmazemForm armazemForm) {
-        Armazem armazem = armazemService.criarArmazem(armazemForm.converte(representanteService, setorService));
+        Armazem armazem = armazemService.criarArmazem(armazemForm.converte(representanteService));
 
         return new ResponseEntity<>(ArmazemDTO.converter(armazem), HttpStatus.CREATED);
     }

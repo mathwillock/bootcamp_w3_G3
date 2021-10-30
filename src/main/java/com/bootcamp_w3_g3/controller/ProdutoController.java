@@ -63,7 +63,7 @@ public class ProdutoController {
      * @return produtoDTO
      */
     @DeleteMapping(value="/deletar/{cod}")
-    public Produto apagar(@PathVariable Integer cod)
+    public Produto apagar(@PathVariable Long cod)
     {
         return produtoService.apagar(cod);
     }

@@ -45,8 +45,9 @@ public class ProdutoService {
         return produtoRepository.save(produtoEdited);
     }
 
-    public Produto apagar(Integer codigo) {
-       return produtoRepository.deleteProdutosByCodigoDoProduto(codigo);
+    public Produto apagar(Long id) {
+       produtoRepository.deleteById(id);
+       return null;
 
     }
 

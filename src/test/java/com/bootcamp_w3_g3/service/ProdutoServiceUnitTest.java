@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,7 +104,7 @@ public class ProdutoServiceUnitTest {
         Mockito.when(produtoRepository.deleteProdutosByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
 
         produtoService = new ProdutoService(produtoRepository);
-        Produto deletado = produtoService.apagar(produto.getCodigoDoProduto());
+        Produto deletado = produtoService.apagar(produto.getId());
 
         Mockito.verify(produtoRepository, Mockito.times(1)).deleteProdutosByCodigoDoProduto(produto.getCodigoDoProduto());
 

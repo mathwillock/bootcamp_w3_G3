@@ -20,17 +20,15 @@ public class ProdutoDTO {
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
-    private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada) {
+    public ProdutoDTO(Integer codigoDoProduto, String nome, BigDecimal preco, Double temperaturaIndicada) {
         this.codigoDoProduto = codigoDoProduto;
         this.nome = nome;
         this.preco = preco;
-        this.dataDeValidadae = dataDeValidadae;
         this.temperaturaIndicada = temperaturaIndicada;
 
     }
@@ -41,12 +39,11 @@ public class ProdutoDTO {
      * @param produto
      * @return produtoDTO9
      */
-    public ProdutoDTO convertEmProdutoDTO(Produto produto){
+    public static ProdutoDTO convertEmProdutoDTO(Produto produto){
 
         return new ProdutoDTO(produto.getCodigoDoProduto(),
                                 produto.getNome(),
                                 produto.getPreco(),
-                                produto.getDataDeValidadae(),
                                 produto.getTemperaturaIndicada());
     }
 
@@ -57,7 +54,7 @@ public class ProdutoDTO {
      * @param produtoList
      * @return produtoDTOList
      */
-    public List<ProdutoDTO> convert(List<Produto> produtoList){
+    public static List<ProdutoDTO> convert(List<Produto> produtoList){
         List<ProdutoDTO> produtoDTOList = new ArrayList<>();
         
         for (Produto produto : produtoList){
@@ -65,7 +62,6 @@ public class ProdutoDTO {
                     new ProdutoDTO(produto.getCodigoDoProduto(),
                                     produto.getNome(),
                                     produto.getPreco(),
-                                    produto.getDataDeValidadae(), 
                                     produto.getTemperaturaIndicada()));
         }
         return produtoDTOList;

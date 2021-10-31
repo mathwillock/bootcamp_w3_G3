@@ -19,93 +19,53 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(value="/produtos")
+@RequestMapping(value="produtos/")
 @Getter
 public class ProdutoController {
 
-
-    private ProdutoService produtoService;
-    private ProdutoForm produtoForm;
-    private ProdutoDTO produtoDTO;
-
-
     @Autowired
-    private ProdutoController(){}
-
-    private ProdutoController(ProdutoService produtoService, ProdutoForm produtoForm, ProdutoDTO produtoDTO){
-        this.produtoService = produtoService;
-        this.produtoForm = produtoForm;
-        this.produtoDTO = produtoDTO;
-    }
+    private ProdutoService produtoService;
 
     /**
      * Create do CRUD
-     * @param produtoForm
      * @return ProdutoDTO
      */
     @PostMapping(value = "/cadastra")
-    public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoForm produtoForm)
-    {
-        return new ResponseEntity<>
-                (
-                        produtoDTO.convertEmProdutoDTO
-                                (
-                                        produtoService.salvar
-                                                (
-                                                        produtoForm.convert()
-                                                )
-                                ),      HttpStatus.CREATED
-                );
+    public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoForm produtoForm) {
+       Produto produto = produtoService.salvar(produtoForm.convert());
+       return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.CREATED);
     }
 
     /**
      * Read do CRUD
-     * @param cod_prod
      * @return produtoDTO
      */
-    @GetMapping("/obter")
-    public ResponseEntity<ProdutoDTO> obter(@RequestParam Integer cod_prod)
+    @GetMapping("/obter/{cod}")
+    public ResponseEntity<ProdutoDTO> obter(@PathVariable Integer cod)
     {
-        return new ResponseEntity<>
-                (
-                        produtoDTO.convertEmProdutoDTO
-                                (
-                                        produtoService.obter(cod_prod)
-                                ),      HttpStatus.OK
-                );
+        Produto produto = produtoService.obter(cod);
+        return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
     }
 
     /**
      * Put do CRUD
-      * @param cod_prod
-     * @param produto
      * @return Produtodto
      */
     @PutMapping("/alterar")
-    public ResponseEntity<ProdutoDTO> alterar(@RequestParam Integer cod_prod, ProdutoDTO produto)
+    public ResponseEntity<ProdutoDTO> alterar(@RequestBody ProdutoForm produtoForm)
     {
-               Produto editedProduto = (produtoService.obter(cod_prod));
-
-               editedProduto.setPreco(produto.getPreco());
-               editedProduto.setNome(produto.getNome());
-               editedProduto.setTemperaturaIndicada(produto.getTemperaturaIndicada());
-               editedProduto.setCodigoDoProduto(produto.getCodigoDoProduto());
-
-               return new ResponseEntity<>
-                       (
-                               produtoDTO.convertEmProdutoDTO(editedProduto), HttpStatus.OK
-                       );
+        Produto produto = produtoService.atualizar(produtoForm.convert());
+        return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
     }
 
     /**
      * Delete do CRUD
-     * @param cod_prod
      * @return produtoDTO
      */
-    @DeleteMapping(value="/deletar")
-    public void cadastro(@RequestParam Integer cod_prod)
+    @DeleteMapping(value="/deletar/{cod}")
+    public Produto apagar(@PathVariable Long cod)
     {
-        produtoService.apagar(cod_prod);
+        return produtoService.apagar(cod);
     }
 
     /**
@@ -113,8 +73,9 @@ public class ProdutoController {
      * @return List<ProdutoDTO>
      */
     @GetMapping("/listar")
-    public List<ProdutoDTO> listar()
+    public ResponseEntity<List<ProdutoDTO>> listar()
     {
-        return produtoDTO.convert(produtoService.listar());
+        List<Produto> produtos = produtoService.listar();
+        return new ResponseEntity<>(ProdutoDTO.convert(produtos), HttpStatus.OK);
     }
 }

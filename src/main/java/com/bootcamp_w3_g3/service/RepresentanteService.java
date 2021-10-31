@@ -44,7 +44,8 @@ public class RepresentanteService {
         return representanteRepository.save(representanteEdited);
     }
 
-    public Representante apagar(String codigo) {
-        return representanteRepository.deleteByCodigo(codigo);
+    public Representante apagar(Long id){
+        representanteRepository.deleteById(id);
+        return null;
     }
 }

@@ -96,16 +96,15 @@ public class RepresentanteServiceUnitTest {
     }
 
    @Test
-
    void apagarRepresentanteTest(){
 
        representante.setCodigo("25");
-       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
+       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class)));
 
        representanteService = new RepresentanteService(representanteRepository);
-       Representante deletado = representanteService.apagar(representante.getCodigo());
+       Representante deletado = representanteService.apagar(representante.getId());
 
-       Mockito.verify(representanteRepository, Mockito.times(1)).deleteByCodigo(representante.getCodigo());
+       Mockito.verify(representanteRepository, Mockito.times(1)).deleteById(representante.getId());
 
        assertNotEquals(deletado,representante);
    }

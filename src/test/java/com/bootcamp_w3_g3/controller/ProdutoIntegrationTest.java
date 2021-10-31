@@ -70,7 +70,10 @@ public class ProdutoIntegrationTest {
                 .temperaturaIndicada(produtoForm.getTemperaturaIndicada()).build();
     }
 
-
+    /**
+     * teste deve cadastrar um produto caso
+     * o payload seja valido
+     */
     @Test
     void deveCadastrarUmProduto() throws Exception {
         ProdutoForm produto = payloadProduto();
@@ -82,6 +85,10 @@ public class ProdutoIntegrationTest {
                 .andExpect(status().isCreated());
     }
 
+    /**
+     * teste deve obter um produto caso ele exista
+     * no banco de dados
+     */
 
     @Test
     void deveObterUmProdutoCadastrado() throws Exception {
@@ -99,6 +106,11 @@ public class ProdutoIntegrationTest {
     }
 
 
+    /**
+     * teste deve alterar dos dados de um produto
+     * caso ele exista no banco e o payload seja valida
+     * retorno comparado pelo nome
+     */
     @Test
     void deveAlterarDadosDeUmProduto() throws Exception {
         ProdutoForm produto = this.payloadProduto();
@@ -122,6 +134,10 @@ public class ProdutoIntegrationTest {
 
 
 
+    /**
+     * teste deve apagar um produto caso ele exista
+     * no banco de dados
+     */
     @Test
     void deveApagarUmProduto() throws Exception {
         ProdutoForm produtoForm = this.payloadProduto();

@@ -5,6 +5,7 @@ import com.bootcamp_w3_g3.repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -22,11 +23,12 @@ public class VendedorService {
         this.vendedorRepository = vendedorRepository;
     }
 
+    @Transactional
     public Vendedor salvar(Vendedor Vendedor) {
         return vendedorRepository.save(Vendedor);
     }
 
-    public Vendedor obter(Integer codigo) {
+    public Vendedor obter(String codigo) {
         return vendedorRepository.findByCodigo(codigo);
     }
 
@@ -42,7 +44,7 @@ public class VendedorService {
         return vendedorRepository.save(editedVendedor);
     }
 
-    public Vendedor apagar(Integer codigo) {
+    public Vendedor apagar(String codigo) {
         return vendedorRepository.deleteByCodigo(codigo);
     }
 

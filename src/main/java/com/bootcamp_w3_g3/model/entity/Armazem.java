@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,7 +30,6 @@ public class Armazem {
     private long id;
 
     private String codArmazem;
-
     private String nome;
     private String endereco;
     private String uf;
@@ -36,21 +37,8 @@ public class Armazem {
     @OneToOne
     private Representante representante;
 
-    @OneToMany
-    private List<Setor> SetoresDoArmazem;
-
-    public Armazem(String codArmazem, String nome, String endereco, String uf, Representante representante, List<Setor> setoresDoArmazem) {
-        this.codArmazem = codArmazem;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.uf = uf;
-        this.representante = representante;
-        this.SetoresDoArmazem = setoresDoArmazem;
-
-    }
-
-
     public Armazem(String codigoArmazem){
         this.codArmazem = codigoArmazem;
     }
+
 }

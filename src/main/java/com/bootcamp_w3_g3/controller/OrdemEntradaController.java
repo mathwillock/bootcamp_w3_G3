@@ -1,32 +1,59 @@
 package com.bootcamp_w3_g3.controller;
 
-import com.bootcamp_w3_g3.model.dtos.request.OrdemDeEntradaDTO;
-import com.bootcamp_w3_g3.model.entity.Lote;
-import com.bootcamp_w3_g3.model.entity.OrdemDeEntrada;
-import com.bootcamp_w3_g3.service.OrdemDeEntradaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.bootcamp_w3_g3.model.dtos.request.OrdemDeEntradaForm;
+import com.bootcamp_w3_g3.model.entity.OrdemDeEntrada;
+import com.bootcamp_w3_g3.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+
 
 /**
  * @author Joaquim Borges
+ * @author Matheus Willock
+ * @author Alex Cruz
+ * @author Hugo Damm
+ * @author Marcelo Santos
  */
 @RestController
-@RequestMapping("ordemEntrada/")
+@RequestMapping("/api/ordem-entrada/")
 public class OrdemEntradaController {
 
     @Autowired
-    private OrdemDeEntradaService ordemDeEntradaService;
+    private OrdemDeEntradaService ordemService;
 
-    @PostMapping("/salvar")
-    public ResponseEntity<List<Lote>> criarOrdem(@RequestBody OrdemDeEntradaDTO ordemDeEntradaDTO){
-        OrdemDeEntrada ordemDeEntrada = ordemDeEntradaService.salvarOrdem(ordemDeEntradaDTO.converterParaEntity());
-        return new ResponseEntity<>(ordemDeEntradaDTO.retorna(ordemDeEntradaDTO), HttpStatus.OK);
+    @Autowired
+    private VendedorService vendedorService;
+
+    @Autowired
+    private ArmazemService armazemService;
+
+    @Autowired
+    private ProdutoService produtoService;
+
+    @Autowired
+    private SetorService setorService;
+
+
+    @PostMapping("/registrar")
+    public ResponseEntity<OrdemDeEntradaForm> registrarOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder) {
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService, armazemService, produtoService, setorService);
+        ordemService.registra(ordemDeEntrada);
+        URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
+
+    @PutMapping("/alterar")
+    public ResponseEntity<OrdemDeEntradaForm> alteraOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder){
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService,armazemService, produtoService, setorService);
+        ordemService.atualizaOrdem(ordemDeEntrada);
+        URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+
 }

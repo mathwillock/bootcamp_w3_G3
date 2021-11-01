@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("armazem/")
+@RequestMapping("armazem")
 public class ArmazemController {
 
     @Autowired
@@ -22,12 +22,13 @@ public class ArmazemController {
     @Autowired
     private RepresentanteService representanteService;
 
-
     @PostMapping("/criar")
     public ResponseEntity<ArmazemDTO> criarArmazem(@RequestBody ArmazemForm armazemForm) {
         Armazem armazem = armazemService.criarArmazem(armazemForm.converte(representanteService));
 
-        return new ResponseEntity<>(ArmazemDTO.converter(armazem), HttpStatus.CREATED);
+        return new ResponseEntity<>(ArmazemDTO.converter(armazem),
+                HttpStatus.CREATED
+        );
     }
 
     //    OK
@@ -41,13 +42,5 @@ public class ArmazemController {
         );
 
     }
-
-
-
-
-
-
-
-
 
 }

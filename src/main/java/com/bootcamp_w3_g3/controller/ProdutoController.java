@@ -63,9 +63,10 @@ public class ProdutoController {
      * @return produtoDTO
      */
     @DeleteMapping(value="/deletar/{cod}")
-    public Produto apagar(@PathVariable Long cod)
+    public ResponseEntity<Produto> apagar(@PathVariable Long cod)
     {
-        return produtoService.apagar(cod);
+        produtoService.apagar(cod);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

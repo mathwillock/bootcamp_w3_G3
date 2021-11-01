@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Representante {

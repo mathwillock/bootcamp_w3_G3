@@ -47,12 +47,5 @@ public class VendedorController {
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.OK);
     }
 
-//    @DeleteMapping("/apagar/{id}")
-//    public ResponseEntity<Vendedor> deletar (@PathVariable Long id)
-//    {
-//        vendedorService.apagar(id);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
 
 }

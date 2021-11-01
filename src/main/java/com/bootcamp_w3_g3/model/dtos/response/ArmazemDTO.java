@@ -21,7 +21,7 @@ public class ArmazemDTO {
     private String nome;
     private String endereco;
     private String uf;
-    private Representante representante;
+    private RepresentanteDTO representanteDTO;
 
     public static ArmazemDTO converter(Armazem armazem) {
 
@@ -30,7 +30,8 @@ public class ArmazemDTO {
                 armazem.getNome(),
                 armazem.getEndereco(),
                 armazem.getUf(),
-                armazem.getRepresentante()
+                RepresentanteDTO.converteEmRepresentanteDTO(armazem.getRepresentante())
+
         );
 
     }
@@ -38,7 +39,6 @@ public class ArmazemDTO {
 
     public static List<ArmazemDTO> armazemDTOListConverte(List<Armazem> armazemList) {
         List<ArmazemDTO> armazemDTOList = new ArrayList<>();
-
         for (Armazem armazem : armazemList) {
 
             armazemDTOList.add(
@@ -47,7 +47,7 @@ public class ArmazemDTO {
                             armazem.getNome(),
                             armazem.getEndereco(),
                             armazem.getUf(),
-                            armazem.getRepresentante()
+                            RepresentanteDTO.converteEmRepresentanteDTO(armazem.getRepresentante())
                     )
             );
         }

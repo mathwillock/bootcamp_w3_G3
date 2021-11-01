@@ -108,8 +108,8 @@ public class OrdemEntradaIntegrationTest {
     }
 
     private void persisteRepresentante(ArmazemForm armazemForm){
-        Representante representante = Representante.builder().codigo(armazemForm.getRepresentanteForm().getCodigo()).build();
-        representante.setNome( armazemForm.getRepresentanteForm().getNome());
+        Representante representante = Representante.builder().codigo(armazemForm.getRepresentante().getCodigo()).build();
+        representante.setNome( armazemForm.getRepresentante().getNome());
         this.representanteService.salvar(representante);
     }
 
@@ -122,7 +122,7 @@ public class OrdemEntradaIntegrationTest {
 
     private ArmazemForm payloadArmazem(ArmazemForm armazemForm){
         persisteRepresentante(armazemForm);
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentanteForm().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
         RepresentanteForm representanteForm = RepresentanteForm.builder().codigo(representante.getCodigo()).nome(representante.getNome()).build();
 
         persisteArmazem(armazemForm, representante);
@@ -131,7 +131,7 @@ public class OrdemEntradaIntegrationTest {
 
         return ArmazemForm.builder()
                 .codArmazem(armazem.getCodArmazem())
-                .representanteForm(representanteForm)
+                .representante(representanteForm)
                 .nome(armazem.getNome())
                 .endereco(armazem.getEndereco())
                 .uf(armazem.getUf()).build();
@@ -154,7 +154,7 @@ public class OrdemEntradaIntegrationTest {
     private OrdemDeEntradaForm payloadOrdemEntrada(ArmazemForm armazemForm, SetorForm setorForm, VendedorForm vendedorForm, LoteForm loteForm) {
         return OrdemDeEntradaForm.builder()
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante(armazemForm.getRepresentanteForm().getCodigo())
+                .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
                 .codigoSetor(setorForm.getCodigo())
                 .numeroOrdem(456)
                 .codigoVendedor(vendedorForm.getCodigo())
@@ -170,7 +170,7 @@ public class OrdemEntradaIntegrationTest {
     public void deveRegistrarUmaOrdemDeEntrada() throws Exception{
 
         RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
-        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representanteForm(joaquim).build();
+        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representante(joaquim).build();
         ArmazemForm armazemForm = payloadArmazem(a);
 
         SetorForm setor_de_carnes = SetorForm.builder().codigo("999").nome("setor de carnes").armazem(armazemForm).build();
@@ -187,7 +187,7 @@ public class OrdemEntradaIntegrationTest {
                 .codigoSetor( setor_de_carnes.getCodigo())
                 .loteForm(loteForm)
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante( armazemForm.getRepresentanteForm().getCodigo())
+                .codigoRepresentante( armazemForm.getRepresentante().getCodigo())
                 .codigoVendedor(vendedorForm.getCodigo()).build();
 
 
@@ -264,7 +264,7 @@ public class OrdemEntradaIntegrationTest {
         this.ordemDeEntradaService.registra(ordemDeEntrada);
 
         RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
-        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representanteForm(joaquim).build();
+        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representante(joaquim).build();
         ArmazemForm armazemForm = payloadArmazem(a);
 
         SetorForm setor_de_peixes = SetorForm.builder().codigo("888").nome("setor de peixes").armazem(armazemForm).build();
@@ -281,7 +281,7 @@ public class OrdemEntradaIntegrationTest {
                 .codigoSetor( setor_de_peixes.getCodigo())
                 .loteForm(loterobaloForm)
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante( armazemForm.getRepresentanteForm().getCodigo())
+                .codigoRepresentante( armazemForm.getRepresentante().getCodigo())
                 .codigoVendedor(vendedorForm.getCodigo()).build();
 
 

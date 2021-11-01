@@ -26,27 +26,16 @@ public class ArmazemServiceUnitTest {
             .representante(representante)
             .nome("AR1")
             .endereco("rua 10")
-            .uf("SP").build();
+            .uf("SP").build()
+    ;
 
     Armazem armazem2= Armazem.builder()
             .codArmazem("Ar-123")
             .representante(representante)
             .nome("AR1")
             .endereco("rua 10")
-            .uf("SP").build();
-
-    Setor setor1 = Setor.builder()
-            .codigo("123")
-            .nome("Setor123")
-            .tipoProduto("Frescos")
-            .armazem(armazem1).build();
-
-
-    Setor setor2 = Setor.builder()
-            .codigo("124")
-            .nome("Setor124")
-            .tipoProduto("Congelados")
-            .armazem(armazem1).build();
+            .uf("SP").build()
+    ;
 
 
     @Test

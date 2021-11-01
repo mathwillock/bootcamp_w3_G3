@@ -47,5 +47,4 @@ public class VendedorController {
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.OK);
     }
 
-
 }

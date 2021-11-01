@@ -5,6 +5,7 @@ import com.bootcamp_w3_g3.repository.RepresentanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -24,11 +25,12 @@ public class RepresentanteService {
         this.representanteRepository = representanteRepository;
     }
 
+    @Transactional
     public Representante salvar(Representante representante) {
         return representanteRepository.save(representante);
     }
 
-    public Representante obter(Integer codigo) { return representanteRepository.findByCodigo(codigo); }
+    public Representante obter(String codigo) { return representanteRepository.findByCodigo(codigo); }
 
     public List<Representante> listar() {
         return representanteRepository.findAll();
@@ -36,13 +38,16 @@ public class RepresentanteService {
 
     public Representante atualizar(Representante representante) {
         Representante representanteEdited = representanteRepository.getByCodigo(representante.getCodigo());
+        representanteEdited.setNome(representante.getNome());
+        representanteEdited.setSobrenome(representante.getSobrenome());
         representanteEdited.setTelefone(representante.getTelefone());
         representanteEdited.setEndereco(representante.getEndereco());
 
         return representanteRepository.save(representanteEdited);
     }
 
-    public Representante apagar(Integer codigo) {
-        return representanteRepository.deleteByCodigo(codigo);
+    public Representante apagar(Long id){
+        representanteRepository.deleteById(id);
+        return null;
     }
 }

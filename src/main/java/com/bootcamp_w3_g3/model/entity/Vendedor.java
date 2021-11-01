@@ -1,9 +1,6 @@
 package com.bootcamp_w3_g3.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,20 +11,42 @@ import javax.persistence.Id;
  * @author hugo damm
  */
 
-@Setter
-@Getter
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Vendedor extends Pessoa {
+@Getter
+@Setter
+@Builder
+public class Vendedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer codigo;
+    private String nome;
+    private String sobrenome;
+    private String cpf;
+    private String telefone;
+    private String endereco;
+    private String codigo;
+
+
 
     public Vendedor(String nome, String sobrenome, String cpf, String telefone, String endereco) {
-        super(nome, sobrenome, cpf, telefone, endereco);
+
+        codigo = geraCodigo(nome, sobrenome);
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.endereco = endereco;
     }
+
+
+    private String geraCodigo(String nome, String sobrenome)
+    {
+        return "MLVEND_" + (int)Math.floor(Math.random()*100000);
+    }
+
 
 }

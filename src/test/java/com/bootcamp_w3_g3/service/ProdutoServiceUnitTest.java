@@ -1,9 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
-import com.bootcamp_w3_g3.model.entity.Dimensao;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
-import com.bootcamp_w3_g3.service.ProdutoService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -11,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,12 +24,17 @@ public class ProdutoServiceUnitTest {
     ProdutoService produtoService;
 
     ProdutoRepository produtoRepository = Mockito.mock(ProdutoRepository.class);
-    Produto produto = new Produto(12345, "Lasanha",
-                                    new BigDecimal("23.45"), LocalDate.now(), 12.05,
-                                    new Dimensao(0.20,0.20,0.05));
-    Produto produto2 = new Produto(67890, "Arroz",
-            new BigDecimal("13.45"), LocalDate.now(), 12.05,
-            new Dimensao(0.50,0.40,0.10));
+    Produto produto = Produto.builder()
+            .codigoDoProduto(123)
+            .nome("carne")
+            .preco(new BigDecimal(60))
+            .build();
+
+    Produto produto2 = Produto.builder()
+            .codigoDoProduto(123)
+            .nome("Arroz")
+            .preco(new BigDecimal(60))
+            .build();
 
 
     List<Produto> produtosList = new ArrayList<>();
@@ -80,13 +84,13 @@ public class ProdutoServiceUnitTest {
     void atualizarTest(){
         produto.setPreco(new BigDecimal("15.05"));
         produto.setTemperaturaIndicada(15.00);
-        Mockito.when(produtoRepository.getByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
+        Mockito.when(produtoRepository.findByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
         Mockito.when(produtoRepository.save(Mockito.any(Produto.class))).thenReturn(produto);
 
         produtoService = new ProdutoService(produtoRepository);
         Produto atualizado = produtoService.atualizar(produto);
 
-        Mockito.verify(produtoRepository, Mockito.times(1)).getByCodigoDoProduto(produto.getCodigoDoProduto());
+        Mockito.verify(produtoRepository, Mockito.times(1)).findByCodigoDoProduto(produto.getCodigoDoProduto());
         Mockito.verify(produtoRepository, Mockito.times(1)).save(produto);
 
         assertNotNull(atualizado);
@@ -97,13 +101,13 @@ public class ProdutoServiceUnitTest {
     @Test
     void apagarTest(){
         produto.setCodigoDoProduto(23);
-        Mockito.when(produtoRepository.deleteByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(null);
+        Mockito.when(produtoRepository.deleteProdutosByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
 
         produtoService = new ProdutoService(produtoRepository);
-        Produto deletado = produtoService.apagar(produto.getCodigoDoProduto());
+        Produto deletado = produtoService.apagar(produto.getId());
 
-        Mockito.verify(produtoRepository, Mockito.times(1)).deleteByCodigoDoProduto(produto.getCodigoDoProduto());
+        Mockito.verify(produtoRepository, Mockito.times(1)).deleteProdutosByCodigoDoProduto(produto.getCodigoDoProduto());
 
-        assertNotEquals(deletado,produto);
+        assertNotEquals(deletado, produto);
     }
 }

@@ -3,6 +3,7 @@ package com.bootcamp_w3_g3.controller;
 import com.bootcamp_w3_g3.model.dtos.request.SetorForm;
 import com.bootcamp_w3_g3.model.dtos.response.SetorDTO;
 import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.service.ArmazemService;
 import com.bootcamp_w3_g3.service.SetorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import java.util.List;
 /**
  * @author hugo damm
  */
-
 @RestController
 @RequestMapping("setor/")
 public class SetorController {
@@ -22,28 +22,42 @@ public class SetorController {
     @Autowired
     private SetorService setorService;
 
+    @Autowired
+    private ArmazemService armazemService;
+
     @PostMapping("/salvar")
     public ResponseEntity<SetorDTO> salvar(@RequestBody SetorForm setorForm){
-        Setor setor = setorService.salvar(setorForm.converte());
+        Setor setor = setorService.salvarSetor(setorForm.converte(armazemService));
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.CREATED);
     }
 
-    @GetMapping("/obter/{id}")
+    @DeleteMapping("/remover/{id}")
+    public String remover(@PathVariable Long id) {
+        setorService.removerSetor(id);
+
+        return "Setor removido";
+    }
+
+    @GetMapping("/obter/{codigo}")
     public ResponseEntity<SetorDTO> obter(@PathVariable String codigo){
-        Setor setor = setorService.obter(codigo);
+        Setor setor = setorService.obterSetor(codigo);
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.OK);
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<SetorDTO>> listar(){
-        List<Setor> setores = setorService.listar();
+    @GetMapping("/listar/{armazem_id}")
+    public ResponseEntity<List<SetorDTO>> listar(@PathVariable Long armazem_id){
+        List<Setor> setores = setorService.lista(armazem_id);
         return new ResponseEntity<>(SetorDTO.converterLista(setores), HttpStatus.OK);
     }
 
     @PutMapping("/alterar")
     public ResponseEntity<SetorDTO> alterar(@RequestBody SetorForm setorForm){
-        Setor setor = setorService.atualizar(setorForm.converte());
+        Setor setor = setorService.atualizarSetor(setorForm.converte(armazemService));
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.OK);
     }
+
+
+
+
 
 }

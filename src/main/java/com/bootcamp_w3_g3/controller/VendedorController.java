@@ -20,7 +20,7 @@ import java.util.List;
 public class VendedorController {
 
     @Autowired
-    private VendedorService vendedorService;
+    VendedorService vendedorService;
 
     @PostMapping("/salvar")
     public ResponseEntity<VendedorDTO> salvar(@RequestBody VendedorForm vendedorForm){
@@ -28,9 +28,10 @@ public class VendedorController {
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.CREATED);
     }
 
-    @GetMapping("/obter/{id}")
-    public ResponseEntity<VendedorDTO> obter(@PathVariable Integer codigo){
-        Vendedor vendedor = vendedorService.obter(codigo);
+    @GetMapping("/obter/{codigo}")
+    public ResponseEntity<VendedorDTO> obter(@PathVariable String codigo){
+        Vendedor vendedor = vendedorService.obter(
+                codigo);
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.OK);
     }
 
@@ -45,4 +46,5 @@ public class VendedorController {
         Vendedor vendedor = vendedorService.atualizar(vendedorForm.converte());
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.OK);
     }
+
 }

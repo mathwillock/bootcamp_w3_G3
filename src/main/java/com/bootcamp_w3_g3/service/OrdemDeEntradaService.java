@@ -1,71 +1,172 @@
 package com.bootcamp_w3_g3.service;
 
-import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.OrdemDeEntrada;
-import com.bootcamp_w3_g3.model.entity.Representante;
-import com.bootcamp_w3_g3.model.entity.Setor;
+
+import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.OrdemDeEntradaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+
 /**
+ * @author Matheus Willock
  * @author Joaquim Borges
+ * @author Alex Cruz
+ * @author Marcelo Oliveira
+ * @author Hugo Damm
  */
 @Service
 public class OrdemDeEntradaService {
-
-    private final OrdemDeEntradaRepository ordemRepository;
+    @Autowired
+    private OrdemDeEntradaRepository ordemDeEntradaRepository;
+    @Autowired
+    private final RepresentanteService representanteService;
+    @Autowired
     private final ArmazemService armazemService;
+    @Autowired
     private final SetorService setorService;
-    private final LoteService loteService;
+    @Autowired
+    private VendedorService vendedorService;
+    @Autowired
+    private LoteService loteService;
+
 
     @Autowired
-    public OrdemDeEntradaService(OrdemDeEntradaRepository ordemRepository, ArmazemService armazemService,
-                                SetorService setorService, LoteService loteService) {
+    public OrdemDeEntradaService(OrdemDeEntradaRepository ordemDeEntradaRepository,
+                                 RepresentanteService representanteService, ArmazemService armazemService,
+                                 SetorService setorService) {
 
-        this.ordemRepository = ordemRepository;
+        this.representanteService = representanteService;
         this.armazemService = armazemService;
         this.setorService = setorService;
-        this.loteService = loteService;
+
     }
 
     /**
-     * verificar se o representante pertence ao armazem
+     * @autor Joaquim Borges
+     * metodo para validar o armazem
      */
-    private boolean representantePertenceAoArmazem(Integer codigo){
-        Representante representante = armazemService.buscarRepresentante(codigo);
-        return representante != null;
+    private boolean armazemExiste(String codigoArmazem) {
+        for (Setor setor : setorService.listarSetores()) {
+            if (setor.getArmazem().getCodArmazem().equals(codigoArmazem)){
+                Armazem armazem = setor.getArmazem();
+                return armazem != null;
+            }
+        }
+        return false;
     }
 
     /**
-     * verificar a existencia do armazem
+     * @autor Alex Cruz
+     * metodo para verificar se o representante pertence ao armazem
      */
-    private boolean armazemValido(String codigo) {
-        Armazem armazem = armazemService.obterArmazem(codigo);
-        return armazem != null;
+    private boolean representantePertenceAoArmazem(String codigo){
+        for (Setor setor : setorService.listarSetores()){
+            if (setor.getArmazem().getRepresentante().getCodigo().equals(codigo)){
+                Representante representante = setor.getArmazem().getRepresentante();
+                return representante != null;
+            }
+        }
+        return false;
     }
 
     /**
-     * validar o setor
+     * @autor JoaquimBorges
+     * metodo para verificar se o setor corresponde
+     * a categoria de produto que esta sendo enviado na ordem de entrada
      */
-    private boolean setorValido(String codigo, String tipoDeProduto) {
-        Setor setor = setorService.obter(codigo);
-        return setor.getTipoProduto().equals(tipoDeProduto);
+
+    private boolean setorCorrespondeAoTipoDeProduto(String tipoDeProduto) {
+        for (Setor setor : setorService.listarSetores()) {
+            if (setor.getTipoProduto()!=null && setor.getTipoProduto().equals(tipoDeProduto)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
-    public OrdemDeEntrada salvarOrdem(OrdemDeEntrada ordemDeEntrada) {
-        if(armazemValido(ordemDeEntrada.getCodigoArmazem().getCodArmazem()) &&
-            representantePertenceAoArmazem(ordemDeEntrada.getCodigoArmazem().getRepresentante().getCodigo())
-            && setorValido(ordemDeEntrada.getCodigoSetor().getCodigo(), ordemDeEntrada.getCodigoSetor().getTipoProduto())){
+    /**
+     * @autor Matheus Willock
+     * metodo para validar a existencia do setor no armazem
+     */
+    private boolean setorExiste(String codigo) {
+        for (Setor setor : setorService.listarSetores()) {
+            if (setor.getCodigo().equals(codigo)){
+                return true;
+            }
+        }
+        return false;
+    }
 
-            return ordemRepository.save(ordemDeEntrada);
+    /**
+     * @autor Marcelo Santos
+     */
+    private boolean cabeNoSetor (Integer quantidadeAtual, String codSetor){
+        if (setorService.obterSetor(codSetor) == null ) {
+            return false;
+        }
+        return   (setorService.listarSetores().stream()
+                .filter(s-> s.getCodigo().equals(codSetor))
+                        .findFirst()).get().getEspacoDisponivel() >= quantidadeAtual;
+
+    }
+
+    /**
+     * @author Matheus Willock
+     * @author Joaquim Borges
+     * @author Alex Cruz
+     * @author Marcelo Santos
+     * @author Hugo Damm
+     */
+    private boolean validarOrdem (OrdemDeEntrada ordemDeEntrada) {
+        return armazemExiste(ordemDeEntrada.getSetor().getArmazem().getCodArmazem()) &&
+                representantePertenceAoArmazem(ordemDeEntrada.getRepresentante().getCodigo()) &&
+                setorExiste(ordemDeEntrada.getSetor().getCodigo()) &&
+                setorCorrespondeAoTipoDeProduto(ordemDeEntrada.getSetor().getTipoProduto()) &&
+                cabeNoSetor(ordemDeEntrada.getSetor().getEspacoDisponivel(), ordemDeEntrada.getSetor().getCodigo());
+    }
+
+
+    @Transactional
+    public OrdemDeEntrada registra(OrdemDeEntrada ordemDeEntrada) {
+        if (validarOrdem(ordemDeEntrada)) {
+            Representante r = representanteService.obter(ordemDeEntrada.getRepresentante().getCodigo());
+            Vendedor v = vendedorService.obter(ordemDeEntrada.getVendedor().getCodigo());
+            Setor s = setorService.obterSetor(ordemDeEntrada.getSetor().getCodigo());
+            Lote l = loteService.obter(ordemDeEntrada.getLote().getNumero());
+
+            ordemDeEntrada.setRepresentante(r);
+            ordemDeEntrada.setVendedor(v);
+            ordemDeEntrada.setSetor(s);
+            ordemDeEntrada.setLote(l);
+            return ordemDeEntradaRepository.save(ordemDeEntrada);
         }
         return null;
     }
 
+    private OrdemDeEntrada retornaOrdem(Integer numeroOrdem) {
+        return ordemDeEntradaRepository.findByNumeroDaOrdem(numeroOrdem);
+    }
 
+    public OrdemDeEntrada atualizaOrdem(OrdemDeEntrada ordemDeEntrada) {
+        if (ordemDeEntrada != null) {
+            OrdemDeEntrada ordemDeEntradaAlterada = retornaOrdem(ordemDeEntrada.getNumeroDaOrdem());
+            ordemDeEntradaAlterada.setLote(ordemDeEntrada.getLote());
+            loteService.atualizar(ordemDeEntrada.getLote());
+            ordemDeEntradaAlterada.setRepresentante(ordemDeEntrada.getRepresentante());
+            representanteService.atualizar(ordemDeEntrada.getRepresentante());
+            ordemDeEntradaAlterada.setSetor(ordemDeEntrada.getSetor());
+            setorService.atualizarSetor(ordemDeEntrada.getSetor());
+            ordemDeEntradaAlterada.setVendedor(ordemDeEntrada.getVendedor());
+            vendedorService.atualizar(ordemDeEntrada.getVendedor());
+            ordemDeEntradaAlterada.setDataDaOrdem(ordemDeEntrada.getDataDaOrdem());
 
+            return ordemDeEntradaRepository.save(ordemDeEntradaAlterada);
+        }
+         return null;
+    }
 
 
 }

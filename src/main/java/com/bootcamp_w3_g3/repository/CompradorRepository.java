@@ -14,5 +14,6 @@ import java.util.Optional;
 public interface CompradorRepository extends JpaRepository<Comprador, Long> {
 
     Comprador getById (Long id);
+    Comprador findByUsuario(String usuario);
 
 }

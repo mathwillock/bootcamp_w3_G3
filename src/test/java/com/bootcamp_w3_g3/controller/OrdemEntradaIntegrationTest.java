@@ -64,11 +64,10 @@ public class OrdemEntradaIntegrationTest {
         Produto novoProduto = Produto.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
                 .nome(produtoForm.getNome())
-                .dataDeValidadae(produtoForm.getDataDeValidade()).build();
+                .build();
         this.produtoService.salvar(novoProduto);
         return ProdutoForm.builder()
                 .codigoDoProduto(novoProduto.getCodigoDoProduto())
-                .dataDeValidade(LocalDate.of(2021, 9, 2))
                 .temperaturaIndicada(null)
                 .preco(new BigDecimal(60)).build();
     }
@@ -239,7 +238,6 @@ public class OrdemEntradaIntegrationTest {
         Produto produto = this.produtoService.salvar(
                 Produto.builder()
                         .codigoDoProduto(222)
-                        .dataDeValidadae(LocalDate.now())
                         .preco(new BigDecimal(60))
                         .nome("picanha")
                         .temperaturaIndicada(12.1)

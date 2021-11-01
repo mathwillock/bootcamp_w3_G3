@@ -80,7 +80,7 @@ public class ArmazemServiceUnitTest {
         Mockito.when(armazemRepository.deleteByCodArmazem(Mockito.any(String.class))).thenReturn(null);
 
         armazemService = new ArmazemService(armazemRepository);
-        Armazem armazemDeletado = armazemService.deletarArmazem(armazem1.getCodArmazem());
+        Armazem armazemDeletado = armazemService.deletarArmazem(armazem1.getId());
 
         assertNull(armazemDeletado);
 

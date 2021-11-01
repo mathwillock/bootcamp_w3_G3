@@ -7,10 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 /**
  * @author hugo damm
+ * @autor Joaquim Borges
  */
 
 @NoArgsConstructor
@@ -24,10 +24,9 @@ public class SetorForm {
     private String tipoProduto;
     private ArmazemForm armazem;
     private Integer espacoDisponivel = 100;
-    private List<LoteForm> lote;
 
 
-    //private List<Lote> lote;
+
 
     public Setor converte(ArmazemService armazemService){
         Armazem armazem = armazemService.obterArmazem(this.armazem.getCodArmazem());
@@ -35,7 +34,8 @@ public class SetorForm {
                 .codigo(codigo)
                 .nome(nome)
                 .tipoProduto(tipoProduto)
-                .armazem(armazem).build();
+                .armazem(armazem)
+                .build();
     }
 
 

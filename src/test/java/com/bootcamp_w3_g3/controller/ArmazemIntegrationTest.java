@@ -74,7 +74,7 @@ public class ArmazemIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-212")
                 .nome("armazem central")
-                .representanteForm(representanteForm)
+                .representante(representanteForm)
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -128,7 +128,7 @@ public class ArmazemIntegrationTest {
         ArmazemForm armazem = ArmazemForm.builder()
                 .codArmazem("AR-212")
                 .nome("armazem central")
-                .representanteForm(representante)
+                .representante(representante)
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();

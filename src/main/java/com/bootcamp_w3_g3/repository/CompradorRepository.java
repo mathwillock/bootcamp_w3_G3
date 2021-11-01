@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface CompradorRepository extends JpaRepository<Comprador, Long> {
 
-    Comprador getById (Long id);
+    Comprador findByUsuario(String usuario));
 
 }

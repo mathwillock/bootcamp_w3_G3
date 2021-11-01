@@ -1,5 +1,6 @@
 package com.bootcamp_w3_g3.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,8 +12,7 @@ import java.time.LocalTime;
  * @autor Alex Cruz
  */
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -34,10 +34,10 @@ public class Lote {
     private LocalDate dataDeFabricacao;
     private LocalDate dataDeValidade;
 
-    @Embedded
-    private Dimensao dimensao;
+    @ManyToOne
+    private Produto produto;
 
-    @OneToOne
-    private Produto produtos;
-
+    @JsonBackReference
+    @ManyToOne
+    private Setor setor;
 }

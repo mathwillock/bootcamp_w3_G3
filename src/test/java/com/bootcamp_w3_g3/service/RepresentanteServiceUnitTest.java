@@ -23,8 +23,12 @@ public class RepresentanteServiceUnitTest {
 
     RepresentanteRepository representanteRepository = Mockito.mock(RepresentanteRepository.class);
 
-    Representante representante     = new Representante("Alex","Cruz","2345678910","5555555","Rua Joao neves 18");
-    Representante representante2    = new Representante("Alex","Cruz","2345678910","5555555","Rua Joao neves 18");
+    Representante representante  = Representante.builder()
+            .nome("Alex").sobrenome("Cruz").cpf("2345678910").telefone("5555555").endereco("Rua Joao neves 18").build();
+
+    Representante representante2  = Representante.builder()
+            .nome("Alex").sobrenome("Cruz").cpf("2345678910").telefone("5555555").endereco("Rua Joao neves 18").build();
+
     List<Representante> representantesList = new ArrayList<>();
 
     @Test
@@ -92,16 +96,15 @@ public class RepresentanteServiceUnitTest {
     }
 
    @Test
-
    void apagarRepresentanteTest(){
 
        representante.setCodigo("25");
-       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
+       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(representante);
 
        representanteService = new RepresentanteService(representanteRepository);
-       Representante deletado = representanteService.apagar(representante.getCodigo());
+       Representante deletado = representanteService.apagar(representante.getId());
 
-       Mockito.verify(representanteRepository, Mockito.times(1)).deleteByCodigo(representante.getCodigo());
+       Mockito.verify(representanteRepository, Mockito.times(1)).deleteById(representante.getId());
 
        assertNotEquals(deletado,representante);
    }

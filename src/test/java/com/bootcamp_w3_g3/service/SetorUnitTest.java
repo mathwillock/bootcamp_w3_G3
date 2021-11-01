@@ -1,7 +1,6 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.Dimensao;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.SetorRepository;
@@ -21,19 +20,36 @@ public class SetorUnitTest {
 
     private SetorService setorService;
     private final SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
+    private static final Long SETOR_ID = Long.valueOf(1);
 
-    Representante representante1 = new Representante("Ernani", "Santos", "123.345.678-92", "11 9 7867-3456", "Rua B");
+    Representante representante1 = Representante.builder()
+            .nome("Ernani").sobrenome("Santos").cpf("123.345.678-92").telefone("11 9 7867-3456").endereco("Rua B").build();
 
     List<Setor> setorList = new ArrayList<>();
 
 
-    Armazem armazem1 = new Armazem("1234-meli", "cd cajamar",  "rua das cabras", "SP",  representante1,  setorList );
+    Armazem armazem1 = Armazem.builder()
+            .codArmazem("Ar-123")
+            .representante(representante1)
+            .nome("AR1")
+            .endereco("rua 10")
+            .uf("SP").build();
 
 
-    Setor setor1 = new Setor(
-            "123","Setor123", "Frescos",  new Dimensao(10.0,10.0,10.0), armazem1);
+    Setor setor1 = Setor.builder()
+            .id(SETOR_ID)
+            .codigo("123")
+            .nome("Setor123")
+            .tipoProduto("Frescos")
+            .armazem(armazem1).build();
 
-    Setor setor2 = new Setor("124","Setor124", "Congelados",  new Dimensao(20.0,20.0,20.0), armazem1 );
+
+    Setor setor2 = Setor.builder()
+            .codigo("124")
+            .nome("Setor124")
+            .tipoProduto("Congelados")
+            .armazem(armazem1).build();
+
 
 
     @Test
@@ -99,12 +115,15 @@ public class SetorUnitTest {
 
     @Test
     void removerSetorTest() {
-        Mockito.when(setorRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
+        setor1.setCodigo("25");
+        Mockito.when(setorRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(setor1);
 
         setorService = new SetorService(setorRepository);
-        Setor setorDeletado = setorService.removerSetor(setor1.getCodigo());
+        Setor deletado = setorService.removerSetor(setor1.getId());
 
-        assertNull(setorDeletado);
+        Mockito.verify(setorRepository, Mockito.times(1)).deleteById(setor1.getId());
+
+        assertNotEquals(deletado,setor1);
     }
 
 }

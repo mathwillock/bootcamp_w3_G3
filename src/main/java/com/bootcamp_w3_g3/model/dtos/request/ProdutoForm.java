@@ -1,7 +1,10 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
-import com.bootcamp_w3_g3.model.entity.Dimensao;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,26 +16,16 @@ import java.time.LocalDate;
  *
  * @author Alex Cruz
  */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProdutoForm {
 
     private Integer codigoDoProduto;
     private String nome;
     private BigDecimal preco;
-    private LocalDate dataDeValidadae;
     private Double temperaturaIndicada;
-    private Dimensao dimensoes;
-
-    public ProdutoForm() {
-    }
-
-    public ProdutoForm(Integer codigoDoProduto, String nome, BigDecimal preco, LocalDate dataDeValidadae, Double temperaturaIndicada, Dimensao dimensoes) {
-        this.codigoDoProduto = codigoDoProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.dataDeValidadae = dataDeValidadae;
-        this.temperaturaIndicada = temperaturaIndicada;
-        this.dimensoes = dimensoes;
-    }
 
     /**
      *
@@ -41,6 +34,10 @@ public class ProdutoForm {
      * @return produto
      */
     public Produto convert(){
-        return new Produto(codigoDoProduto, nome, preco, dataDeValidadae, temperaturaIndicada, dimensoes);
+        return Produto.builder()
+                .codigoDoProduto(codigoDoProduto)
+                .nome(nome)
+                .preco(preco)
+                .temperaturaIndicada(temperaturaIndicada).build();
     }
 }

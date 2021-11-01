@@ -1,10 +1,7 @@
 package com.bootcamp_w3_g3.model.dtos.response;
 
 import com.bootcamp_w3_g3.model.entity.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,34 +13,30 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class SetorDTO {
 
     private String codigo;
     private String nome;
     private String tipoProduto;
-    private Armazem armazem;
-    private List<Lote> lote;
+    private ArmazemDTO armazemDTO;
 
     public static SetorDTO converter(Setor setor){
-        return new SetorDTO(
-                setor.getCodigo(),
-                setor.getNome(),
-                setor.getTipoProduto(),
-                setor.getArmazem(),
-                setor.getLote()
-        );
+        return SetorDTO.builder()
+                .codigo(setor.getCodigo())
+                .nome(setor.getNome())
+                .tipoProduto(setor.getTipoProduto())
+                .armazemDTO(ArmazemDTO.converter(setor.getArmazem())).build();
     }
 
     public static List<SetorDTO> converterLista(List<Setor> setorList){
         List<SetorDTO> setorDTOList = new ArrayList<>();
         for (Setor setor : setorList){
-            setorDTOList.add(new SetorDTO(
-                    setor.getCodigo(),
-                    setor.getNome(),
-                    setor.getTipoProduto(),
-                    setor.getArmazem(),
-                    setor.getLote()
-            ));
+            setorDTOList.add(SetorDTO.builder()
+                    .codigo(setor.getCodigo())
+                    .nome(setor.getNome())
+                    .tipoProduto(setor.getTipoProduto())
+                    .armazemDTO(ArmazemDTO.converter(setor.getArmazem())).build());
         }
         return setorDTOList;
     }

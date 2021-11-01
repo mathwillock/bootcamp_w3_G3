@@ -1,14 +1,15 @@
 package com.bootcamp_w3_g3.controller;
 
 
-import com.bootcamp_w3_g3.service.OrdemDeEntradaService;
-import com.bootcamp_w3_g3.service.RepresentanteService;
-import com.bootcamp_w3_g3.service.SetorService;
-import com.bootcamp_w3_g3.service.VendedorService;
+import com.bootcamp_w3_g3.model.dtos.request.OrdemDeEntradaForm;
+import com.bootcamp_w3_g3.model.entity.OrdemDeEntrada;
+import com.bootcamp_w3_g3.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 
 
 /**
@@ -16,23 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Matheus Willock
  * @author Alex Cruz
  * @author Hugo Damm
- * @author Marcelo Oliveira
+ * @author Marcelo Santos
  */
 @RestController
-@RequestMapping("api/ordem-entrada/")
+@RequestMapping("/api/ordem-entrada/")
 public class OrdemEntradaController {
 
     @Autowired
-    private OrdemDeEntradaService ordemDeEntradaService;
+    private OrdemDeEntradaService ordemService;
 
     @Autowired
     private VendedorService vendedorService;
 
     @Autowired
-    private RepresentanteService representanteService;
+    private ArmazemService armazemService;
+
+    @Autowired
+    private ProdutoService produtoService;
 
     @Autowired
     private SetorService setorService;
+
+
+    @PostMapping("/registrar")
+    public ResponseEntity<OrdemDeEntradaForm> registrarOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder) {
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService, armazemService, produtoService, setorService);
+        ordemService.registra(ordemDeEntrada);
+        URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/alterar")
+    public ResponseEntity<OrdemDeEntradaForm> alteraOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder){
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService,armazemService, produtoService, setorService);
+        ordemService.atualizaOrdem(ordemDeEntrada);
+        URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
 
 
 }

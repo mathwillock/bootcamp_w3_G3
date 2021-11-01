@@ -1,10 +1,12 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public Produto salvar(Produto produto) { return produtoRepository.save(produto); }
 
     public Produto obter(Integer codigo) { return produtoRepository.findByCodigoDoProduto(codigo); }
@@ -34,12 +37,18 @@ public class ProdutoService {
     }
 
     public Produto atualizar(Produto produto) {
-        Produto produtoEdited = produtoRepository.getByCodigoDoProduto(produto.getCodigoDoProduto());
+        Produto produtoEdited = produtoRepository.findByCodigoDoProduto(produto.getCodigoDoProduto());
         produtoEdited.setPreco(produto.getPreco());
+        produtoEdited.setNome(produto.getNome());
         produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
         return produtoRepository.save(produtoEdited);
     }
 
-    public Produto apagar(Integer codigo) {return produtoRepository.deleteByCodigoDoProduto(codigo);}
+    public Produto apagar(Long id) {
+       produtoRepository.deleteById(id);
+       return null;
+
+    }
+
 }

@@ -99,7 +99,7 @@ public class RepresentanteServiceUnitTest {
    void apagarRepresentanteTest(){
 
        representante.setCodigo("25");
-       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class)));
+       Mockito.when(representanteRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(representante);
 
        representanteService = new RepresentanteService(representanteRepository);
        Representante deletado = representanteService.apagar(representante.getId());

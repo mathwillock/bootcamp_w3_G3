@@ -20,6 +20,7 @@ public class SetorUnitTest {
 
     private SetorService setorService;
     private final SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
+    private static final Long SETOR_ID = Long.valueOf(1);
 
     Representante representante1 = Representante.builder()
             .nome("Ernani").sobrenome("Santos").cpf("123.345.678-92").telefone("11 9 7867-3456").endereco("Rua B").build();
@@ -36,6 +37,7 @@ public class SetorUnitTest {
 
 
     Setor setor1 = Setor.builder()
+            .id(SETOR_ID)
             .codigo("123")
             .nome("Setor123")
             .tipoProduto("Frescos")
@@ -113,12 +115,15 @@ public class SetorUnitTest {
 
     @Test
     void removerSetorTest() {
-        Mockito.when(setorRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
+        setor1.setCodigo("25");
+        Mockito.when(setorRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(setor1);
 
         setorService = new SetorService(setorRepository);
-        Setor setorDeletado = setorService.removerSetor(setor1.getId());
+        Setor deletado = setorService.removerSetor(setor1.getId());
 
-        assertNull(setorDeletado);
+        Mockito.verify(setorRepository, Mockito.times(1)).deleteById(setor1.getId());
+
+        assertNotEquals(deletado,setor1);
     }
 
 }

@@ -20,10 +20,12 @@ public class ArmazemForm {
     private String endereco;
     private Integer numero;
     private String uf;
-    private RepresentanteForm representanteForm;
+    private RepresentanteForm representante;
+
 
     public Armazem converte(RepresentanteService representanteService) {
-        Representante representante = representanteService.obter(representanteForm.getCodigo());
+
+        Representante representante = representanteService.obter(this.representante.getCodigo());
 
         return Armazem.builder()
                 .codArmazem(codArmazem)

@@ -1,9 +1,11 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.model.entity.Comprador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class CompradorService {
@@ -13,7 +15,7 @@ public class CompradorService {
 
     @Autowired
     public CompradorService(CompradorRepository compradorRepository){
-        thwis.compradorRepository = compradorRepository;
+        this.compradorRepository = compradorRepository;
     }
 
     @Transactional
@@ -24,12 +26,11 @@ public class CompradorService {
     }
 
     public Comprador atualizar(Comprador comprador) {
-        Comprador compradorEdited = coccmpradoRepository.findByCodigoDocomprador(comprador.getCodigoDoComprador());
-        compradorEdited.setPreco(comprador.getPreco());
-        compradorEdited.setNome(comprador.getNome());
-        compradorEdited.setTemperaturaIndicada(comprador.getTemperaturaIndicada());
+        Comprador compradorEdited = compradoRepository.findByUsuario(comprador.getUsuario());
+        compradorEdited.setUsuario(comprador.getUsuario());
+        compradorEdited.setSenha(comprador.getSenha());
 
-        return produtoRepository.save(produtoEdited);
+        return compradorRepository.save(compradorEdited);
     }
 
 }

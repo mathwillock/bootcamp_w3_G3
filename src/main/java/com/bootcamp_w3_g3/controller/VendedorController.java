@@ -20,7 +20,7 @@ import java.util.List;
 public class VendedorController {
 
     @Autowired
-    private VendedorService vendedorService;
+    VendedorService vendedorService;
 
     @PostMapping("/salvar")
     public ResponseEntity<VendedorDTO> salvar(@RequestBody VendedorForm vendedorForm){
@@ -46,4 +46,5 @@ public class VendedorController {
         Vendedor vendedor = vendedorService.atualizar(vendedorForm.converte());
         return new ResponseEntity<>(VendedorDTO.converter(vendedor), HttpStatus.OK);
     }
+
 }

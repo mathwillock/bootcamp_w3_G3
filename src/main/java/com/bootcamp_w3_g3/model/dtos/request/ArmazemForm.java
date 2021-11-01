@@ -24,7 +24,6 @@ public class ArmazemForm {
 
 
     public Armazem converte(RepresentanteService representanteService) {
-//        Representante representante = representanteService.obter(representante.getCodigo());
 
         Representante representante = representanteService.obter(this.representante.getCodigo());
 

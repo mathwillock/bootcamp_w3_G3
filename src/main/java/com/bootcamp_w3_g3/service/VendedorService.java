@@ -3,10 +3,15 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.model.entity.Vendedor;
 import com.bootcamp_w3_g3.repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Marcelo de Oliveira Santos
@@ -16,7 +21,8 @@ import java.util.List;
 public class VendedorService {
 
 
-    private final VendedorRepository vendedorRepository;
+    @Autowired
+    VendedorRepository vendedorRepository;
 
     @Autowired
     public VendedorService(VendedorRepository vendedorRepository) {
@@ -29,7 +35,7 @@ public class VendedorService {
     }
 
     public Vendedor obter(String codigo) {
-        return vendedorRepository.findByCodigo(codigo);
+        return vendedorRepository.getByCodigo(codigo);
     }
 
     public List<Vendedor> listar() {
@@ -37,16 +43,16 @@ public class VendedorService {
     }
 
     public Vendedor atualizar(Vendedor vendedor) {
-        Vendedor editedVendedor = vendedorRepository.findByCodigo(vendedor.getCodigo());
+        Vendedor editedVendedor = vendedorRepository.getByCodigo(vendedor.getCodigo());
+        if (editedVendedor == null) return vendedor;
         editedVendedor.setEndereco(vendedor.getEndereco());
         editedVendedor.setTelefone(vendedor.getTelefone());
 
         return vendedorRepository.save(editedVendedor);
     }
 
-    public Vendedor apagar(String codigo) {
-        return vendedorRepository.deleteByCodigo(codigo);
-    }
+
+
 
 
 

@@ -89,7 +89,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-123")
                 .nome("central")
-                .representanteForm(representanteForm)
+                .representante(representanteForm)
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -102,7 +102,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-098")
                 .nome("central")
-                .representanteForm(representante2)
+                .representante(representante2)
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -111,7 +111,7 @@ public class SetorIntegrationTest {
 
     private void persisteSetor(SetorForm setorForm){
        ArmazemForm armazemForm = this.payloadArmazem2();
-       Representante representante = this.representanteService.obter(armazemForm.getRepresentanteForm().getCodigo());
+       Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -139,7 +139,7 @@ public class SetorIntegrationTest {
 
     private SetorForm payloadSetor() {
         ArmazemForm armazemForm = this.payloadArmazem();
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentanteForm().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -163,7 +163,7 @@ public class SetorIntegrationTest {
         ArmazemForm armazemSetor = ArmazemForm.builder()
                 .codArmazem(armazemLocalizado.getCodArmazem())
                 .nome(armazemLocalizado.getNome())
-                .representanteForm(representanteArmazem)
+                .representante(representanteArmazem)
                 .endereco(armazemLocalizado.getEndereco())
                 .uf(armazemLocalizado.getUf())
                 .build();

@@ -19,15 +19,14 @@ public class SetorDTO {
     private String codigo;
     private String nome;
     private String tipoProduto;
-    private Armazem armazem;
-    private List<Lote> lote;
+    private ArmazemDTO armazemDTO;
 
     public static SetorDTO converter(Setor setor){
         return SetorDTO.builder()
                 .codigo(setor.getCodigo())
                 .nome(setor.getNome())
                 .tipoProduto(setor.getTipoProduto())
-                .armazem(setor.getArmazem()).build();
+                .armazemDTO(ArmazemDTO.converter(setor.getArmazem())).build();
     }
 
     public static List<SetorDTO> converterLista(List<Setor> setorList){
@@ -37,8 +36,7 @@ public class SetorDTO {
                     .codigo(setor.getCodigo())
                     .nome(setor.getNome())
                     .tipoProduto(setor.getTipoProduto())
-                    .armazem(setor.getArmazem())
-                    .build());
+                    .armazemDTO(ArmazemDTO.converter(setor.getArmazem())).build());
         }
         return setorDTOList;
     }

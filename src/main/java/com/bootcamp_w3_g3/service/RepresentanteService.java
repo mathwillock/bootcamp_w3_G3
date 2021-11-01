@@ -38,6 +38,8 @@ public class RepresentanteService {
 
     public Representante atualizar(Representante representante) {
         Representante representanteEdited = representanteRepository.getByCodigo(representante.getCodigo());
+        representanteEdited.setNome(representante.getNome());
+        representanteEdited.setSobrenome(representante.getSobrenome());
         representanteEdited.setTelefone(representante.getTelefone());
         representanteEdited.setEndereco(representante.getEndereco());
 

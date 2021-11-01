@@ -37,8 +37,9 @@ public class ArmazemService {
         return armazemRepository.findByCodArmazem(cod);
     }
 
-    public Armazem deletarArmazem(String cod){
-        return armazemRepository.deleteByCodArmazem(cod);
+    public Armazem deletarArmazem(Long id){
+        armazemRepository.deleteById(id);
+        return null;
     }
 
     public Armazem atualizarArmazem(Armazem armazem) {

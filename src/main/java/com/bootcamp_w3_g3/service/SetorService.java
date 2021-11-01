@@ -35,8 +35,8 @@ public class SetorService {
     }
 
     public Setor obterSetor(String codigo){
-        Setor setor = setorRepository.findByCodigo(codigo);
-        return setor;
+       return setorRepository.findByCodigo(codigo);
+
     }
 
     public List<Setor> listarSetores(){
@@ -51,7 +51,6 @@ public class SetorService {
     public Setor atualizarSetor(Setor setor){
         Setor editedSetor = setorRepository.findByCodigo(setor.getCodigo());
 
-        editedSetor.setCodigo(setor.getCodigo());
         editedSetor.setNome(setor.getNome());
         editedSetor.setTipoProduto(setor.getTipoProduto());
         editedSetor.setArmazem(setor.getArmazem());
@@ -59,8 +58,9 @@ public class SetorService {
         return setorRepository.save(editedSetor);
     }
 
-    public Setor removerSetor(String codigo) {
-        return setorRepository.deleteByCodigo(codigo);
+    public Setor removerSetor(Long id) {
+        setorRepository.deleteById(id);
+        return null;
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("representante")
+@RequestMapping("representante/")
 public class RepresentanteController {
 
         @Autowired

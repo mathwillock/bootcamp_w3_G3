@@ -116,7 +116,7 @@ public class SetorUnitTest {
         Mockito.when(setorRepository.deleteByCodigo(Mockito.any(String.class))).thenReturn(null);
 
         setorService = new SetorService(setorRepository);
-        Setor setorDeletado = setorService.removerSetor(setor1.getCodigo());
+        Setor setorDeletado = setorService.removerSetor(setor1.getId());
 
         assertNull(setorDeletado);
     }

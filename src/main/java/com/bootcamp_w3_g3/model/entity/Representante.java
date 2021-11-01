@@ -17,15 +17,19 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Representante extends Pessoa{
+public class Representante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String codigo;
-
+    private String nome;
+    private String sobrenome;
+    private String cpf;
+    private String telefone;
+    private String endereco;
 
 }

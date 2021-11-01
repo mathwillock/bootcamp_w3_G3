@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("representante")
+@RequestMapping("representante/")
 public class RepresentanteController {
 
         @Autowired
@@ -42,9 +43,13 @@ public class RepresentanteController {
             return new ResponseEntity<>(RepresentanteDTO.converteEmRepresentanteDTO(representante), HttpStatus.OK);
         }
 
-        @DeleteMapping("/apagar/{codigo}")
-        public ResponseEntity<RepresentanteDTO> apagar(@PathVariable String codigo){
-            Representante representante = representanteService.apagar(codigo);
-            return new ResponseEntity<>(RepresentanteDTO.converteEmRepresentanteDTO(representante), HttpStatus.ACCEPTED);
+        @DeleteMapping(value = "/delete/{id}")
+        public ResponseEntity<String> apagar(@PathVariable Long id) {
+            try{
+                representanteService.apagar(id);
+            } catch (NoSuchElementException e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>("Representante deletado com sucesso", HttpStatus.OK);
         }
     }

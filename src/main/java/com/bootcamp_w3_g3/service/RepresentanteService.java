@@ -38,13 +38,16 @@ public class RepresentanteService {
 
     public Representante atualizar(Representante representante) {
         Representante representanteEdited = representanteRepository.getByCodigo(representante.getCodigo());
+        representanteEdited.setNome(representante.getNome());
+        representanteEdited.setSobrenome(representante.getSobrenome());
         representanteEdited.setTelefone(representante.getTelefone());
         representanteEdited.setEndereco(representante.getEndereco());
 
         return representanteRepository.save(representanteEdited);
     }
 
-    public Representante apagar(String codigo) {
-        return representanteRepository.deleteByCodigo(codigo);
+    public Representante apagar(Long id){
+        representanteRepository.deleteById(id);
+        return null;
     }
 }

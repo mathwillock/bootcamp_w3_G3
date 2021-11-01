@@ -16,7 +16,7 @@ import java.util.List;
  * @author hugo damm
  */
 @RestController
-@RequestMapping("setor")
+@RequestMapping("setor/")
 public class SetorController {
 
     @Autowired
@@ -31,22 +31,22 @@ public class SetorController {
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/remover")
-    public String remover(@PathVariable String codigo) {
-        setorService.removerSetor(codigo);
+    @DeleteMapping("/remover/{id}")
+    public String remover(@PathVariable Long id) {
+        setorService.removerSetor(id);
 
         return "Setor removido";
     }
 
-    @GetMapping("/obter/{id}")
+    @GetMapping("/obter/{codigo}")
     public ResponseEntity<SetorDTO> obter(@PathVariable String codigo){
         Setor setor = setorService.obterSetor(codigo);
         return new ResponseEntity<>(SetorDTO.converter(setor), HttpStatus.OK);
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<SetorDTO>> listar(){
-        List<Setor> setores = setorService.listarSetores();
+    @GetMapping("/listar/{armazem_id}")
+    public ResponseEntity<List<SetorDTO>> listar(@PathVariable Long armazem_id){
+        List<Setor> setores = setorService.lista(armazem_id);
         return new ResponseEntity<>(SetorDTO.converterLista(setores), HttpStatus.OK);
     }
 

@@ -35,7 +35,7 @@ public class LoteUnitTest {
             .codigoDoProduto(123)
             .nome("carne")
             .preco(new BigDecimal(60))
-            .dataDeValidadae(LocalDate.now()).build();
+            .build();
 
 
    Lote lote = Lote.builder()

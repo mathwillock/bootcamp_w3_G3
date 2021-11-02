@@ -5,9 +5,7 @@ package com.bootcamp_w3_g3.model.entity;
  */
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,6 +16,7 @@ import javax.persistence.OneToOne;
 public class Itens {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @OneToOne

@@ -3,10 +3,17 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.model.entity.Itens;
 import com.bootcamp_w3_g3.repository.ItensRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ *
+ * @author Alex Cruz
+ */
+
+@Service
 public class ItensService {
 
     private ItensRepository itensRepository;

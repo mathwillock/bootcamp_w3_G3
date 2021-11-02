@@ -30,7 +30,13 @@ public class ProdutoService {
     @Transactional
     public Produto salvar(Produto produto) { return produtoRepository.save(produto); }
 
-    public Produto obter(Integer codigo) { return produtoRepository.findByCodigoDoProduto(codigo); }
+    public Produto obter(Integer codigo) {
+        Produto produto = produtoRepository.findByCodigoDoProduto(codigo);
+        if (produto != null){
+            return produto;
+        }
+        throw  new EntityNotFoundException("");
+    }
 
     public List<Produto> listar() {
         return produtoRepository.findAll();

@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.model.entity.Comprador;
+import com.bootcamp_w3_g3.repository.CompradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class CompradorService {
     }
 
     public Comprador atualizar(Comprador comprador) {
-        Comprador compradorEdited = compradoRepository.findByUsuario(comprador.getUsuario());
+        Comprador compradorEdited = compradorRepository.findByUsuario(comprador.getUsuario());
         compradorEdited.setUsuario(comprador.getUsuario());
         compradorEdited.setSenha(comprador.getSenha());
 

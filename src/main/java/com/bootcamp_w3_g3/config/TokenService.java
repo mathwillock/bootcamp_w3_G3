@@ -1,4 +1,4 @@
-package com.bootcamp_w3_g3.service;
+package com.bootcamp_w3_g3.config;
 
 import com.bootcamp_w3_g3.model.entity.Usuario;
 import io.jsonwebtoken.Claims;

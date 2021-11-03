@@ -34,7 +34,6 @@ public class CarrinhoService {
 
     public Carrinho atualizar(Carrinho carrinho) {
         Carrinho carrinhoEdited = carrinhoRepository.getById(carrinho.getId());
-        carrinhoEdited.setCodigoComprador(carrinho.getCodigoComprador());
         carrinhoEdited.setDataDeOrdem(carrinho.getDataDeOrdem());
         carrinhoEdited.setItensList(carrinho.getItensList());
         carrinhoEdited.setStatusCompra(carrinho.getStatusCompra());

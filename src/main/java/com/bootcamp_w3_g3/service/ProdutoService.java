@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,12 @@ public class ProdutoService {
         if (produto != null){
             return produto;
         }
-        throw  new EntityNotFoundException("");
+        throw  new EntityNotFoundException("produto não encontrado");
+    }
+
+
+    public Produto obterPorCategoria(String tipoDeProduto){
+        return produtoRepository.findAllByTipoProduto(tipoDeProduto);
     }
 
     public List<Produto> listar() {

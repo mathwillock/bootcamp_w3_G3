@@ -17,6 +17,7 @@ import java.util.List;
  * Bem como aplicar camada dde regra de negócios neccessária.
  *
  * @author Alex Cruz
+ * @autor Joaquim Borges
  */
 
 @Service

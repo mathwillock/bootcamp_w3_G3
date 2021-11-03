@@ -1,19 +1,17 @@
 package com.bootcamp_w3_g3.service;
 
 
-/**
- * @author Matheus Willock
+/*
+  @author Matheus Willock
  */
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.repository.ArmazemRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@NoArgsConstructor
 @Service
 public class ArmazemService {
 

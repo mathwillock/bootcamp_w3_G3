@@ -36,6 +36,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/lote/salvar").authenticated()
                 .antMatchers(HttpMethod.GET, "/setor/obter/*").authenticated()
                 .antMatchers(HttpMethod.GET, "/setor/listar/*").authenticated()
+                .antMatchers(HttpMethod.POST, "/carrinho/salvar").authenticated()
                 .anyRequest().permitAll()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

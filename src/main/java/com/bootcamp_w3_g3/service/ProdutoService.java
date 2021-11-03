@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +16,7 @@ import java.util.List;
  * Bem como aplicar camada dde regra de negócios neccessária.
  *
  * @author Alex Cruz
+ * @autor Joaquim Borges
  */
 
 @Service

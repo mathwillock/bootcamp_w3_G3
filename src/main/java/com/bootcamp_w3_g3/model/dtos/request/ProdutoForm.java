@@ -24,7 +24,7 @@ public class ProdutoForm {
 
     private Integer codigoDoProduto;
     private String nome;
-    private BigDecimal preco;
+    private Double preco;
     private Double temperaturaIndicada;
 
     /**

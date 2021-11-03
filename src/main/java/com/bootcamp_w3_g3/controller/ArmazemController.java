@@ -44,4 +44,25 @@ public class ArmazemController {
 
     }
 
+
+    @GetMapping("/obter/{codigo}")
+    public ResponseEntity<ArmazemDTO> obterArmazem(@PathVariable String codigo) {
+        Armazem armazem = armazemService.obterArmazem(codigo);
+
+        return new ResponseEntity<>(ArmazemDTO.converter(armazem), HttpStatus.OK);
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<ArmazemDTO> atualizarArmazem(@RequestBody ArmazemForm armazemForm) {
+        Armazem armazem = armazemService.atualizarArmazem(armazemForm.converte(representanteService));
+
+
+        return new ResponseEntity<>(ArmazemDTO.converter(armazem), HttpStatus.OK);
+    }
+
+
+
+
+
+
 }

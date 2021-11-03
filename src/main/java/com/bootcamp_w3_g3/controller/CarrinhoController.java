@@ -47,5 +47,13 @@ public class CarrinhoController {
         Carrinho carrinho = carrinhoService.atualizar(carrinhoForm.converte(produtoService, compradorService));
         return new ResponseEntity<>(carrinho, HttpStatus.OK);
     }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Carrinho> atualizarPedido(@RequestBody CarrinhoForm carrinhoForm, @PathVariable Long id){
+        Carrinho carrinho = carrinhoService
+                .alterarPedido(carrinhoForm.converte(produtoService, compradorService), id);
+        return new ResponseEntity<>(carrinho, HttpStatus.OK);
+    }
+
 }
 

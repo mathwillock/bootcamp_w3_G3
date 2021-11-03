@@ -1,4 +1,4 @@
-package com.bootcamp_w3_g3.service;
+package com.bootcamp_w3_g3.config;
 
 import com.bootcamp_w3_g3.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.bootcamp_w3_g3.controller;
 
 import com.bootcamp_w3_g3.model.dtos.request.UsuarioForm;
 import com.bootcamp_w3_g3.model.dtos.response.TokenDTO;
-import com.bootcamp_w3_g3.service.TokenService;
+import com.bootcamp_w3_g3.config.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

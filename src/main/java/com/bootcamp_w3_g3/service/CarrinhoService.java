@@ -1,5 +1,6 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Carrinho;
 import com.bootcamp_w3_g3.model.entity.Itens;
 import com.bootcamp_w3_g3.model.entity.Produto;
@@ -43,6 +44,11 @@ public class CarrinhoService {
         return carrinhoRepository.save(carrinhoEdited);
     }
 
+    /**
+     *metodo calcula os itens contidos
+     * no carrinho e retorna o valor total.
+     * @autor Joaquim Borges
+     */
     public BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
         double valorTotal = 0.0;
         for (Itens item : carrinho.getItensList()) {
@@ -51,7 +57,10 @@ public class CarrinhoService {
         return new BigDecimal(valorTotal);
     }
 
+
     /**
+     * metodo para exibir todos os produtos
+     * existentes em um determinado pedido.
      * @autor Joaquim Borges
      */
 
@@ -63,6 +72,29 @@ public class CarrinhoService {
         }
         return produtosDoPedido;
     }
+
+
+    /**
+     * metodo permite alterar os dados de
+     * um pedido específico.
+     * @autor Joaquim Borges
+     */
+    public Carrinho alterarPedido(Carrinho carrinho, Long id) {
+        try {
+            Carrinho carrinhoEncontrado = carrinhoRepository.getById(id);
+            if (carrinhoEncontrado != null){
+                carrinhoEncontrado.setItensList(carrinho.getItensList());
+                carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
+                carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
+            }
+            return carrinhoEncontrado;
+
+        }catch (Exception e){
+            throw new EntityNotFoundException("pedido não encontrado");
+        }
+    }
+
+
 
 
 

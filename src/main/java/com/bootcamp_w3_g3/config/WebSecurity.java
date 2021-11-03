@@ -1,8 +1,6 @@
 package com.bootcamp_w3_g3.config;
 
 import com.bootcamp_w3_g3.repository.UsuarioRepository;
-import com.bootcamp_w3_g3.service.AutenticacaoService;
-import com.bootcamp_w3_g3.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,11 +1,11 @@
 package com.bootcamp_w3_g3.service;
 
-import com.bootcamp_w3_g3.model.entity.Carrinho;
-import com.bootcamp_w3_g3.model.entity.Comprador;
+import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.CarrinhoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +24,47 @@ public class CarrinhoUnitTest{
     CarrinhoRepository carrinhoRepository = Mockito.mock(CarrinhoRepository.class);
 
     Carrinho carrinho  = Carrinho.builder()
-            .usuario("Alex")
-            .senha("123456789")
+            .codigo("12345")
+            .dataDeOrdem(LocalDate.now())
+            .statusCompra(StatusCompra.PENDENTE)
             .build();
 
     Carrinho carrinho2  = Carrinho.builder()
-            .usuario("Alex2")
-            .senha("123456789")
+            .codigo("23423")
+            .dataDeOrdem(LocalDate.now())
+            .statusCompra(StatusCompra.CONCLUIDO)
+            .build();
+
+    Produto produto = Produto.builder()
+            .codigoDoProduto(25)
+            .nome("Batata Doce")
+            .preco(12.69)
+            .temperaturaIndicada(18.5)
+            .tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
+
+    Produto produto2 = Produto.builder()
+            .codigoDoProduto(25)
+            .nome("Batata Doce")
+            .preco(12.69)
+            .temperaturaIndicada(18.5)
+            .tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
+    Itens item = Itens.builder()
+            .produto(produto)
+            .quantidade(25)
+            .build();
+
+    Itens item2 = Itens.builder()
+            .produto(produto2)
+            .quantidade(10)
             .build();
 
     List<Carrinho> carrinhoList = new ArrayList<>();
+
+    List<Itens> itensList = new ArrayList<>();
 
     @Test
     void salvarCarrinhoTest(){
@@ -64,10 +95,11 @@ public class CarrinhoUnitTest{
 
     @Test
     void atualizarCarrinhoTest(){
-        carrinho.setId(22222L);
-        carrinho.setCodigo("25");
-        carrinho.setTelefone("777777777");
-        carrinho.setEndereco("Rua A");
+        itensList.add(item);
+        itensList.add(item2);
+        carrinho.setDataDeOrdem(LocalDate.now());
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(StatusCompra.CANCELADO);
         Mockito.when(carrinhoRepository.getByCodigo(Mockito.any(String.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
@@ -77,8 +109,7 @@ public class CarrinhoUnitTest{
         Mockito.verify(carrinhoRepository, Mockito.times(1)).getByCodigo(carrinho.getCodigo());
         Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
 
-        assertNotNull(carrinhoAtualizado);
-        assertEquals(carrinhoAtualizado.getUsuario(), carrinho.getUsuario()getTelefone());
+        assertEquals(carrinhoAtualizado.getStatusCompra(), carrinho.getStatusCompra());
 
     }
 }

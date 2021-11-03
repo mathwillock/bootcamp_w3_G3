@@ -23,6 +23,8 @@ public class Itens {
     private Produto produto;
     private Integer quantidade;
 
-
-
+    public Itens(Produto produto, Integer quantidade) {
+        this.produto = produto;
+        this.quantidade = quantidade;
+    }
 }

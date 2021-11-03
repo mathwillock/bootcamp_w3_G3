@@ -26,6 +26,10 @@ public class CompradorService {
     @Transactional
     public Comprador salvar(Comprador comprador) { return compradorRepository.save(comprador); }
 
+    public Comprador obter(String usuario) {
+        return compradorRepository.findByUsuario(usuario);
+    }
+
     public List<Comprador> listar() {
         return compradorRepository.findAll();
     }

@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class Carrinho {
     private StatusCompra statusCompra;
 
     @OneToMany
-    private List<Itens> itensList;
+    private List<Itens> itensList = new ArrayList<>();
     private String codigoComprador;
 
 }

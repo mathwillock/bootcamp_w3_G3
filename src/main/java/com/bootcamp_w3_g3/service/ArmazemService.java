@@ -1,19 +1,18 @@
 package com.bootcamp_w3_g3.service;
 
 
-/**
- * @author Matheus Willock
+/*
+  @author Matheus Willock
  */
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.repository.ArmazemRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@NoArgsConstructor
 @Service
 public class ArmazemService {
 
@@ -34,12 +33,13 @@ public class ArmazemService {
     }
 
     public Armazem obterArmazem(String cod) {
-        return armazemRepository.findByCodArmazem(cod);
-    }
+       Armazem armazem = armazemRepository.findByCodArmazem(cod);
+       if (armazem != null){
+           return armazem;
+       } else{
+           throw new EntityNotFoundException("armazem não encontrado");
+       }
 
-    public Armazem deletarArmazem(Long id){
-        armazemRepository.deleteById(id);
-        return null;
     }
 
     public Armazem atualizarArmazem(Armazem armazem) {
@@ -66,6 +66,7 @@ public class ArmazemService {
         }
         return null;
     }
+
 
 
 }

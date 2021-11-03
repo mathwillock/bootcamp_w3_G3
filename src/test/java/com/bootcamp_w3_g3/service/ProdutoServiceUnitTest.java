@@ -27,13 +27,13 @@ public class ProdutoServiceUnitTest {
     Produto produto = Produto.builder()
             .codigoDoProduto(123)
             .nome("carne")
-            .preco(new BigDecimal(60))
+            .preco(60.0)
             .build();
 
     Produto produto2 = Produto.builder()
             .codigoDoProduto(123)
             .nome("Arroz")
-            .preco(new BigDecimal(60))
+            .preco(60.0)
             .build();
 
 
@@ -82,7 +82,7 @@ public class ProdutoServiceUnitTest {
 
     @Test
     void atualizarTest(){
-        produto.setPreco(new BigDecimal("15.05"));
+        produto.setPreco(15.05);
         produto.setTemperaturaIndicada(15.00);
         Mockito.when(produtoRepository.findByCodigoDoProduto(Mockito.any(Integer.class))).thenReturn(produto);
         Mockito.when(produtoRepository.save(Mockito.any(Produto.class))).thenReturn(produto);
@@ -106,7 +106,7 @@ public class ProdutoServiceUnitTest {
         produtoService = new ProdutoService(produtoRepository);
         Produto deletado = produtoService.apagar(produto.getId());
 
-        Mockito.verify(produtoRepository, Mockito.times(1)).deleteProdutosByCodigoDoProduto(produto.getCodigoDoProduto());
+        Mockito.verify(produtoRepository, Mockito.times(1)).deleteById(produto.getId());
 
         assertNotEquals(deletado, produto);
     }

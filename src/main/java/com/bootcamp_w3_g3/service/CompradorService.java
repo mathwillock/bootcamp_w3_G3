@@ -1,12 +1,12 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Comprador;
 import com.bootcamp_w3_g3.repository.CompradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  *
@@ -26,8 +26,12 @@ public class CompradorService {
     @Transactional
     public Comprador salvar(Comprador comprador) { return compradorRepository.save(comprador); }
 
-    public List<Comprador> listar() {
-        return compradorRepository.findAll();
+    public Comprador obter(String usuario) {
+        try {
+            return compradorRepository.findByUsuario(usuario);
+        }catch (EntityNotFoundException e){
+            throw new EntityNotFoundException("comprador não encontrado");
+        }
     }
 
     public Comprador atualizar(Comprador comprador) {

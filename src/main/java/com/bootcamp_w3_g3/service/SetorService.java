@@ -31,10 +31,6 @@ public class SetorService {
         return setorRepository.save(setor);
     }
 
-//    public Setor get(Long id){
-//        Optional<Setor> setorOp = this.setorRepository.findById(id);
-//        return setorOp.get();
-//    }
 
     public Setor obterSetor(String codigo){
        Setor setor = setorRepository.findByCodigo(codigo);

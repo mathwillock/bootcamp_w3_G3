@@ -37,11 +37,6 @@ public class ArmazemService {
         return armazemRepository.findByCodArmazem(cod);
     }
 
-    public Armazem deletarArmazem(Long id){
-        armazemRepository.deleteById(id);
-        return null;
-    }
-
     public Armazem atualizarArmazem(Armazem armazem) {
         Armazem editedArmazem = armazemRepository.findByCodArmazem(armazem.getCodArmazem());
 
@@ -66,6 +61,7 @@ public class ArmazemService {
         }
         return null;
     }
+
 
 
 }

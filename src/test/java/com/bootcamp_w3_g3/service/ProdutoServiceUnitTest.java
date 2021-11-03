@@ -1,15 +1,13 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,16 +22,19 @@ public class ProdutoServiceUnitTest {
     ProdutoService produtoService;
 
     ProdutoRepository produtoRepository = Mockito.mock(ProdutoRepository.class);
+
     Produto produto = Produto.builder()
             .codigoDoProduto(123)
             .nome("carne")
             .preco(60.0)
+            .tipoProduto(TipoProduto.CONGELADOS)
             .build();
 
     Produto produto2 = Produto.builder()
             .codigoDoProduto(123)
             .nome("Arroz")
             .preco(60.0)
+            .tipoProduto(TipoProduto.FRESCOS)
             .build();
 
 
@@ -63,6 +64,20 @@ public class ProdutoServiceUnitTest {
                 .findByCodigoDoProduto(produto.getCodigoDoProduto());
 
         assertEquals(obtido.getPreco(), produto.getPreco());
+    }
+
+    @Test
+    void listarPorCategoriaTest(){
+        produtosList.add(produto);
+        produtosList.add(produto2);
+        Mockito.when(produtoRepository.findAllByTipoProduto(Mockito.any(TipoProduto.class))).thenReturn(produtosList);
+
+        produtoService = new ProdutoService(produtoRepository);
+        List<Produto> tipoProdutoRetornado = produtoService.listarPorCategoria(produto.getTipoProduto());
+
+        Mockito.verify(produtoRepository, Mockito.times(1)).findAllByTipoProduto(produto.getTipoProduto());
+
+        assertEquals(tipoProdutoRetornado.size(),produtosList.size());
     }
 
     @Test

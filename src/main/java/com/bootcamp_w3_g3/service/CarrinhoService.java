@@ -51,6 +51,9 @@ public class CarrinhoService {
         return new BigDecimal(valorTotal);
     }
 
+    /**
+     * @autor Joaquim Borges
+     */
 
     public List<Produto> mostrarProdutosDoPedido(Long idCarrinho){
         List<Produto> produtosDoPedido = new ArrayList<>();

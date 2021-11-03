@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.SetorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,6 @@ public class SetorService {
         return setorRepository.save(setor);
     }
 
-    public Setor get(Long id){
-        Optional<Setor> setorOp = this.setorRepository.findById(id);
-        return setorOp.get();
-    }
 
     public Setor obterSetor(String codigo){
        Setor setor = setorRepository.findByCodigo(codigo);
@@ -48,8 +45,8 @@ public class SetorService {
     }
 
 
-    public List<Setor> lista(Long armazemId){
-        return this.setorRepository.findByArmazem_Id(armazemId);
+    public Armazem retornaArmazem(String codigo){
+       return setorRepository.findByCodigo(codigo).getArmazem();
     }
 
     public Setor atualizarSetor(Setor setor){

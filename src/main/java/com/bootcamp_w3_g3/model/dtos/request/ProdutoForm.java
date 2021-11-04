@@ -28,6 +28,7 @@ public class ProdutoForm {
     private Double preco;
     private Double temperaturaIndicada;
     private TipoProduto tipoProduto;
+    private Integer numeroDoLote;
 
     /**
      *

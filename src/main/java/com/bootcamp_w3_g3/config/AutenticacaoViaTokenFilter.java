@@ -2,7 +2,6 @@ package com.bootcamp_w3_g3.config;
 
 import com.bootcamp_w3_g3.model.entity.Usuario;
 import com.bootcamp_w3_g3.repository.UsuarioRepository;
-import com.bootcamp_w3_g3.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

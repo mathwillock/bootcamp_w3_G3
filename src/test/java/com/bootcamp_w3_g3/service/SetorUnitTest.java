@@ -4,6 +4,7 @@ import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.SetorRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -125,5 +126,23 @@ public class SetorUnitTest {
 
         assertNotEquals(deletado,setor1);
     }
+
+
+    @Test
+    void obterArmazemtest() {
+        Mockito.when(setorRepository.findByCodigo(Mockito.any(String.class))).thenReturn(setor1);
+
+        setorService = new SetorService(setorRepository);
+        Setor setorObtido = setorService.obterSetor(setor1.getCodigo());
+
+        Armazem armazem = setorService.retornaArmazem(setor1.getArmazem().getCodArmazem());
+
+       assertEquals(armazem1, armazem);
+
+    }
+
+
+
+
 
 }

@@ -29,7 +29,10 @@ public class CarrinhoService {
     }
 
     @Transactional
-    public Carrinho salvar(Carrinho carrinho) { return carrinhoRepository.save(carrinho); }
+    public BigDecimal registrarPedido(Carrinho carrinho) {
+        Carrinho carrinhoSalvo = carrinhoRepository.save(carrinho);
+         return retornaPrecoDosItens(carrinhoSalvo);
+    }
 
     public List<Carrinho> listar() {
         return carrinhoRepository.findAll();
@@ -49,7 +52,7 @@ public class CarrinhoService {
      * no carrinho e retorna o valor total.
      * @autor Joaquim Borges
      */
-    public BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
+    private BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
         double valorTotal = 0.0;
         for (Itens item : carrinho.getItensList()) {
             valorTotal += item.getProduto().getPreco() * item.getQuantidade();

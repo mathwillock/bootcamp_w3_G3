@@ -2,6 +2,7 @@ package com.bootcamp_w3_g3.controller;
 
 import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.service.ProdutoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -49,16 +50,14 @@ public class ProdutoIntegrationTest {
                 .build();
     }
 
-    private ProdutoForm PersisteProduto(ProdutoForm produtoForm) {
+    private void persisteProduto(ProdutoForm produtoForm) {
         Produto novoProduto = Produto.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
                 .nome(produtoForm.getNome())
+                .tipoProduto(produtoForm.getTipoProduto())
+                .temperaturaIndicada(produtoForm.getTemperaturaIndicada())
                 .build();
         this.produtoService.salvar(novoProduto);
-        return ProdutoForm.builder()
-                .codigoDoProduto(novoProduto.getCodigoDoProduto())
-                .temperaturaIndicada(null)
-                .preco(60.0).build();
     }
 
     private Produto converte(ProdutoForm produtoForm) {
@@ -98,7 +97,7 @@ public class ProdutoIntegrationTest {
                 .temperaturaIndicada(16.0)
                 .build();
 
-        this.PersisteProduto(produto);
+        this.persisteProduto(produto);
 
         this.mockMvc.perform(get("http://localhost:8080/produtos/obter/" + produto.getCodigoDoProduto()))
                 .andExpect(status().isOk());
@@ -114,7 +113,7 @@ public class ProdutoIntegrationTest {
     void deveAlterarDadosDeUmProduto() throws Exception {
         ProdutoForm produto = this.payloadProduto();
 
-        this.PersisteProduto(produto);
+        this.persisteProduto(produto);
 
         ProdutoForm produtoAlterado = ProdutoForm.builder()
                 .codigoDoProduto(1234)
@@ -146,4 +145,26 @@ public class ProdutoIntegrationTest {
         this.mockMvc.perform(delete("http://localhost:8080/produtos/deletar/" + produto.getId()))
                 .andExpect(status().isOk());
     }
+
+    /**
+     * teste deve listar todos os produtos da mesma
+     * categoria
+     * @autor Joaquim Borges
+     */
+    @Test
+    void deveListarProdutosPorCategoria() throws Exception {
+        ProdutoForm produto = ProdutoForm.builder()
+                .codigoDoProduto(4679)
+                .tipoProduto(TipoProduto.CONGELADOS)
+                .nome("sorvete")
+                .preco(30.0)
+                .temperaturaIndicada(12.2).build();
+
+        this.persisteProduto(produto);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/listar/" + produto.getTipoProduto()))
+                .andExpect(status().isOk());
+    }
+
+
 }

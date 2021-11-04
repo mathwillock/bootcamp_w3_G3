@@ -34,6 +34,10 @@ public class CarrinhoService {
          return retornaPrecoDosItens(carrinhoSalvo);
     }
 
+    public Carrinho salvar(Carrinho carrinho){
+        return carrinhoRepository.save(carrinho);
+    }
+
     public List<Carrinho> listar() {
         return carrinhoRepository.findAll();
     }

@@ -77,7 +77,7 @@ public class OrdemDeEntradaService {
      * a categoria de produto que esta sendo enviado na ordem de entrada
      */
 
-    private boolean setorCorrespondeAoTipoDeProduto(String tipoDeProduto) {
+    private boolean setorCorrespondeAoTipoDeProduto(TipoProduto tipoDeProduto) {
         for (Setor setor : setorService.listarSetores()) {
             if (setor.getTipoProduto()!=null && setor.getTipoProduto().equals(tipoDeProduto)) {
                 return true;

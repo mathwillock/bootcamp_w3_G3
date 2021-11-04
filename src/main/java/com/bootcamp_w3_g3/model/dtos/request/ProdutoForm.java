@@ -1,7 +1,9 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
+import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
+import com.bootcamp_w3_g3.service.LoteService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,12 +38,14 @@ public class ProdutoForm {
      *
      * @return produto
      */
-    public Produto convert(){
+    public Produto convert(LoteService loteService){
+        Lote lote = loteService.obter(this.numeroDoLote);
         return Produto.builder()
                 .codigoDoProduto(codigoDoProduto)
                 .nome(nome)
                 .preco(preco)
                 .temperaturaIndicada(temperaturaIndicada)
-                .tipoProduto(tipoProduto).build();
+                .tipoProduto(tipoProduto)
+                .lote(lote).build();
     }
 }

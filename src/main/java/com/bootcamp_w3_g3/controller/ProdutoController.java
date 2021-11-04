@@ -5,6 +5,7 @@ import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import com.bootcamp_w3_g3.service.CarrinhoService;
+import com.bootcamp_w3_g3.service.LoteService;
 import com.bootcamp_w3_g3.service.ProdutoService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,16 @@ public class ProdutoController {
     @Autowired
     private CarrinhoService carrinhoService;
 
+    @Autowired
+    private LoteService loteService;
+
     /**
      * Create do CRUD
      * @return ProdutoDTO
      */
     @PostMapping(value = "/cadastra")
     public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoForm produtoForm) {
-       Produto produto = produtoService.salvar(produtoForm.convert());
+       Produto produto = produtoService.salvar(produtoForm.convert(loteService));
        return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.CREATED);
     }
 
@@ -60,7 +64,7 @@ public class ProdutoController {
     @PutMapping("/alterar")
     public ResponseEntity<ProdutoDTO> alterar(@RequestBody ProdutoForm produtoForm)
     {
-        Produto produto = produtoService.atualizar(produtoForm.convert());
+        Produto produto = produtoService.atualizar(produtoForm.convert(loteService));
         return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
     }
 

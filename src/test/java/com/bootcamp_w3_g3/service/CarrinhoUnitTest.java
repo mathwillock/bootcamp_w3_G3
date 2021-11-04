@@ -66,8 +66,13 @@ public class CarrinhoUnitTest{
 
     List<Itens> itensList = new ArrayList<>();
 
+
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
     @Test
-    void salvarCarrinhoTest(){
+    void salvarTest(){
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
         carrinhoService = new CarrinhoService(carrinhoRepository);
@@ -78,8 +83,12 @@ public class CarrinhoUnitTest{
         assertNotNull(salvo);
     }
 
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
     @Test
-    void listarCarrinhoTest(){
+    void listarTest(){
         carrinhoList.add(carrinho);
         carrinhoList.add(carrinho2);
         Mockito.when(carrinhoRepository.findAll()).thenReturn(carrinhoList);
@@ -93,8 +102,12 @@ public class CarrinhoUnitTest{
 
     }
 
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
     @Test
-    void atualizarCarrinhoTest(){
+    void atualizarTest(){
         itensList.add(item);
         itensList.add(item2);
         carrinho.setDataDeOrdem(LocalDate.now());

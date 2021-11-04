@@ -67,7 +67,7 @@ public class CarrinhoService {
      * no carrinho e retorna o valor total.
      * @autor Joaquim Borges
      */
-    private BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
+    public BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
         double valorTotal = 0.0;
         for (Itens item : carrinho.getItensList()) {
             valorTotal += item.getProduto().getPreco() * item.getQuantidade();
@@ -75,13 +75,11 @@ public class CarrinhoService {
         return new BigDecimal(valorTotal);
     }
 
-
     /**
      * metodo para exibir todos os produtos
      * existentes em um determinado pedido.
      * @autor Joaquim Borges
      */
-
     public List<Produto> mostrarProdutosDoPedido(Long idCarrinho){
         List<Produto> produtosDoPedido = new ArrayList<>();
         Carrinho carrinho = carrinhoRepository.getById(idCarrinho);
@@ -90,7 +88,6 @@ public class CarrinhoService {
         }
         return produtosDoPedido;
     }
-
 
     /**
      * metodo permite alterar os dados de
@@ -113,12 +110,11 @@ public class CarrinhoService {
         }
     }
 
-
     /**
      *metodo auxiliar para verificar a validade do produto
      * @autor Joaquim Borges
      */
-    private boolean produtoVencido(Produto produto){
+    public boolean produtoVencido(Produto produto){
         Lote loteDoProduto = loteService.obter(produto.getLote().getNumero());
         long dias = ChronoUnit.DAYS
                 .between(loteDoProduto.getDataDeFabricacao(), loteDoProduto.getDataDeValidade());

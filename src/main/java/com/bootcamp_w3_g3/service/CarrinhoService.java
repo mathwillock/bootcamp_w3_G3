@@ -86,6 +86,7 @@ public class CarrinhoService {
                 carrinhoEncontrado.setItensList(carrinho.getItensList());
                 carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
                 carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
+                carrinhoRepository.save(carrinhoEncontrado);
             }
             return carrinhoEncontrado;
 

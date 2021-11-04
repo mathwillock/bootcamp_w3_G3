@@ -5,12 +5,12 @@ import com.bootcamp_w3_g3.repository.CarrinhoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Criado teste unitário referente a classe carrinhoService.
@@ -46,8 +46,8 @@ public class CarrinhoUnitTest{
 
     Produto produto2 = Produto.builder()
             .codigoDoProduto(25)
-            .nome("Batata Doce")
-            .preco(12.69)
+            .nome("Alface")
+            .preco(2.69)
             .temperaturaIndicada(18.5)
             .tipoProduto(TipoProduto.FRESCOS)
             .build();
@@ -110,6 +110,77 @@ public class CarrinhoUnitTest{
         Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
 
         assertEquals(carrinhoAtualizado.getStatusCompra(), carrinho.getStatusCompra());
+
+    }
+
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
+    @Test
+    void retornaPrecoDosItensTest(){
+        itensList.add(item2);
+        carrinho.setItensList(itensList);
+        Double valorEsperado = 0.00;
+        for(Itens item : carrinho.getItensList()){
+            valorEsperado += item.getProduto().getPreco() * item.getQuantidade();
+        }
+
+        carrinhoService = new CarrinhoService(carrinhoRepository);
+        BigDecimal valotTotal = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        assertNotNull(valotTotal);
+        assertEquals(new BigDecimal(valorEsperado), valotTotal);
+    }
+
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
+    @Test
+    void mostrarProdutosDoPedidoTest(){
+        List<Produto> produtoDoPedido = new ArrayList<>();
+        itensList.add(item);
+        itensList.add(item2);
+        carrinho.setItensList(itensList);
+        carrinho.setId(34234L);
+        for (Itens itens : itensList) {
+            produtoDoPedido.add(itens.getProduto());
+        }
+
+        Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository);
+        List<Produto> listaDeProdutosRetornada = carrinhoService.mostrarProdutosDoPedido(carrinho.getId());
+
+        Mockito.verify(carrinhoRepository,Mockito.times(1)).getById(carrinho.getId());
+
+        assertNotNull(listaDeProdutosRetornada);
+        assertEquals(produtoDoPedido.size(),listaDeProdutosRetornada.size());
+    }
+
+    /**
+     * Criado teste unitário de método que atende ao requisito 2
+     * @autor Alex Cruz
+     */
+    @Test
+    void alterarPedidoTest(){
+        itensList.add(item);
+        itensList.add(item2);
+        carrinho.setId(34234L);
+        carrinho.setDataDeOrdem(LocalDate.now());
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(StatusCompra.CANCELADO);
+        Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository);
+        Carrinho carrinhoAlterado = carrinhoService.alterarPedido(carrinho, carrinho.getId());
+
+        Mockito.verify(carrinhoRepository, Mockito.times(1)).getById(carrinho.getId());
+        Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
+
+        assertEquals(carrinhoAlterado.getStatusCompra(), carrinho.getStatusCompra());
 
     }
 }

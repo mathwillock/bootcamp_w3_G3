@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -30,10 +31,10 @@ public class CarrinhoController {
 
 
 
-    @PostMapping("/salvar")
-    public ResponseEntity<Carrinho> cadastrar(@RequestBody CarrinhoForm carrinhoForm) {
-        Carrinho carrinho = carrinhoService.salvar(carrinhoForm.converte(produtoService, compradorService));
-        return new ResponseEntity<>(carrinho, HttpStatus.CREATED);
+    @PostMapping("/registrar")
+    public ResponseEntity<BigDecimal> registrarPedido(@RequestBody CarrinhoForm carrinhoForm) {
+        return new ResponseEntity<>(carrinhoService.registrarPedido(carrinhoForm
+                        .converte(produtoService, compradorService)), HttpStatus.CREATED);
     }
 
     @GetMapping("/listar")

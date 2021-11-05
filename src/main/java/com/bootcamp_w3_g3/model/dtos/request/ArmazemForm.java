@@ -3,7 +3,6 @@ package com.bootcamp_w3_g3.model.dtos.request;
 import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.service.RepresentanteService;
-import com.bootcamp_w3_g3.service.SetorService;
 import lombok.*;
 
 

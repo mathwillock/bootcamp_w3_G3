@@ -2,7 +2,10 @@ package com.bootcamp_w3_g3.controller;
 import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.dtos.response.ProdutoDTO;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
+import com.bootcamp_w3_g3.service.CarrinhoService;
+import com.bootcamp_w3_g3.service.LoteService;
 import com.bootcamp_w3_g3.service.ProdutoService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
- * @author: Marcelo de Oliveira Santos
+ * @author Marcelo de Oliveira Santos
  *
  * @implNote Nao serao criados somente para retorno.
  */
@@ -25,6 +29,10 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    @Autowired
+    private CarrinhoService carrinhoService;
+
 
     /**
      * Create do CRUD
@@ -76,7 +84,26 @@ public class ProdutoController {
     @GetMapping("/listar")
     public ResponseEntity<List<ProdutoDTO>> listar()
     {
-        List<Produto> produtos = produtoService.listar();
-        return new ResponseEntity<>(ProdutoDTO.convert(produtos), HttpStatus.OK);
+        try {
+            List<Produto> produtos = produtoService.listar();
+            return new ResponseEntity<>(ProdutoDTO.convert(produtos), HttpStatus.OK);
+        } catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/listar/{categoria}")
+    public ResponseEntity<List<Produto>> listarPorCategoria(@PathVariable TipoProduto categoria){
+        try {
+            return new ResponseEntity<>(produtoService.listarPorCategoria(categoria), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/carrinho/{idCarrinho}")
+    public ResponseEntity<List<Produto>> mostrarProdutosDoPedido(@PathVariable Long idCarrinho) {
+        return new ResponseEntity<>(carrinhoService.mostrarProdutosDoPedido(idCarrinho), HttpStatus.OK);
     }
 }

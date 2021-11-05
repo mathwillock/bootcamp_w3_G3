@@ -1,9 +1,8 @@
 package com.bootcamp_w3_g3.service;
 
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
-import com.bootcamp_w3_g3.model.entity.Produto;
-import com.bootcamp_w3_g3.model.entity.Setor;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,18 +28,23 @@ public class LoteService {
     @Autowired
     private SetorService setorService;
 
+    public LoteService(LoteRepository loteRepository) {
+        this.loteRepository = loteRepository;
+    }
+
 
     @Transactional
     public Lote salvar(Lote lote) {
-        Produto produto = this.produtoService.obter(lote.getProduto().getCodigoDoProduto());
-        Setor setor = this.setorService.obterSetor(lote.getSetor().getCodigo());
-        lote.setSetor(setor);
-        lote.setProduto(produto);
+
         return loteRepository.save(lote);
     }
 
     public Lote obter(Integer numeroDoLote) {
-        return loteRepository.findByNumero(numeroDoLote);
+        Lote lote = loteRepository.findByNumero(numeroDoLote);
+        if (lote != null){
+            return lote;
+        }
+        throw new EntityNotFoundException("lote não encontrado");
     }
 
     public List<Lote> listar() {

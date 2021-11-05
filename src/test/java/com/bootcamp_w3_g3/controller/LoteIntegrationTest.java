@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.controller;
 
 
+import com.bootcamp_w3_g3.BootcampW3G3Application;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.LoteRepository;
@@ -15,11 +16,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 
 
-
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.is;
@@ -30,15 +29,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Joaquim Borges
  */
 
-@SpringBootTest
+@SpringBootTest(classes = BootcampW3G3Application.class)
 @AutoConfigureMockMvc
 public class LoteIntegrationTest {
 
     @Autowired
+    private WebApplicationContext wac;
+    @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private LoteRepository loteRepository;
+
+
 
     private static ObjectMapper objectMapper;
 
@@ -58,7 +60,7 @@ public class LoteIntegrationTest {
         Produto produto = Produto.builder()
                 .codigoDoProduto(123)
                 .nome("carne")
-                .preco(new BigDecimal(60))
+                .preco(60.0)
                 .build();
 
         return Lote.builder()
@@ -74,7 +76,7 @@ public class LoteIntegrationTest {
         Produto produto = Produto.builder()
                 .codigoDoProduto(123)
                 .nome("carne")
-                .preco(new BigDecimal(60))
+                .preco(60.0)
                 .build();
 
         return    Lote.builder()

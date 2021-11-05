@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class LoteUnitTest {
     Produto produto = Produto.builder()
             .codigoDoProduto(123)
             .nome("carne")
-            .preco(new BigDecimal(60))
+            .preco(60.0)
             .build();
 
 

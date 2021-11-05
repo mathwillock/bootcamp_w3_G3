@@ -2,9 +2,6 @@ package com.bootcamp_w3_g3.model.dtos.response;
 
 import com.bootcamp_w3_g3.model.entity.Produto;
 import lombok.Getter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +16,13 @@ public class ProdutoDTO {
 
     private Integer codigoDoProduto;
     private String nome;
-    private BigDecimal preco;
+    private Double preco;
     private Double temperaturaIndicada;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(Integer codigoDoProduto, String nome, BigDecimal preco, Double temperaturaIndicada) {
+    public ProdutoDTO(Integer codigoDoProduto, String nome, Double preco, Double temperaturaIndicada) {
         this.codigoDoProduto = codigoDoProduto;
         this.nome = nome;
         this.preco = preco;

@@ -3,8 +3,6 @@ package com.bootcamp_w3_g3.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 /**
  *
@@ -26,8 +24,10 @@ public class Produto {
   
     private Integer codigoDoProduto;
     private String nome;
-    private BigDecimal preco;
+    private Double preco;
     private Double temperaturaIndicada;
+    private TipoProduto tipoProduto;
+    private Integer codLote;
 
 
 

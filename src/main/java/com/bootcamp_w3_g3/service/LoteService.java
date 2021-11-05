@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.Setor;
@@ -29,24 +30,32 @@ public class LoteService {
     @Autowired
     private SetorService setorService;
 
+
     @Autowired
     public LoteService(LoteRepository loteRepository) {
         this.loteRepository = loteRepository;
     }
 
+
     @Transactional
     public Lote salvar(Lote lote) {
+
 
         Integer numeroLote = lote.getNumero();
         lote.getProduto().setCodLote(numeroLote);
 
         lote.setSetor(lote.getSetor());
         lote.setProduto(lote.getProduto());
+
         return loteRepository.save(lote);
     }
 
     public Lote obter(Integer numeroDoLote) {
-        return loteRepository.findByNumero(numeroDoLote);
+        Lote lote = loteRepository.findByNumero(numeroDoLote);
+        if (lote != null){
+            return lote;
+        }
+        throw new EntityNotFoundException("lote não encontrado");
     }
 
     public List<Lote> listar() {

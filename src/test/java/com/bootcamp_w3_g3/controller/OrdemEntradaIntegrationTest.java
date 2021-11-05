@@ -69,7 +69,7 @@ public class OrdemEntradaIntegrationTest {
         return ProdutoForm.builder()
                 .codigoDoProduto(novoProduto.getCodigoDoProduto())
                 .temperaturaIndicada(null)
-                .preco(new BigDecimal(60)).build();
+                .preco(60.0).build();
     }
 
     private LoteForm payloadLote(LoteForm loteForm) {
@@ -193,7 +193,6 @@ public class OrdemEntradaIntegrationTest {
 
         String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaForm);
 
-        System.out.println(requestPayload);
         this.mockMvc.perform(post("http://localhost:8080/api/ordem-entrada/registrar")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestPayload))
@@ -232,13 +231,13 @@ public class OrdemEntradaIntegrationTest {
                         .nome("Setor de frescos")
                         .armazem(armazem)
                         .espacoDisponivel(40)
-                        .tipoProduto("FRESCOS")
+                        .tipoProduto(TipoProduto.FRESCOS)
                         .build());
 
         Produto produto = this.produtoService.salvar(
                 Produto.builder()
                         .codigoDoProduto(222)
-                        .preco(new BigDecimal(60))
+                        .preco(60.0)
                         .nome("picanha")
                         .temperaturaIndicada(12.1)
                         .build());

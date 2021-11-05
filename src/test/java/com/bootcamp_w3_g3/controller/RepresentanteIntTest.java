@@ -40,8 +40,41 @@ public class RepresentanteIntTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-123")
+                .codigo("R-1")
+                .nome("Pedro")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-2")
                 .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante3(){
+        return RepresentanteForm.builder()
+                .codigo("R-14")
+                .nome("Paulo")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante4(){
+        return RepresentanteForm.builder()
+                .codigo("R-83")
+                .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
                 .cpf("123.234.345-04")
@@ -94,7 +127,7 @@ public class RepresentanteIntTest {
 
     @Test
     void deveObterUmRepresentante() throws Exception {
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante2();
         this.persisteRepresentante(representanteForm);
 
         this.mockMvc.perform(get("http://localhost:8080/representante/obter/" + representanteForm.getCodigo()))
@@ -109,11 +142,11 @@ public class RepresentanteIntTest {
     @Test
     void deveAlterarDadosDoRepresentante() throws Exception {
 
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante3();
         this.persisteRepresentante(representanteForm);
 
         RepresentanteForm representanteAlterado = RepresentanteForm.builder()
-                .codigo("R-123")
+                .codigo("R-14")
                 .nome("Jose")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -137,7 +170,7 @@ public class RepresentanteIntTest {
 
     @Test
     void deveApagarUmRepresentante() throws Exception {
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante4();
         Representante representante = this.converte(representanteForm);
         this.representanteService.salvar(representante);
 

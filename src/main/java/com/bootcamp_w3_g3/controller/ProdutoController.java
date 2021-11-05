@@ -33,8 +33,6 @@ public class ProdutoController {
     @Autowired
     private CarrinhoService carrinhoService;
 
-    @Autowired
-    private LoteService loteService;
 
     /**
      * Create do CRUD
@@ -42,7 +40,7 @@ public class ProdutoController {
      */
     @PostMapping(value = "/cadastra")
     public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoForm produtoForm) {
-       Produto produto = produtoService.salvar(produtoForm.convert(loteService));
+       Produto produto = produtoService.salvar(produtoForm.convert());
        return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.CREATED);
     }
 
@@ -64,7 +62,7 @@ public class ProdutoController {
     @PutMapping("/alterar")
     public ResponseEntity<ProdutoDTO> alterar(@RequestBody ProdutoForm produtoForm)
     {
-        Produto produto = produtoService.atualizar(produtoForm.convert(loteService));
+        Produto produto = produtoService.atualizar(produtoForm.convert());
         return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
     }
 

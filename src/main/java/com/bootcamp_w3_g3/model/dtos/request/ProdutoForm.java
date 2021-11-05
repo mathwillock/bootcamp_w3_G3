@@ -28,9 +28,7 @@ public class ProdutoForm {
     private Double temperaturaIndicada;
 
     /**
-     *
      * Método que auxlia a injeção de um produto diretamente.
-     *
      * @return produto
      */
     public Produto convert(){
@@ -38,6 +36,7 @@ public class ProdutoForm {
                 .codigoDoProduto(codigoDoProduto)
                 .nome(nome)
                 .preco(preco)
-                .temperaturaIndicada(temperaturaIndicada).build();
+                .temperaturaIndicada(temperaturaIndicada).build()
+        ;
     }
 }

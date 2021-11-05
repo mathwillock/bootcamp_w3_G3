@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ProdutoService {
 
     private ProdutoRepository produtoRepository;
 
+    private LoteService loteService;
+
     @Autowired
     public ProdutoService(ProdutoRepository produtoRepository){
         this.produtoRepository = produtoRepository;
@@ -31,6 +34,10 @@ public class ProdutoService {
     public Produto salvar(Produto produto) { return produtoRepository.save(produto); }
 
     public Produto obter(Integer codigo) { return produtoRepository.findByCodigoDoProduto(codigo); }
+
+    public Lote obterLote(Integer codLote) {
+        return loteService.obter(codLote);
+    }
 
     public List<Produto> listar() {
         return produtoRepository.findAll();
@@ -48,7 +55,6 @@ public class ProdutoService {
     public Produto apagar(Long id) {
        produtoRepository.deleteById(id);
        return null;
-
     }
 
 }

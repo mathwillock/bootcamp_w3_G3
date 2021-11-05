@@ -29,13 +29,19 @@ public class LoteService {
     @Autowired
     private SetorService setorService;
 
+    @Autowired
+    public LoteService(LoteRepository loteRepository) {
+        this.loteRepository = loteRepository;
+    }
 
     @Transactional
     public Lote salvar(Lote lote) {
-        Produto produto = this.produtoService.obter(lote.getProduto().getCodigoDoProduto());
-        Setor setor = this.setorService.obterSetor(lote.getSetor().getCodigo());
-        lote.setSetor(setor);
-        lote.setProduto(produto);
+
+        Integer numeroLote = lote.getNumero();
+        lote.getProduto().setCodLote(numeroLote);
+
+        lote.setSetor(lote.getSetor());
+        lote.setProduto(lote.getProduto());
         return loteRepository.save(lote);
     }
 

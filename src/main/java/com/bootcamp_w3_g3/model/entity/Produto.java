@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Produto {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +28,6 @@ public class Produto {
     private BigDecimal preco;
     private Double temperaturaIndicada;
 
-
-
+    private Integer codLote;
 
 }

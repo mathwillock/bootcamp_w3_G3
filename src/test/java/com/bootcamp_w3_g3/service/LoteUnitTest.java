@@ -35,7 +35,8 @@ public class LoteUnitTest {
             .codigoDoProduto(123)
             .nome("carne")
             .preco(new BigDecimal(60))
-            .build();
+            .build()
+    ;
 
 
    Lote lote = Lote.builder()
@@ -43,22 +44,25 @@ public class LoteUnitTest {
            .dataDeValidade(LocalDate.now())
            .produto(produto)
            .quantidadeAtual(5)
-           .build();
+           .build()
+   ;
 
    Lote lote1 = Lote.builder()
            .numero(9)
            .dataDeValidade(LocalDate.now())
            .produto(produto)
            .quantidadeAtual(5)
-           .build();
+           .build()
+   ;
 
     /**
      * teste deve salvar um lote
      */
    @Test
-   void should_save_lote_whenPayloadIsValid(){
+   void salvarLoteTest(){
 
         Mockito.when(loteRepository.save(Mockito.any(Lote.class))).thenReturn(lote);
+        loteService = new LoteService(loteRepository);
         Lote loteSalvo = loteService.salvar(lote);
 
         assertNotNull(loteSalvo);
@@ -66,6 +70,7 @@ public class LoteUnitTest {
 
    @Test
    void should_get_a_lote(){
+
       Mockito.when(loteRepository.findByNumero(Mockito.any(Integer.class))).thenReturn(lote);
 
       Lote getLote = loteService.obter(lote.getNumero());

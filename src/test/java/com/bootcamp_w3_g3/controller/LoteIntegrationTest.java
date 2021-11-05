@@ -2,9 +2,11 @@ package com.bootcamp_w3_g3.controller;
 
 
 import com.bootcamp_w3_g3.BootcampW3G3Application;
-import com.bootcamp_w3_g3.model.entity.Lote;
-import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.dtos.request.*;
+import com.bootcamp_w3_g3.model.dtos.response.TokenDTO;
+import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.LoteRepository;
+import com.bootcamp_w3_g3.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,10 +18,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,7 +44,16 @@ public class LoteIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private LoteRepository loteRepository;
-
+    @Autowired
+    private ProdutoService produtoService;
+    @Autowired
+    private LoteService loteService;
+    @Autowired
+    private SetorService setorService;
+    @Autowired
+    private ArmazemService armazemService;
+    @Autowired
+    private RepresentanteService representanteService;
 
 
     private static ObjectMapper objectMapper;
@@ -55,71 +69,398 @@ public class LoteIntegrationTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    private Lote alterarDadosDoPayloadValido(){
 
-        Produto produto = Produto.builder()
-                .codigoDoProduto(123)
-                .nome("carne")
-                .preco(60.0)
-                .build();
-
-        return Lote.builder()
-                .id(1L)
-                .numero(9)
-                .dataDeValidade(LocalDate.now())
-                .produto(produto)
-                .quantidadeAtual(3)
+    private ProdutoForm payloadProduto() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(111)
+                .nome("carne seca")
+                .preco(50.0)
+                .temperaturaIndicada(16.0)
                 .build();
     }
 
-    private Lote criarPayloadValido(){
-        Produto produto = Produto.builder()
-                .codigoDoProduto(123)
-                .nome("carne")
-                .preco(60.0)
-                .build();
-
-        return    Lote.builder()
-                .id(1L)
-                .numero(9)
-                .dataDeValidade(LocalDate.now())
-                .produto(produto)
-                .quantidadeAtual(1)
+    private ProdutoForm payloadProduto2() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(222)
+                .nome("carne seca")
+                .preco(50.0)
+                .temperaturaIndicada(16.0)
                 .build();
     }
+
+    private ProdutoForm payloadProduto3() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(333)
+                .nome("carne seca")
+                .preco(50.0)
+                .temperaturaIndicada(16.0)
+                .build();
+    }
+
+    private ProdutoForm payloadProduto4() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(444)
+                .nome("carne seca")
+                .preco(50.0)
+                .temperaturaIndicada(16.0)
+                .build();
+    }
+
+    private void persisteProduto(ProdutoForm produtoForm){
+        Produto produto = Produto.builder()
+                .codigoDoProduto(produtoForm.getCodigoDoProduto())
+                .tipoProduto(produtoForm.getTipoProduto())
+                .nome(produtoForm.getNome())
+                .temperaturaIndicada(produtoForm.getTemperaturaIndicada())
+                .preco(produtoForm.getPreco())
+                .codLote(null).build();
+
+        produtoService.salvar(produto);
+    }
+
+
+    private RepresentanteForm payloadRepresentante(){
+        return RepresentanteForm.builder()
+                .codigo("R-111")
+                .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-444")
+                .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante3(){
+        return RepresentanteForm.builder()
+                .codigo("R-177")
+                .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante4(){
+        return RepresentanteForm.builder()
+                .codigo("RP-177")
+                .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+
+    private void persisteRepresentante(RepresentanteForm representanteForm) {
+        Representante representante = Representante.builder()
+                .nome(representanteForm.getNome())
+                .sobrenome(representanteForm.getSobrenome())
+                .cpf(representanteForm.getCpf())
+                .telefone(representanteForm.getTelefone())
+                .endereco(representanteForm.getEndereco())
+                .codigo(representanteForm.getCodigo()).build();
+
+        this.representanteService.salvar(representante);
+    }
+
+
+    private ArmazemForm payloadArmazem() {
+        RepresentanteForm representanteForm = this.payloadRepresentante();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-777")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem2() {
+        RepresentanteForm representanteForm = this.payloadRepresentante2();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-776")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem3() {
+        RepresentanteForm representanteForm = this.payloadRepresentante3();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-887")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem4() {
+        RepresentanteForm representanteForm = this.payloadRepresentante4();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("ARM-887")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private void persisteArmazem(ArmazemForm armazemForm) {
+
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+
+        Armazem armazem = Armazem.builder()
+                .codArmazem(armazemForm.getCodArmazem())
+                .nome(armazemForm.getNome())
+                .representante(representante)
+                .endereco(armazemForm.getEndereco())
+                .uf(armazemForm.getUf())
+                .build();
+
+        this.armazemService.criarArmazem(armazem);
+    }
+
+
+
+    private void persisteSetor1(SetorForm setorForm){
+        ArmazemForm armazemForm = payloadArmazem();
+        this.persisteArmazem(armazemForm);
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteSetor2(SetorForm setorForm){
+        ArmazemForm armazemForm = payloadArmazem2();
+        this.persisteArmazem(armazemForm);
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+
+    private void persisteSetor3(SetorForm setorForm){
+        ArmazemForm armazemForm = payloadArmazem3();
+        this.persisteArmazem(armazemForm);
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteSetor4(SetorForm setorForm){
+        ArmazemForm armazemForm = payloadArmazem4();
+        this.persisteArmazem(armazemForm);
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteLote2(LoteForm loteForm) {
+        SetorForm setorForm = SetorForm.builder()
+                .tipoProduto(TipoProduto.CONGELADOS)
+                .nome("Setor de congelados")
+                .codigo("ST-176")
+                .armazem(null)
+                .espacoDisponivel(10).build();
+
+        this.persisteSetor2(setorForm);
+
+        Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .numero(loteForm.getNumero())
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
+    }
+
+    private void persisteLote3(LoteForm loteForm) {
+        SetorForm setorForm = SetorForm.builder()
+                .tipoProduto(TipoProduto.CONGELADOS)
+                .nome("Setor de congelados")
+                .codigo("SE-146")
+                .armazem(null)
+                .espacoDisponivel(10).build();
+
+        this.persisteSetor3(setorForm);
+
+        Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .numero(loteForm.getNumero())
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
+    }
+
+    private void persisteLote4(LoteForm loteForm) {
+
+        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .numero(loteForm.getNumero())
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
+    }
+
 
     /**
      * teste deve criar um lote se o payload estiver valido
-     *
+     * e o representante estiver autenticado por token
      */
     @Test
     void deveSalvarUmLote() throws Exception{
-        Lote loteForm = this.criarPayloadValido();
+        SetorForm setorDoLote =  SetorForm.builder()
+                .tipoProduto(TipoProduto.CONGELADOS)
+                .nome("Setor de congelados").codigo("Se-19")
+                .armazem(null).espacoDisponivel(10).build();
+
+        this.persisteSetor1(setorDoLote);
+
+        ProdutoForm produtoForm = this.payloadProduto();
+        this.persisteProduto(produtoForm);
+
+        LoteForm loteForm = LoteForm.builder()
+                .numero(222).setorForm(setorDoLote).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
+
+        String login = "joaquim";
+        String senha = "123";
+        UsuarioForm payload = UsuarioForm.builder().login(login).senha(senha).build();
+        String isso = objectMapper.writeValueAsString(payload);
+
+        MvcResult result = mockMvc
+                .perform(MockMvcRequestBuilders.post("http://localhost:8080/auth")
+                        .content(isso)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+        String response = result.getResponse().getContentAsString();
+        TokenDTO tokenDTO = objectMapper.readValue(response, TokenDTO.class);
 
         String requestPayload = objectMapper.writeValueAsString(loteForm);
 
         this.mockMvc.perform(post("http://localhost:8080/lote/salvar")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(requestPayload))
+                .content(requestPayload)
+                        .header("Authorization", "Bearer " + tokenDTO.getToken()))
                 .andExpect(status().isCreated());
 
     }
 
+    /**
+     *teste deve obter um lote caso ele exista no banco de dados.
+     */
     @Test
     void deveObterUmLote() throws Exception {
-        Lote lote = this.criarPayloadValido();
-        loteRepository.save(lote);
+        ProdutoForm produtoForm = this.payloadProduto2();
+        this.persisteProduto(produtoForm);
+        LoteForm loteForm = LoteForm.builder()
+                .numero(233).setorForm(null).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
 
-        this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + lote.getNumero()))
+        this.persisteLote2(loteForm);
+
+        this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + loteForm.getNumero()))
                 .andExpect(status().isOk());
 
     }
 
+    /**
+     *teste deve listar todos os lotes
+     */
     @Test
     void deveListarOsLotes() throws Exception {
-        Lote lote = this.criarPayloadValido();
-        loteRepository.save(lote);
+        ProdutoForm produtoForm = this.payloadProduto3();
+        this.persisteProduto(produtoForm);
+        LoteForm loteForm = LoteForm.builder()
+                .numero(45).setorForm(null).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
 
+        this.persisteLote3(loteForm);
 
         this.mockMvc.perform(get("http://localhost:8080/lote/listar"))
                 .andExpect(status().isOk());
@@ -127,12 +468,35 @@ public class LoteIntegrationTest {
     }
 
 
+
     @Test
     void deveAlterar_dadosDoLote() throws Exception {
-        Lote lote = this.criarPayloadValido();
-        loteRepository.save(lote);
+        ProdutoForm produtoForm = this.payloadProduto4();
+        this.persisteProduto(produtoForm);
 
-        Lote loteAlterado = this.alterarDadosDoPayloadValido();
+        SetorForm setorDoLote =  SetorForm.builder()
+                .tipoProduto(TipoProduto.CONGELADOS)
+                .nome("Setor de congelados").codigo("SeT-191")
+                .armazem(null).espacoDisponivel(10).build();
+
+        this.persisteSetor4(setorDoLote);
+
+        LoteForm loteForm = LoteForm.builder()
+                .numero(47).temperaturaAtual(17.0).setorForm(setorDoLote)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
+
+        this.persisteLote4(loteForm);
+
+        LoteForm loteAlterado = LoteForm.builder()
+                .numero(47).setorForm(loteForm.getSetorForm()).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(2)
+                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
+
         String requestPayload = objectMapper.writeValueAsString(loteAlterado);
 
 
@@ -141,12 +505,6 @@ public class LoteIntegrationTest {
                         .content(requestPayload))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.quantidadeAtual", is(loteAlterado.getQuantidadeAtual())));
-
-
-
-
-
-
 
     }
 

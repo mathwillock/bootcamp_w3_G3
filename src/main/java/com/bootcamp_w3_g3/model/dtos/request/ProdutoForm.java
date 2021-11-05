@@ -1,17 +1,11 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
-import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.service.LoteService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 
 /**
  *
@@ -37,7 +31,7 @@ public class ProdutoForm {
      *
      * @return produto
      */
-    public Produto convert(LoteService loteService){
+    public Produto convert(){
         return Produto.builder()
                 .codigoDoProduto(codigoDoProduto)
                 .nome(nome)

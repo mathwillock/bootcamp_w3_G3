@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
 
-    Carrinho getById(Long id);
-
     Carrinho getByCodigo (String codigo);
 
     Carrinho getCompradorById (Long id);

@@ -169,4 +169,7 @@ public class OrdemDeEntradaService {
     }
 
 
+    public OrdemDeEntrada obter(Integer numeroDaOrdem) {
+        return  ordemDeEntradaRepository.findByNumeroDaOrdem(numeroDaOrdem);
+    }
 }

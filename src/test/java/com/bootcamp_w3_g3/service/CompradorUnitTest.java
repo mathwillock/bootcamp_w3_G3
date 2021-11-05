@@ -3,7 +3,6 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.model.entity.Comprador;
 import com.bootcamp_w3_g3.repository.CompradorRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;

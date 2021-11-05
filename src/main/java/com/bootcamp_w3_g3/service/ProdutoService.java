@@ -28,6 +28,8 @@ public class ProdutoService {
     private LoteRepository loteRepository;
 
 
+    private LoteService loteService;
+
     @Autowired
     public ProdutoService(ProdutoRepository produtoRepository){
         this.produtoRepository = produtoRepository;
@@ -64,6 +66,10 @@ public class ProdutoService {
             return null;
     }
 
+    public Lote obterLote(Integer codLote) {
+        return loteService.obter(codLote);
+    }
+
     public List<Produto> listar() {
         return produtoRepository.findAll();
     }
@@ -80,7 +86,6 @@ public class ProdutoService {
     public Produto apagar(Long id) {
        produtoRepository.deleteById(id);
        return null;
-
     }
 
 }

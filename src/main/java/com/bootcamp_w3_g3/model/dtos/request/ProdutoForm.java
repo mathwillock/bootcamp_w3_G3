@@ -32,9 +32,7 @@ public class ProdutoForm {
     private TipoProduto tipoProduto;
 
     /**
-     *
      * Método que auxlia a injeção de um produto diretamente.
-     *
      * @return produto
      */
     public Produto convert(LoteService loteService){
@@ -44,6 +42,7 @@ public class ProdutoForm {
                 .preco(preco)
                 .temperaturaIndicada(temperaturaIndicada)
                 .tipoProduto(tipoProduto)
-                .build();
+                .build()
+        ;
     }
 }

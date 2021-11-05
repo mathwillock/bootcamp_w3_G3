@@ -30,6 +30,8 @@ public class LoteService {
     @Autowired
     private SetorService setorService;
 
+
+    @Autowired
     public LoteService(LoteRepository loteRepository) {
         this.loteRepository = loteRepository;
     }
@@ -37,6 +39,13 @@ public class LoteService {
 
     @Transactional
     public Lote salvar(Lote lote) {
+
+
+        Integer numeroLote = lote.getNumero();
+        lote.getProduto().setCodLote(numeroLote);
+
+        lote.setSetor(lote.getSetor());
+        lote.setProduto(lote.getProduto());
 
         return loteRepository.save(lote);
     }

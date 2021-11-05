@@ -50,7 +50,8 @@ public class LoteForm {
                 .horaFabricacao(horaFabricacao)
                 .dataDeValidade(dataDeValidade)
                 .setor(setor)
-                .build();
+                .build()
+        ;
 
     }
 }

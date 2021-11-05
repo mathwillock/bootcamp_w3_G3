@@ -66,10 +66,6 @@ public class ProdutoService {
             return null;
     }
 
-    public Lote obterLote(Integer codLote) {
-        return loteService.obter(codLote);
-    }
-
     public List<Produto> listar() {
         return produtoRepository.findAll();
     }

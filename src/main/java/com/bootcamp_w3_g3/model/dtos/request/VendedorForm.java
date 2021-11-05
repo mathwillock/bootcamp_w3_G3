@@ -5,7 +5,7 @@ import lombok.*;
 
 /**
  *
- * @Autor hugo damm
+ * @autor hugo damm
  */
 
 @Data

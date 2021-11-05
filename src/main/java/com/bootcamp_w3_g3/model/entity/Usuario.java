@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Collection;
+
+/**
+ * @autor Joaquim Borges
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,8 +1,6 @@
 package com.bootcamp_w3_g3.model.entity;
 
-/**
- * @author Math Willock
- */
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author Math Willock
+ */
 @Getter
 @Setter
 @AllArgsConstructor

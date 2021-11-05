@@ -2,9 +2,6 @@ package com.bootcamp_w3_g3.model.dtos.response;
 
 import com.bootcamp_w3_g3.model.entity.Produto;
 import lombok.Getter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

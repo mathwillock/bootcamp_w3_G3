@@ -3,6 +3,7 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.model.entity.Comprador;
 import com.bootcamp_w3_g3.repository.CompradorRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -61,6 +62,19 @@ public class CompradorUnitTest{
 
         assertNotNull(compradorAtualizado);
         assertEquals(compradorAtualizado.getUsuario(), comprador.getUsuario());
+
+    }
+
+    @Test
+    void obterCompradorTest(){
+        Mockito.when(compradorRepository.findByUsuario(Mockito.any(String.class))).thenReturn(comprador2);
+
+        compradorService = new CompradorService(compradorRepository);
+        Comprador compradorObtido = compradorService.obter(comprador2.getUsuario());
+
+        Mockito.verify(compradorRepository, Mockito.times(1)).findByUsuario((comprador2.getUsuario()));
+
+        assertEquals(compradorObtido.getUsuario(), comprador2.getUsuario());
 
     }
 }

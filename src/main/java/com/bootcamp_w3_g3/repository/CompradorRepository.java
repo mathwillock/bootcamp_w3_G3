@@ -4,7 +4,6 @@ import com.bootcamp_w3_g3.model.entity.Comprador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 
 /**
  * @author hugo damm

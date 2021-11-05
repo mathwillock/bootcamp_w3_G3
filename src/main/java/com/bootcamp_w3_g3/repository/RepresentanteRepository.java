@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  *  deletebyCodigo - deletando pelo código do representante.
  *  getByCodigo - retornando o código do representando.
  *
- * @autor
+ * @autor Alex
  */
 @Repository
 public interface RepresentanteRepository extends JpaRepository <Representante, Long>{

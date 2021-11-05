@@ -1,7 +1,7 @@
 package com.bootcamp_w3_g3.model.entity;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

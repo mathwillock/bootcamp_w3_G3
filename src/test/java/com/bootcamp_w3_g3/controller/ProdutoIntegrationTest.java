@@ -361,7 +361,6 @@ public class ProdutoIntegrationTest {
                 .codigoDoProduto(654)
                 .nome("carne seca")
                 .preco(60.0)
-                //.numeroDoLote(loteDoProduto.getNumero())
                 .temperaturaIndicada(16.0)
                 .build();
 
@@ -463,6 +462,10 @@ public class ProdutoIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     *não deve obter um produto
+     * porque o usuario não está autenticado.
+     */
     @Test
     void naoDeveObterUmProdutoCadastrado() throws Exception {
         ProdutoForm produto = ProdutoForm.builder()

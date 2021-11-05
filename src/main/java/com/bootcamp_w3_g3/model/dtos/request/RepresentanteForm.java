@@ -9,7 +9,7 @@ import lombok.Getter;
  * Criado para recceber payload com as informacõesmm do representante.
  *
  *
- * @Autor Alex Cruz
+ * @autor Alex Cruz
  */
 @Getter
 @Builder

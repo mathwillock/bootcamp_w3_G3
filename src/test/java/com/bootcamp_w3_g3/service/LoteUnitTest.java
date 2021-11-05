@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Joaquim Borges
+ * @author Matheus Willock
  */
 
 public class LoteUnitTest {
@@ -34,50 +35,56 @@ public class LoteUnitTest {
             .codigoDoProduto(123)
             .nome("carne")
             .preco(60.0)
-            .build();
-
+            .build()
+    ;
 
    Lote lote = Lote.builder()
            .numero(10)
            .dataDeValidade(LocalDate.now())
            .produto(produto)
            .quantidadeAtual(5)
-           .build();
+           .build()
+   ;
 
    Lote lote1 = Lote.builder()
            .numero(9)
            .dataDeValidade(LocalDate.now())
            .produto(produto)
            .quantidadeAtual(5)
-           .build();
+           .build()
+   ;
 
     /**
      * teste deve salvar um lote
      */
    @Test
-   void should_save_lote_whenPayloadIsValid(){
+   void salvarLoteTest(){
 
         Mockito.when(loteRepository.save(Mockito.any(Lote.class))).thenReturn(lote);
+        loteService = new LoteService(loteRepository);
         Lote loteSalvo = loteService.salvar(lote);
 
         assertNotNull(loteSalvo);
-    }
+   }
 
    @Test
-   void should_get_a_lote(){
+   void obterLoteTest(){
       Mockito.when(loteRepository.findByNumero(Mockito.any(Integer.class))).thenReturn(lote);
 
+      loteService = new LoteService(loteRepository);
       Lote getLote = loteService.obter(lote.getNumero());
 
-      assertEquals(10, getLote.getNumero());
+      assertEquals(lote.getNumero(), getLote.getNumero());
    }
 
 
    @Test
-   void should_getAll_lotes(){
+   void obterTodosLotesTest(){
       List<Lote> lotes = new ArrayList<>();
 
       Mockito.when(loteRepository.findAll()).thenReturn(lotes);
+      loteService = new LoteService(loteRepository);
+
       lotes.add(lote);
       lotes.add(lote1);
 
@@ -85,6 +92,23 @@ public class LoteUnitTest {
 
       assertEquals(loteList.size(), lotes.size());
    }
+
+    @Test
+    void atualizarLotetest() {
+
+       lote.setNumero(20);
+       lote.setQuantidadeAtual(2);
+
+       Mockito.when(loteRepository.findByNumero(Mockito.any(Integer.class))).thenReturn(lote);
+       Mockito.when(loteRepository.save(Mockito.any(Lote.class))).thenReturn(lote);
+
+       loteService = new LoteService(loteRepository);
+       Lote loteUpdate = loteService.atualizar(lote);
+
+       assertNotNull(lote);
+
+    }
+
 
 
 }

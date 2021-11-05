@@ -4,10 +4,6 @@ import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Vendedor;
 import com.bootcamp_w3_g3.repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

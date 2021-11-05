@@ -1,20 +1,19 @@
 package com.bootcamp_w3_g3.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author Matheus Willock
- */
+
 import lombok.*;
 
 
 import javax.persistence.*;
-
+/**
+ * @author Matheus Willock
+ */
 
 @Getter
 @Setter

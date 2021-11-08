@@ -23,9 +23,15 @@ public class SetorService {
     @Autowired
     private ArmazemService armazemService;
 
-    @Autowired
+
     public SetorService(SetorRepository setorRepository){
         this.setorRepository = setorRepository;
+    }
+
+    @Autowired
+    public SetorService(SetorRepository setorRepository, ArmazemService armazemService){
+        this.setorRepository = setorRepository;
+        this.armazemService = armazemService;
     }
 
     @Transactional

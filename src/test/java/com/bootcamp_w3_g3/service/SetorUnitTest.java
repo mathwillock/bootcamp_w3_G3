@@ -20,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SetorUnitTest {
 
     private SetorService setorService;
-    private final SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
+    private ArmazemService armazemService = Mockito.mock(ArmazemService.class);
+    private SetorRepository setorRepository = Mockito.mock(SetorRepository.class);
     private static final Long SETOR_ID = Long.valueOf(1);
 
     Representante representante1 = Representante.builder()
@@ -129,10 +130,11 @@ public class SetorUnitTest {
 
 
     @Test
-    void obterArmazemtest() {
+    void obterArmazemTest() {
         Mockito.when(setorRepository.findByCodigo(Mockito.any(String.class))).thenReturn(setor1);
+        Mockito.when(armazemService.obterArmazem(Mockito.any(String.class))).thenReturn(armazem1);
 
-        setorService = new SetorService(setorRepository);
+        setorService = new SetorService(setorRepository, armazemService);
         Setor setorObtido = setorService.obterSetor(setor1.getCodigo());
 
         Armazem armazem = setorService.retornaArmazem(setor1.getArmazem().getCodArmazem());

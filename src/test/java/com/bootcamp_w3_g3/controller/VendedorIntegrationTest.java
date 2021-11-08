@@ -66,12 +66,6 @@ public class VendedorIntegrationTest {
                 .telefone("11-111111").build();
     }
 
-    private VendedorForm payloadVendedor5(){
-        return VendedorForm.builder()
-                .codigo("V-14").nome("Joaquim").sobrenome("Andre")
-                .endereco("teste 1").cpf("111.111.111.01")
-                .telefone("11-111111").build();
-    }
 
     private Vendedor persisteVendedor(VendedorForm vendedorForm){
         Vendedor vendedor = Vendedor.builder().codigo(vendedorForm.getCodigo())

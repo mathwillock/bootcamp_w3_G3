@@ -62,7 +62,7 @@ public class RepresentanteIntTest {
 
     private RepresentanteForm payloadRepresentante3(){
         return RepresentanteForm.builder()
-                .codigo("R-14")
+                .codigo("R-3")
                 .nome("Paulo")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -73,7 +73,7 @@ public class RepresentanteIntTest {
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("R-83")
+                .codigo("R-4")
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -146,7 +146,7 @@ public class RepresentanteIntTest {
         this.persisteRepresentante(representanteForm);
 
         RepresentanteForm representanteAlterado = RepresentanteForm.builder()
-                .codigo("R-14")
+                .codigo("R-3")
                 .nome("Jose")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")

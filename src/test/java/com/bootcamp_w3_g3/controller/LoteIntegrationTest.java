@@ -121,7 +121,7 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-111")
+                .codigo("R-9")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -132,7 +132,7 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-444")
+                .codigo("R-10")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -143,7 +143,7 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante3(){
         return RepresentanteForm.builder()
-                .codigo("R-177")
+                .codigo("R-11")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -154,7 +154,7 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("RP-177")
+                .codigo("RP-12")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -182,7 +182,7 @@ public class LoteIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-777")
+                .codArmazem("AR-7")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -195,7 +195,7 @@ public class LoteIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-776")
+                .codArmazem("AR-8")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -208,7 +208,7 @@ public class LoteIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-887")
+                .codArmazem("AR-9")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -221,7 +221,7 @@ public class LoteIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("ARM-887")
+                .codArmazem("ARM-10")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -311,7 +311,7 @@ public class LoteIntegrationTest {
         SetorForm setorForm = SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
                 .nome("Setor de congelados")
-                .codigo("ST-176")
+                .codigo("ST-1")
                 .armazem(null)
                 .espacoDisponivel(10).build();
 
@@ -337,7 +337,7 @@ public class LoteIntegrationTest {
         SetorForm setorForm = SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
                 .nome("Setor de congelados")
-                .codigo("SE-146")
+                .codigo("SE-3")
                 .armazem(null)
                 .espacoDisponivel(10).build();
 
@@ -386,7 +386,7 @@ public class LoteIntegrationTest {
     void deveSalvarUmLote() throws Exception{
         SetorForm setorDoLote =  SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
-                .nome("Setor de congelados").codigo("Se-19")
+                .nome("Setor de congelados").codigo("Se-4")
                 .armazem(null).espacoDisponivel(10).build();
 
         this.persisteSetor1(setorDoLote);

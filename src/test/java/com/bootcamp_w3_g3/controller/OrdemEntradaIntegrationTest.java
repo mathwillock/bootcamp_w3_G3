@@ -79,7 +79,7 @@ public class OrdemEntradaIntegrationTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-1")
+                .codigo("R-13")
                 .nome("Pedro")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -90,7 +90,7 @@ public class OrdemEntradaIntegrationTest {
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-2")
+                .codigo("R-14")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -116,7 +116,7 @@ public class OrdemEntradaIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-1")
+                .codArmazem("AR-11")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -129,7 +129,7 @@ public class OrdemEntradaIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-2")
+                .codArmazem("AR-12")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")

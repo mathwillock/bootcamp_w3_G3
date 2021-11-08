@@ -47,7 +47,7 @@ public class ArmazemIntegrationTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-4")
+                .codigo("R-5")
                 .nome("Marcelo")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -58,7 +58,7 @@ public class ArmazemIntegrationTest {
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-5")
+                .codigo("R-6")
                 .nome("Hugo")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -69,7 +69,7 @@ public class ArmazemIntegrationTest {
 
     private RepresentanteForm payloadRepresentante3(){
         return RepresentanteForm.builder()
-                .codigo("R-6")
+                .codigo("R-7")
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -80,7 +80,7 @@ public class ArmazemIntegrationTest {
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("R-7")
+                .codigo("R-8")
                 .nome("Matheus")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -101,17 +101,6 @@ public class ArmazemIntegrationTest {
         this.representanteService.salvar(representante);
     }
 
-    private ArmazemForm payloadArmazem(ArmazemForm armazemForm, RepresentanteForm representanteForm) {
-        this.persisteRepresentante(representanteForm);
-
-        return ArmazemForm.builder()
-                .codArmazem(armazemForm.getCodArmazem())
-                .nome(armazemForm.getNome())
-                .representante(representanteForm)
-                .endereco(armazemForm.getEndereco())
-                .numero(armazemForm.getNumero())
-                .uf(armazemForm.getUf()).build();
-    }
 
     private void persisteArmazem(ArmazemForm armazemForm) {
         Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
@@ -140,7 +129,7 @@ public class ArmazemIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         ArmazemForm armazemForm = ArmazemForm.builder()
-                .codArmazem("A-8").nome("central").endereco("rua qualquer")
+                .codArmazem("A-1").nome("central").endereco("rua qualquer")
                 .uf("RJ").numero(3).representante(representanteForm).build();
 
         String requestPayload = objectMapper.writeValueAsString(armazemForm);
@@ -164,7 +153,7 @@ public class ArmazemIntegrationTest {
         this.persisteRepresentante(representante);
 
         ArmazemForm armazemForm = ArmazemForm.builder()
-                .codArmazem("A-9").nome("central").endereco("rua qualquer")
+                .codArmazem("A-2").nome("central").endereco("rua qualquer")
                 .uf("RJ").numero(3).representante(representante).build();
 
         this.persisteArmazem(armazemForm);
@@ -182,7 +171,7 @@ public class ArmazemIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         ArmazemForm armazemForm = ArmazemForm.builder()
-                .codArmazem("A-10").nome("central").endereco("rua qualquer")
+                .codArmazem("A-3").nome("central").endereco("rua qualquer")
                 .uf("RJ").numero(3).representante(representanteForm).build();
 
         this.persisteArmazem(armazemForm);
@@ -197,13 +186,13 @@ public class ArmazemIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         ArmazemForm armazemForm = ArmazemForm.builder()
-                .codArmazem("A-11").nome("central").endereco("rua qualquer")
+                .codArmazem("A-4").nome("central").endereco("rua qualquer")
                 .uf("RJ").numero(3).representante(representanteForm).build();
 
         this.persisteArmazem(armazemForm);
 
         ArmazemForm armazemAlterado = ArmazemForm.builder()
-                .codArmazem("A-11").nome("oposto").endereco("rua qualquer")
+                .codArmazem("A-4").nome("oposto").endereco("rua qualquer")
                 .uf("SP").numero(3).representante(representanteForm).build();
 
         String requestPayload = objectMapper.writeValueAsString(armazemAlterado);

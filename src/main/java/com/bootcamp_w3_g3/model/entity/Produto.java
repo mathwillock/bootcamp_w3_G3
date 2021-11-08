@@ -17,7 +17,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Produto {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,8 +27,6 @@ public class Produto {
     private Double temperaturaIndicada;
     private TipoProduto tipoProduto;
     private Integer codLote;
-
-
 
 
 }

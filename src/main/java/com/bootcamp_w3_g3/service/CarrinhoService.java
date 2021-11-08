@@ -28,9 +28,15 @@ public class CarrinhoService {
     @Autowired
     private LoteService loteService;
 
-    @Autowired
+
     public CarrinhoService(CarrinhoRepository carrinhoRepository){
         this.carrinhoRepository = carrinhoRepository;
+    }
+
+    @Autowired
+    public CarrinhoService(CarrinhoRepository carrinhoRepository, LoteService loteService){
+        this.carrinhoRepository = carrinhoRepository;
+        this.loteService = loteService;
     }
 
     @Transactional
@@ -67,7 +73,7 @@ public class CarrinhoService {
      * @autor Joaquim Borges
      */
     public BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
-        double valorTotal = 0.0;
+        double valorTotal = 0.00;
         for (Itens item : carrinho.getItensList()) {
             valorTotal += item.getProduto().getPreco() * item.getQuantidade();
         }
@@ -113,7 +119,7 @@ public class CarrinhoService {
      *metodo auxiliar para verificar a validade do produto
      * @autor Joaquim Borges
      */
-    public boolean produtoVencido(Produto produto){
+    private boolean produtoVencido(Produto produto){
         Lote loteDoProduto = loteService.obter(produto.getCodLote());
         long dias = ChronoUnit.DAYS
                 .between(loteDoProduto.getDataDeFabricacao(), loteDoProduto.getDataDeValidade());

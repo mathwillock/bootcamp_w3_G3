@@ -18,19 +18,30 @@ import java.util.List;
  * Bem como aplicar camada dde regra de negócios neccessária.
  *
  * @author Alex Cruz
- * @autor Joaquim Borges
+ * @author  Joaquim Borges
+ * @author  Matheus Willock
  */
 
 @Service
 public class ProdutoService {
 
+    @Autowired
     private ProdutoRepository produtoRepository;
-    private LoteRepository loteRepository;
-
 
     @Autowired
+    private LoteRepository loteRepository;
+
+    @Autowired
+    private LoteService loteService;
+
     public ProdutoService(ProdutoRepository produtoRepository){
         this.produtoRepository = produtoRepository;
+    }
+
+    @Autowired
+    public ProdutoService(ProdutoRepository produtoRepository, LoteService loteService) {
+        this.produtoRepository = produtoRepository;
+        this.loteService = loteService;
     }
 
     @Transactional
@@ -45,8 +56,7 @@ public class ProdutoService {
     }
 
     public Lote obterLote(Integer codLote){
-        Lote lote = loteRepository.findByNumero(codLote);
-        return lote;
+        return loteService.obter(codLote);
     }
 
 
@@ -80,7 +90,6 @@ public class ProdutoService {
     public Produto apagar(Long id) {
        produtoRepository.deleteById(id);
        return null;
-
     }
 
 }

@@ -72,7 +72,7 @@ public class LoteIntegrationTest {
 
     private ProdutoForm payloadProduto() {
         return ProdutoForm.builder()
-                .codigoDoProduto(111)
+                .codigoDoProduto(16)
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
@@ -81,7 +81,7 @@ public class LoteIntegrationTest {
 
     private ProdutoForm payloadProduto2() {
         return ProdutoForm.builder()
-                .codigoDoProduto(222)
+                .codigoDoProduto(17)
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
@@ -90,7 +90,7 @@ public class LoteIntegrationTest {
 
     private ProdutoForm payloadProduto3() {
         return ProdutoForm.builder()
-                .codigoDoProduto(333)
+                .codigoDoProduto(18)
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
@@ -99,7 +99,7 @@ public class LoteIntegrationTest {
 
     private ProdutoForm payloadProduto4() {
         return ProdutoForm.builder()
-                .codigoDoProduto(444)
+                .codigoDoProduto(19)
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
@@ -395,7 +395,7 @@ public class LoteIntegrationTest {
         this.persisteProduto(produtoForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(222).setorForm(setorDoLote).temperaturaAtual(17.0)
+                .numero(9).setorForm(setorDoLote).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -433,7 +433,7 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(233).setorForm(null).temperaturaAtual(17.0)
+                .numero(10).setorForm(null).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -454,7 +454,7 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto3();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(45).setorForm(null).temperaturaAtual(17.0)
+                .numero(11).setorForm(null).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -482,7 +482,7 @@ public class LoteIntegrationTest {
         this.persisteSetor4(setorDoLote);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(47).temperaturaAtual(17.0).setorForm(setorDoLote)
+                .numero(13).temperaturaAtual(17.0).setorForm(setorDoLote)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -491,7 +491,7 @@ public class LoteIntegrationTest {
         this.persisteLote4(loteForm);
 
         LoteForm loteAlterado = LoteForm.builder()
-                .numero(47).setorForm(loteForm.getSetorForm()).temperaturaAtual(17.0)
+                .numero(13).setorForm(loteForm.getSetorForm()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(2)
                 .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))

@@ -264,7 +264,7 @@ public class OrdemEntradaIntegrationTest {
         ProdutoForm produto = this.payloadProduto(produtoForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(233).setorForm(setorForm).temperaturaAtual(17.0)
+                .numero(15).setorForm(setorForm).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produto).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -272,7 +272,7 @@ public class OrdemEntradaIntegrationTest {
 
         this.persisteLote(loteForm, setorForm, produtoForm);
 
-        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-12").build();
+        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-4").build();
         this.payloadVendedor(vendedor);
 
         OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
@@ -318,7 +318,7 @@ public class OrdemEntradaIntegrationTest {
         this.persisteSetor2(setorForm, armazemForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(553).setorForm(setorForm).temperaturaAtual(17.0)
+                .numero(17).setorForm(setorForm).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
                 .produtoForm(produto).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
@@ -326,7 +326,7 @@ public class OrdemEntradaIntegrationTest {
 
         this.persisteLote(loteForm, setorForm, produtoForm);
 
-        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-14").build();
+        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-2").build();
         this.payloadVendedor(vendedor);
 
         OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()

@@ -53,7 +53,7 @@ public class ProdutoIntegrationTest {
 
     private ProdutoForm payloadProduto() {
         return ProdutoForm.builder()
-                .codigoDoProduto(111)
+                .codigoDoProduto(10)
                 .nome("carne seca")
                 .tipoProduto(TipoProduto.FRESCOS)
                 .preco(50.0)
@@ -73,7 +73,7 @@ public class ProdutoIntegrationTest {
 
     private ProdutoForm payloadProduto3() {
         return ProdutoForm.builder()
-                .codigoDoProduto(441)
+                .codigoDoProduto(12)
                 .nome("refri")
                 .preco(50.0)
                 .tipoProduto(TipoProduto.REFRIGERADOS)
@@ -83,7 +83,7 @@ public class ProdutoIntegrationTest {
 
     private ProdutoForm payloadProduto4() {
         return ProdutoForm.builder()
-                .codigoDoProduto(551)
+                .codigoDoProduto(13)
                 .nome("carne seca")
                 .preco(50.0)
                 .tipoProduto(TipoProduto.FRESCOS)
@@ -93,7 +93,7 @@ public class ProdutoIntegrationTest {
 
     private ProdutoForm payloadProduto5() {
         return ProdutoForm.builder()
-                .codigoDoProduto(55)
+                .codigoDoProduto(14)
                 .nome("carne")
                 .preco(50.0)
                 .tipoProduto(TipoProduto.FRESCOS)
@@ -178,7 +178,7 @@ public class ProdutoIntegrationTest {
         this.persisteProduto(produtoForm);
 
         ProdutoForm produtoAlterado = ProdutoForm.builder()
-                .codigoDoProduto(441)
+                .codigoDoProduto(12)
                 .nome("carne de sol")
                 .preco(60.0)
                 .tipoProduto(TipoProduto.FRESCOS)
@@ -231,7 +231,7 @@ public class ProdutoIntegrationTest {
     @Test
     void naoDeveObterUmProdutoCadastrado() throws Exception {
         ProdutoForm produto = ProdutoForm.builder()
-                .codigoDoProduto(333)
+                .codigoDoProduto(15)
                 .nome("carne seca")
                 .preco(60.0)
                 .temperaturaIndicada(16.0)

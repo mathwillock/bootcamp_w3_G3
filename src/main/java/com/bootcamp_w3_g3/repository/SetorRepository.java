@@ -11,4 +11,5 @@ public interface SetorRepository extends JpaRepository<Setor, Long> {
 
     Setor deleteByCodigo(String codigo);
 
+
 }

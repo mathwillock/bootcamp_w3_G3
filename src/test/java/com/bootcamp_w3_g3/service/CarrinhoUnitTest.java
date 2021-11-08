@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarrinhoUnitTest{
 
     CarrinhoService carrinhoService;
-
     CarrinhoRepository carrinhoRepository = Mockito.mock(CarrinhoRepository.class);
+
+    LoteService loteServiceMock = Mockito.mock(LoteService.class);
 
     Carrinho carrinho  = Carrinho.builder()
             .codigo("12345")
@@ -51,6 +53,21 @@ public class CarrinhoUnitTest{
             .temperaturaIndicada(18.5)
             .tipoProduto(TipoProduto.FRESCOS)
             .build();
+    Lote lote = Lote.builder()
+            .numero(10)
+            .dataDeFabricacao(LocalDate.parse("2021-10-30", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .dataDeValidade(LocalDate.parse("2022-11-15", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .produto(produto)
+            .quantidadeAtual(5)
+            .build();
+
+    Lote lote2 = Lote.builder()
+            .numero(30)
+            .dataDeFabricacao(LocalDate.parse("2021-10-30", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .dataDeValidade(LocalDate.parse("2021-11-15", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .produto(produto2)
+            .quantidadeAtual(10)
+            .build();
 
     Itens item = Itens.builder()
             .produto(produto)
@@ -66,6 +83,27 @@ public class CarrinhoUnitTest{
 
     List<Itens> itensList = new ArrayList<>();
 
+    /**
+     * Criado teste unitário de método que atende ao requisito 3
+     * @autor Alex Cruz
+     */
+    @Test
+    void regitrarPedidoTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
 
     /**
      * Criado teste unitário de método que atende ao requisito 2

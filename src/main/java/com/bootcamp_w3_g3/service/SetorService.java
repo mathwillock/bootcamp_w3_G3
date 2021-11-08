@@ -21,6 +21,9 @@ public class SetorService {
     private final SetorRepository setorRepository;
 
     @Autowired
+    private ArmazemService armazemService;
+
+    @Autowired
     public SetorService(SetorRepository setorRepository){
         this.setorRepository = setorRepository;
     }
@@ -45,7 +48,7 @@ public class SetorService {
 
 
     public Armazem retornaArmazem(String codigo){
-       return setorRepository.findByCodigo(codigo).getArmazem();
+       return armazemService.obterArmazem(codigo);
     }
 
     public Setor atualizarSetor(Setor setor){

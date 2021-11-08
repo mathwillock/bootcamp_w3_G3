@@ -3,15 +3,12 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.repository.LoteRepository;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,7 +24,6 @@ public class ProdutoServiceUnitTest {
     ProdutoRepository produtoRepository = Mockito.mock(ProdutoRepository.class);
 
     LoteService loteService = Mockito.mock(LoteService.class);
-
 
     Produto produto = Produto.builder()
             .codigoDoProduto(123)
@@ -96,7 +92,6 @@ public class ProdutoServiceUnitTest {
         assertEquals(lote.getNumero(), produto.getCodLote());
 
     }
-
 
 
     @Test

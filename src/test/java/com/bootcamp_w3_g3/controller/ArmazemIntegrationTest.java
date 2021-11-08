@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.is;
 
 
 /**
@@ -46,8 +47,41 @@ public class ArmazemIntegrationTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-123")
-                .nome("Joao")
+                .codigo("R-4")
+                .nome("Marcelo")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-5")
+                .nome("Hugo")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante3(){
+        return RepresentanteForm.builder()
+                .codigo("R-6")
+                .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante4(){
+        return RepresentanteForm.builder()
+                .codigo("R-7")
+                .nome("Matheus")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
                 .cpf("123.234.345-04")
@@ -67,24 +101,20 @@ public class ArmazemIntegrationTest {
         this.representanteService.salvar(representante);
     }
 
-    private ArmazemForm payloadArmazem() {
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+    private ArmazemForm payloadArmazem(ArmazemForm armazemForm, RepresentanteForm representanteForm) {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-212")
-                .nome("armazem central")
+                .codArmazem(armazemForm.getCodArmazem())
+                .nome(armazemForm.getNome())
                 .representante(representanteForm)
-                .endereco("qualquer lugar")
-                .numero(100)
-                .uf("SP").build();
+                .endereco(armazemForm.getEndereco())
+                .numero(armazemForm.getNumero())
+                .uf(armazemForm.getUf()).build();
     }
 
-    private void persisteArmazem(ArmazemForm armazemForm, RepresentanteForm representanteForm) {
-
-        this.persisteRepresentante(representanteForm);
-
-        Representante representante = this.representanteService.obter(representanteForm.getCodigo());
+    private void persisteArmazem(ArmazemForm armazemForm) {
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -106,9 +136,15 @@ public class ArmazemIntegrationTest {
      */
     @Test
     void deveCadastrarUmArmazem() throws Exception {
+        RepresentanteForm representanteForm = payloadRepresentante();
+        this.persisteRepresentante(representanteForm);
 
-        ArmazemForm armazem = this.payloadArmazem();
-        String requestPayload = objectMapper.writeValueAsString(armazem);
+        ArmazemForm armazemForm = ArmazemForm.builder()
+                .codArmazem("A-8").nome("central").endereco("rua qualquer")
+                .uf("RJ").numero(3).representante(representanteForm).build();
+
+        String requestPayload = objectMapper.writeValueAsString(armazemForm);
+
 
         this.mockMvc.perform(post("http://localhost:8080/armazem/criar")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,19 +160,58 @@ public class ArmazemIntegrationTest {
      */
     @Test
     void deveListarTodosOsArmazens() throws Exception {
-        RepresentanteForm representante = this.payloadRepresentante();
-        ArmazemForm armazem = ArmazemForm.builder()
-                .codArmazem("AR-212")
-                .nome("armazem central")
-                .representante(representante)
-                .endereco("qualquer lugar")
-                .numero(100)
-                .uf("SP").build();
+        RepresentanteForm representante = this.payloadRepresentante2();
+        this.persisteRepresentante(representante);
 
-        this.persisteArmazem(armazem, representante);
+        ArmazemForm armazemForm = ArmazemForm.builder()
+                .codArmazem("A-9").nome("central").endereco("rua qualquer")
+                .uf("RJ").numero(3).representante(representante).build();
+
+        this.persisteArmazem(armazemForm);
 
         this.mockMvc.perform(get("http://localhost:8080/armazem/listar"))
                 .andExpect(status().isOk());
+
+
+    }
+
+
+    @Test
+    void deveObterUmArmazem() throws Exception {
+        RepresentanteForm representanteForm = this.payloadRepresentante3();
+        this.persisteRepresentante(representanteForm);
+
+        ArmazemForm armazemForm = ArmazemForm.builder()
+                .codArmazem("A-10").nome("central").endereco("rua qualquer")
+                .uf("RJ").numero(3).representante(representanteForm).build();
+
+        this.persisteArmazem(armazemForm);
+        this.mockMvc.perform(get("http://localhost:8080/armazem/obter/" + armazemForm.getCodArmazem()))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void deveAtualizarDadosDoArmazem() throws Exception {
+        RepresentanteForm representanteForm = this.payloadRepresentante4();
+        this.persisteRepresentante(representanteForm);
+
+        ArmazemForm armazemForm = ArmazemForm.builder()
+                .codArmazem("A-11").nome("central").endereco("rua qualquer")
+                .uf("RJ").numero(3).representante(representanteForm).build();
+
+        this.persisteArmazem(armazemForm);
+
+        ArmazemForm armazemAlterado = ArmazemForm.builder()
+                .codArmazem("A-11").nome("oposto").endereco("rua qualquer")
+                .uf("SP").numero(3).representante(representanteForm).build();
+
+        String requestPayload = objectMapper.writeValueAsString(armazemAlterado);
+        this.mockMvc.perform(put("http://localhost:8080/armazem/atualizar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestPayload))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome", is(armazemAlterado.getNome())));
 
 
     }

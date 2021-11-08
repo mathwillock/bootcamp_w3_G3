@@ -38,9 +38,4 @@ public class ItensController {
         return new ResponseEntity<>(itensList, HttpStatus.OK);
     }
 
-    @PutMapping("/alterar")
-    public ResponseEntity<Itens> alterar(@RequestBody ItensForm itensForm) {
-        Itens itens = itensService.atualizar(itensForm.converte(produtoService));
-        return new ResponseEntity<>(itens, HttpStatus.OK);
-    }
 }

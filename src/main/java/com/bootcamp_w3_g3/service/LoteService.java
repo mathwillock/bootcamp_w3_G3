@@ -3,6 +3,7 @@ package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
+import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,9 @@ public class LoteService {
 
     @Transactional
     public Lote salvar(Lote lote) {
-
-        Integer numeroLote = lote.getNumero();
-        lote.getProduto().setCodLote(numeroLote);
-        lote.setSetor(lote.getSetor());
-        lote.setProduto(lote.getProduto());
+        Produto produto = produtoService.obter(lote.getProduto().getCodigoDoProduto());
+        produto.setCodLote(lote.getNumero());
+        produtoService.atualizar(produto);
 
         return loteRepository.save(lote);
     }

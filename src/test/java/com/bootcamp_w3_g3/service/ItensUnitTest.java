@@ -78,22 +78,4 @@ public class ItensUnitTest{
 
     }
 
-    @Test
-    void atualizarCarrinhoTest(){
-        itens.setId(22222L);
-        itens.setQuantidade(12);
-        itens.setProduto(produto);
-
-        Mockito.when(itensRepository.findItensById(Mockito.any(Long.class))).thenReturn(itens);
-        Mockito.when(itensRepository.save(Mockito.any(Itens.class))).thenReturn(itens);
-
-        itensService = new ItensService(itensRepository);
-        Itens carrinhoAtualizado = itensService.atualizar(itens);
-
-        Mockito.verify(itensRepository, Mockito.times(1)).findItensById(itens.getId());
-        Mockito.verify(itensRepository, Mockito.times(1)).save(itens);
-
-        assertEquals(carrinhoAtualizado.getQuantidade(), itens.getQuantidade());
-
-    }
 }

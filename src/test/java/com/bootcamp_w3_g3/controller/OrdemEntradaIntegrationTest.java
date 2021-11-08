@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,8 +51,7 @@ public class OrdemEntradaIntegrationTest {
 
 
     private static ObjectMapper objectMapper;
-    private OrdemDeEntradaForm ordemDeEntradaForm;
-    private OrdemDeEntradaForm ordemDeEntradaAlteradaForm;
+
 
     @BeforeAll
     static void setup() {
@@ -64,31 +63,163 @@ public class OrdemEntradaIntegrationTest {
         Produto novoProduto = Produto.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
                 .nome(produtoForm.getNome())
+                .preco(produtoForm.getPreco())
+                .tipoProduto(produtoForm.getTipoProduto())
+                .temperaturaIndicada(produtoForm.getTemperaturaIndicada())
                 .build();
         this.produtoService.salvar(novoProduto);
         return ProdutoForm.builder()
                 .codigoDoProduto(novoProduto.getCodigoDoProduto())
-                .temperaturaIndicada(null)
-                .preco(60.0).build();
+                .nome(novoProduto.getNome())
+                .preco(novoProduto.getPreco())
+                .temperaturaIndicada(produtoForm.getTemperaturaIndicada())
+                .tipoProduto(novoProduto.getTipoProduto())
+                .preco(novoProduto.getPreco()).build();
     }
 
-    private LoteForm payloadLote(LoteForm loteForm) {
-        Produto produto = this.produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
-        ProdutoForm produtoForm = ProdutoForm.builder().codigoDoProduto(produto.getCodigoDoProduto()).nome(produto.getNome()).build();
-        Lote lote = Lote.builder().numero(loteForm.getNumero()).produto(produto).setor(loteForm.getSetorForm().converte(this.armazemService)).build();
-        this.loteService.salvar(lote);
-        return LoteForm.builder()
-                .numero(lote.getNumero())
-                .dataDeValidade(lote.getDataDeValidade())
-                .dataDeFabricacao(lote.getDataDeFabricacao())
-                .horaFabricacao(lote.getHoraFabricacao())
-                .quantidadeAtual(lote.getQuantidadeAtual())
-                .quantidadeMinina(lote.getQuantidadeMinina())
-                .temperaturaAtual(lote.getTemperaturaAtual())
-                .temperaturaMinima(lote.getTemperaturaMinima())
-                .produtoForm(produtoForm).build();
+    private RepresentanteForm payloadRepresentante(){
+        return RepresentanteForm.builder()
+                .codigo("R-13")
+                .nome("Pedro")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
     }
 
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-14")
+                .nome("Joao")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private void persisteRepresentante(RepresentanteForm representanteForm) {
+        Representante representante = Representante.builder()
+                .nome(representanteForm.getNome())
+                .sobrenome(representanteForm.getSobrenome())
+                .cpf(representanteForm.getCpf())
+                .telefone(representanteForm.getTelefone())
+                .endereco(representanteForm.getEndereco())
+                .codigo(representanteForm.getCodigo()).build();
+
+        this.representanteService.salvar(representante);
+    }
+
+    private ArmazemForm payloadArmazem() {
+        RepresentanteForm representanteForm = this.payloadRepresentante();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-11")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem2() {
+        RepresentanteForm representanteForm = this.payloadRepresentante2();
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-12")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private void persisteArmazem(ArmazemForm armazemForm) {
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+
+        Armazem armazem = Armazem.builder()
+                .codArmazem(armazemForm.getCodArmazem())
+                .nome(armazemForm.getNome())
+                .representante(representante)
+                .endereco(armazemForm.getEndereco())
+                .uf(armazemForm.getUf())
+                .build();
+
+        this.armazemService.criarArmazem(armazem);
+    }
+
+    private void persisteSetor1(SetorForm setorForm, ArmazemForm armazemForm){
+
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteSetor2(SetorForm setorForm, ArmazemForm armazemForm){
+
+        Armazem armazemSetor = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteLote(LoteForm loteForm, SetorForm setorForm, ProdutoForm produtoForm) {
+
+
+        Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+        Produto produto = this.produtoService.obter(produtoForm.getCodigoDoProduto());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .numero(loteForm.getNumero())
+                .produto(produto)
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
+    }
+
+
+    private void persisteLote2(LoteForm loteForm, SetorForm setorForm, ProdutoForm produtoForm) {
+
+        Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+        Produto produto = this.produtoService.obter(produtoForm.getCodigoDoProduto());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .numero(loteForm.getNumero())
+                .produto(produto)
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
+    }
 
 
     private VendedorForm payloadVendedor(VendedorForm vendedorForm) {
@@ -102,96 +233,64 @@ public class OrdemEntradaIntegrationTest {
     }
 
 
-    private void persisteSetor(Armazem armazem, Setor setor){
-        Setor s = Setor.builder().codigo(setor.getCodigo()).nome(setor.getNome()).armazem(armazem).build();
-        this.setorService.salvarSetor(s);
+    private void persisteOrdem(OrdemDeEntradaForm ordemDeEntradaForm, SetorForm setorForm, LoteForm loteForm, VendedorForm vendedorForm){
+        Representante representante = representanteService.obter(setorForm.getArmazem().getRepresentante().getCodigo());
+        Vendedor vendedor = vendedorService.obter(vendedorForm.getCodigo());
+        Setor setor = setorService.obterSetor(setorForm.getCodigo());
+        Lote lote = loteService.obter(loteForm.getNumero());
+
+        OrdemDeEntrada ordemDeEntrada = OrdemDeEntrada.builder()
+                .vendedor(vendedor).representante(representante).setor(setor).lote(lote)
+                .dataDaOrdem(ordemDeEntradaForm.getDataOrdem())
+                .quantidade(ordemDeEntradaForm.getQuantidade())
+                .numeroDaOrdem(ordemDeEntradaForm.getNumeroOrdem()).build();
+
+        ordemDeEntradaService.registra(ordemDeEntrada);
     }
 
-    private void persisteRepresentante(ArmazemForm armazemForm){
-        Representante representante = Representante.builder().codigo(armazemForm.getRepresentante().getCodigo()).build();
-        representante.setNome( armazemForm.getRepresentante().getNome());
-        this.representanteService.salvar(representante);
-    }
+    @Test
+    public void deveRegistrarUmaOrdemDeEntrada() throws Exception{
+        ProdutoForm produtoForm = ProdutoForm.builder()
+                .tipoProduto(TipoProduto.FRESCOS).nome("carne").codigoDoProduto(23)
+                .preco(20.0).temperaturaIndicada(13.1).build();
 
+        ArmazemForm armazemForm = this.payloadArmazem();
+        this.persisteArmazem(armazemForm);
 
-    private void persisteArmazem(ArmazemForm armazemForm, Representante representante){
-        Armazem armazem = Armazem.builder().codArmazem(armazemForm.getCodArmazem()).nome(armazemForm.getNome()).representante(representante).build();
-        this.armazemService.criarArmazem(armazem);
-    }
+        SetorForm setorForm = SetorForm.builder().codigo("Se-1").nome("central")
+                .armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
 
+        this.persisteSetor1(setorForm, armazemForm);
+        ProdutoForm produto = this.payloadProduto(produtoForm);
 
-    private ArmazemForm payloadArmazem(ArmazemForm armazemForm){
-        persisteRepresentante(armazemForm);
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
-        RepresentanteForm representanteForm = RepresentanteForm.builder().codigo(representante.getCodigo()).nome(representante.getNome()).build();
+        LoteForm loteForm = LoteForm.builder()
+                .numero(15).setorForm(setorForm).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produto).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
 
-        persisteArmazem(armazemForm, representante);
-        Armazem armazem = this.armazemService.obterArmazem(armazemForm.getCodArmazem());
+        this.persisteLote(loteForm, setorForm, produtoForm);
 
+        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-4").build();
+        this.payloadVendedor(vendedor);
 
-        return ArmazemForm.builder()
-                .codArmazem(armazem.getCodArmazem())
-                .representante(representanteForm)
-                .nome(armazem.getNome())
-                .endereco(armazem.getEndereco())
-                .uf(armazem.getUf()).build();
-    }
-
-
-    private SetorForm payloadSetor(SetorForm setorForm) {
-        Armazem armazem = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
-        Setor setor = Setor.builder().codigo(setorForm.getCodigo()).nome(setorForm.getNome()).armazem(armazem).build();
-        this.setorService.salvarSetor(setor);
-        ArmazemForm armazemForm = ArmazemForm.builder().codArmazem(armazem.getCodArmazem()).nome(armazem.getNome()).build();
-        return SetorForm.builder()
-                .codigo(setor.getCodigo())
-                .nome(setor.getNome())
-                .tipoProduto(setor.getTipoProduto())
-                .espacoDisponivel(100)
-                .armazem(armazemForm).build();
-    }
-
-    private OrdemDeEntradaForm payloadOrdemEntrada(ArmazemForm armazemForm, SetorForm setorForm, VendedorForm vendedorForm, LoteForm loteForm) {
-        return OrdemDeEntradaForm.builder()
+        OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
-                .codigoSetor(setorForm.getCodigo())
+                .codigoRepresentante(setorForm.getArmazem().getRepresentante().getCodigo())
+                .codigoSetor(loteForm.getSetorForm().getCodigo())
                 .numeroOrdem(456)
-                .codigoVendedor(vendedorForm.getCodigo())
+                .codigoVendedor(vendedor.getCodigo())
                 .dataFabricacao(LocalDate.of(2021, 10, 12))
                 .dataVencimento(LocalDate.of(2021, 12, 12))
                 .produtoForm(loteForm.getProdutoForm())
                 .loteForm(loteForm)
                 .quantidade(2)
                 .build();
-    }
-
-    @Test
-    public void deveRegistrarUmaOrdemDeEntrada() throws Exception{
-
-        RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
-        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representante(joaquim).build();
-        ArmazemForm armazemForm = payloadArmazem(a);
-
-        SetorForm setor_de_carnes = SetorForm.builder().codigo("999").nome("setor de carnes").armazem(armazemForm).build();
-        setor_de_carnes = payloadSetor(setor_de_carnes);
-
-        ProdutoForm picanha = payloadProduto(ProdutoForm.builder().codigoDoProduto(999).nome("picanha").build());
-        LoteForm loteForm = payloadLote(LoteForm.builder().setorForm(setor_de_carnes).produtoForm(picanha).dataDeValidade(LocalDate.now()).numero(777).build());
-
-        VendedorForm v = VendedorForm.builder().codigo("mlb-452").nome("matheus").build();
-        VendedorForm vendedorForm = payloadVendedor(v);
-
-        this.ordemDeEntradaForm = OrdemDeEntradaForm.builder()
-                .numeroOrdem(100)
-                .codigoSetor( setor_de_carnes.getCodigo())
-                .loteForm(loteForm)
-                .dataOrdem(LocalDate.now())
-                .codigoRepresentante( armazemForm.getRepresentante().getCodigo())
-                .codigoVendedor(vendedorForm.getCodigo()).build();
 
 
-        String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaForm);
+
+        String requestPayload = objectMapper.writeValueAsString(ordemDeEntrada);
 
         this.mockMvc.perform(post("http://localhost:8080/api/ordem-entrada/registrar")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -205,96 +304,59 @@ public class OrdemEntradaIntegrationTest {
     @Test
     public void deveAlterarUmaOrdemDeEntrada() throws Exception {
 
+        ProdutoForm produtoForm = ProdutoForm.builder()
+                .tipoProduto(TipoProduto.REFRIGERADOS).nome("sorvete").codigoDoProduto(43)
+                .preco(20.0).temperaturaIndicada(14.1).build();
 
-        Vendedor vendedor = Vendedor.builder()
-                .codigo("MLB-123")
-                .build();
-        this.vendedorService.salvar(vendedor);
+        ProdutoForm produto = this.payloadProduto(produtoForm);
 
-        Representante representante = this.representanteService.salvar(
-                Representante.builder()
-                        .codigo("MLB-456")
-                        .build());
+        ArmazemForm armazemForm = this.payloadArmazem2();
+        this.persisteArmazem(armazemForm);
 
-        Armazem armazem = this.armazemService.criarArmazem(
-                Armazem.builder()
-                        .codArmazem("MLB-543")
-                        .nome("armazem daaaa")
-                        .representante(representante)
-                        .endereco("algo")
-                        .uf("SP")
-                        .build());
+        SetorForm setorForm = SetorForm.builder().codigo("Se-2").nome("central")
+                .armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
+        this.persisteSetor2(setorForm, armazemForm);
 
-        Setor setor = this.setorService.salvarSetor(
-                Setor.builder()
-                        .codigo("S-456")
-                        .nome("Setor de frescos")
-                        .armazem(armazem)
-                        .espacoDisponivel(40)
-                        .tipoProduto(TipoProduto.FRESCOS)
-                        .build());
+        LoteForm loteForm = LoteForm.builder()
+                .numero(17).setorForm(setorForm).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .produtoForm(produto).horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).build();
 
-        Produto produto = this.produtoService.salvar(
-                Produto.builder()
-                        .codigoDoProduto(222)
-                        .preco(60.0)
-                        .nome("picanha")
-                        .temperaturaIndicada(12.1)
-                        .build());
+        this.persisteLote(loteForm, setorForm, produtoForm);
+
+        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-2").build();
+        this.payloadVendedor(vendedor);
+
+        OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
+                        .numeroOrdem(3)
+                        .codigoSetor(setorForm.getCodigo())
+                        .loteForm(loteForm)
+                        .dataOrdem(LocalDate.now())
+                        .quantidade(2)
+                        .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
+                        .codigoVendedor(vendedor.getCodigo()).build();
+
+        this.persisteOrdem(ordemDeEntrada, setorForm, loteForm, vendedor);
 
 
-        Lote lote = this.loteService.salvar(
-                Lote.builder()
-                        .numero(333)
-                        .setor(setor)
-                        .produto(produto)
-                        .dataDeValidade(LocalDate.now())
-                        .dataDeFabricacao(LocalDate.now())
-                        .build());
-
-        OrdemDeEntrada ordemDeEntrada = OrdemDeEntrada.builder()
-                .dataDaOrdem(LocalDate.now())
-                .numeroDaOrdem(100)
-                .lote(lote)
-                .vendedor(vendedor)
-                .representante(representante)
-                .setor(setor).build();
-
-        this.ordemDeEntradaService.registra(ordemDeEntrada);
-
-        RepresentanteForm joaquim = RepresentanteForm.builder().codigo("rp-345").nome("joaquim").build();
-        ArmazemForm a = ArmazemForm.builder().codArmazem("ar-123").nome("armazem").representante(joaquim).build();
-        ArmazemForm armazemForm = payloadArmazem(a);
-
-        SetorForm setor_de_peixes = SetorForm.builder().codigo("888").nome("setor de peixes").armazem(armazemForm).build();
-        setor_de_peixes = payloadSetor(setor_de_peixes);
-
-        ProdutoForm robalo = payloadProduto(ProdutoForm.builder().codigoDoProduto(777).nome("robalo").build());
-        LoteForm loterobaloForm = payloadLote(LoteForm.builder().setorForm(setor_de_peixes).produtoForm(robalo).dataDeValidade(LocalDate.now()).numero(666).build());
-
-        VendedorForm v = VendedorForm.builder().codigo("mlb-452").nome("matheus").build();
-        VendedorForm vendedorForm = payloadVendedor(v);
-
-        this.ordemDeEntradaAlteradaForm = OrdemDeEntradaForm.builder()
-                .numeroOrdem(100)
-                .codigoSetor( setor_de_peixes.getCodigo())
-                .loteForm(loterobaloForm)
+        OrdemDeEntradaForm ordemDeEntradaAlterada = OrdemDeEntradaForm.builder()
+                .numeroOrdem(3)
+                .codigoSetor(setorForm.getCodigo())
+                .loteForm(loteForm)
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante( armazemForm.getRepresentante().getCodigo())
-                .codigoVendedor(vendedorForm.getCodigo()).build();
+                .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
+                .quantidade(4)
+                .codigoVendedor(vendedor.getCodigo()).build();
 
-
-
-
-
-        String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaAlteradaForm);
-
-        System.out.println(requestPayload);
+        String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaAlterada);
 
         this.mockMvc.perform(put("http://localhost:8080/api/ordem-entrada/alterar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload))
-                .andExpect(status().isCreated());
+                        .andExpect(status().isCreated());
+
     }
 
 

@@ -22,6 +22,7 @@ public class OrdemDeEntrada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer numeroDaOrdem;
+    private Integer quantidade;
     private LocalDate dataDaOrdem;
     @ManyToOne
     private Setor setor;

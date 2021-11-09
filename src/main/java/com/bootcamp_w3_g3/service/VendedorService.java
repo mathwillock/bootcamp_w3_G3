@@ -45,9 +45,13 @@ public class VendedorService {
 
     public Vendedor atualizar(Vendedor vendedor) {
         Vendedor editedVendedor = vendedorRepository.getByCodigo(vendedor.getCodigo());
-        if (editedVendedor == null) return vendedor;
-        editedVendedor.setEndereco(vendedor.getEndereco());
-        editedVendedor.setTelefone(vendedor.getTelefone());
+             if (editedVendedor != null) {
+                 editedVendedor.setNome(vendedor.getNome());
+                 editedVendedor.setSobrenome(vendedor.getSobrenome());
+                 editedVendedor.setTelefone(vendedor.getTelefone());
+                 editedVendedor.setEndereco(vendedor.getEndereco());
+                 editedVendedor.setCpf(vendedor.getCpf());
+             }
 
         return vendedorRepository.save(editedVendedor);
     }

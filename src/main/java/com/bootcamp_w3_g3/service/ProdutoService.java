@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,6 +83,8 @@ public class ProdutoService {
         Produto produtoEdited = produtoRepository.findByCodigoDoProduto(produto.getCodigoDoProduto());
         produtoEdited.setPreco(produto.getPreco());
         produtoEdited.setNome(produto.getNome());
+        produtoEdited.setCodLote(produto.getCodLote());
+        produtoEdited.setTipoProduto(produto.getTipoProduto());
         produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
         return produtoRepository.save(produtoEdited);
@@ -91,5 +94,24 @@ public class ProdutoService {
        produtoRepository.deleteById(id);
        return null;
     }
+
+
+    /**
+     * metodo para listar todos os lotes em que o
+     * produto pertence
+     * @autor Joaquim Borges
+     */
+    public List<Lote> retornaLotesDoProduto(Integer codProduto) {
+        List<Lote> lotesDoProduto = new ArrayList<>();
+        for (Lote lote : loteService.listar()) {
+            if (lote.getProduto().getCodigoDoProduto().equals(codProduto)) {
+                lotesDoProduto.add(lote);
+            }
+        }
+        return lotesDoProduto;
+    }
+
+
+
 
 }

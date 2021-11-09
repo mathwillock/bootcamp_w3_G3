@@ -1,7 +1,8 @@
 package com.bootcamp_w3_g3.model.dtos.response;
 
 import com.bootcamp_w3_g3.model.entity.Produto;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,23 +12,17 @@ import java.util.List;
  *
  * @author Alex Cruz
  */
-@Getter
+@Data
+@AllArgsConstructor
 public class ProdutoDTO {
 
     private Integer codigoDoProduto;
     private String nome;
     private Double preco;
     private Double temperaturaIndicada;
+    private Integer codigoLote;
 
     public ProdutoDTO() {
-    }
-
-    public ProdutoDTO(Integer codigoDoProduto, String nome, Double preco, Double temperaturaIndicada) {
-        this.codigoDoProduto = codigoDoProduto;
-        this.nome = nome;
-        this.preco = preco;
-        this.temperaturaIndicada = temperaturaIndicada;
-
     }
 
     /**
@@ -41,7 +36,7 @@ public class ProdutoDTO {
         return new ProdutoDTO(produto.getCodigoDoProduto(),
                                 produto.getNome(),
                                 produto.getPreco(),
-                                produto.getTemperaturaIndicada());
+                                produto.getTemperaturaIndicada(), produto.getCodLote());
     }
 
     /**
@@ -59,7 +54,7 @@ public class ProdutoDTO {
                     new ProdutoDTO(produto.getCodigoDoProduto(),
                                     produto.getNome(),
                                     produto.getPreco(),
-                                    produto.getTemperaturaIndicada()));
+                                    produto.getTemperaturaIndicada(), produto.getCodLote()));
         }
         return produtoDTOList;
     }

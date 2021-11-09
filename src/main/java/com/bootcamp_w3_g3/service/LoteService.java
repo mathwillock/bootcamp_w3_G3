@@ -29,11 +29,11 @@ public class LoteService {
     @Autowired
     private SetorService setorService;
 
+    @Autowired
     public LoteService(LoteRepository loteRepository) {
         this.loteRepository = loteRepository;
     }
-
-    @Autowired
+    
     public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
         this.loteRepository = loteRepository;
         this.produtoService = produtoService;

@@ -22,6 +22,7 @@ public class LoteService {
 
     private LoteRepository loteRepository;
 
+
     private ProdutoService produtoService;
 
     @Autowired

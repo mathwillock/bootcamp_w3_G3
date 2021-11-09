@@ -42,7 +42,7 @@ public class CarrinhoForm {
                 .codigo(codigoCarrinho)
                 .dataDeOrdem(dataDaOrdem)
                 .statusCompra(statusCompra)
-                .codigoComprador(comprador.getUsuario())
+                .codigoComprador(comprador.getCodigo())
                 .itensList(itens).build();
     }
 

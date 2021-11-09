@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompradorRepository extends JpaRepository<Comprador, Long> {
 
-    Comprador findByUsuario(String usuario);
+    Comprador findByCodigo(String codigo);
+
+    Comprador deleteByCodigo(String codigo);
+
+    Comprador getByCodigo(String codigo);
 
 }

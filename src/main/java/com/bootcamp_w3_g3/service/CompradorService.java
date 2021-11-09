@@ -26,18 +26,20 @@ public class CompradorService {
     @Transactional
     public Comprador salvar(Comprador comprador) { return compradorRepository.save(comprador); }
 
-    public Comprador obter(String usuario) {
+    public Comprador obter(String codigo) {
         try {
-            return compradorRepository.findByUsuario(usuario);
+            return compradorRepository.findByCodigo(codigo);
         }catch (EntityNotFoundException e){
             throw new EntityNotFoundException("comprador não encontrado");
         }
     }
 
     public Comprador atualizar(Comprador comprador) {
-        Comprador compradorEdited = compradorRepository.findByUsuario(comprador.getUsuario());
-        compradorEdited.setUsuario(comprador.getUsuario());
-        compradorEdited.setSenha(comprador.getSenha());
+        Comprador compradorEdited = compradorRepository.getByCodigo(comprador.getCodigo());
+        compradorEdited.setNome(comprador.getNome());
+        compradorEdited.setSobrenome(comprador.getSobrenome());
+        compradorEdited.setTelefone(comprador.getTelefone());
+        compradorEdited.setEndereco(comprador.getEndereco());
 
         return compradorRepository.save(compradorEdited);
     }

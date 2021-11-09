@@ -113,7 +113,7 @@ public class CarrinhoUnitTest{
     void salvarTest(){
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho salvo = carrinhoService.salvar(carrinho);
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
@@ -131,7 +131,7 @@ public class CarrinhoUnitTest{
         carrinhoList.add(carrinho2);
         Mockito.when(carrinhoRepository.findAll()).thenReturn(carrinhoList);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         List<Carrinho> lista = carrinhoService.listar();
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).findAll();
@@ -154,7 +154,7 @@ public class CarrinhoUnitTest{
         Mockito.when(carrinhoRepository.getByCodigo(Mockito.any(String.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho carrinhoAtualizado = carrinhoService.atualizar(carrinho);
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).getByCodigo(carrinho.getCodigo());
@@ -177,7 +177,7 @@ public class CarrinhoUnitTest{
             valorEsperado += item.getProduto().getPreco() * item.getQuantidade();
         }
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         BigDecimal valotTotal = carrinhoService.retornaPrecoDosItens(carrinho);
 
         assertNotNull(valotTotal);
@@ -201,7 +201,7 @@ public class CarrinhoUnitTest{
 
         Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         List<Produto> listaDeProdutosRetornada = carrinhoService.mostrarProdutosDoPedido(carrinho.getId());
 
         Mockito.verify(carrinhoRepository,Mockito.times(1)).getById(carrinho.getId());
@@ -225,7 +225,7 @@ public class CarrinhoUnitTest{
         Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho carrinhoAlterado = carrinhoService.alterarPedido(carrinho, carrinho.getId());
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).getById(carrinho.getId());

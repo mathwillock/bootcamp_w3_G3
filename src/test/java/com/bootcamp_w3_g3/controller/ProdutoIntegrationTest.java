@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,6 +44,14 @@ public class ProdutoIntegrationTest {
 
     @Autowired
     private ProdutoService produtoService;
+    @Autowired
+    private RepresentanteService representanteService;
+    @Autowired
+    private SetorService setorService;
+    @Autowired
+    private ArmazemService armazemService;
+    @Autowired
+    private LoteService loteService;
 
     private static ObjectMapper objectMapper;
 
@@ -99,6 +109,96 @@ public class ProdutoIntegrationTest {
                 .tipoProduto(TipoProduto.FRESCOS)
                 .temperaturaIndicada(16.0)
                 .build();
+    }
+
+    private ProdutoForm payloadProduto6() {
+        return ProdutoForm.builder().codigoDoProduto(30)
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .nome("frango").preco(20.0).temperaturaIndicada(14.1)
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante(){
+        return RepresentanteForm.builder()
+                .codigo("R-30")
+                .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private void persisteRepresentante(RepresentanteForm representanteForm) {
+        Representante representante = Representante.builder()
+                .nome(representanteForm.getNome())
+                .sobrenome(representanteForm.getSobrenome())
+                .cpf(representanteForm.getCpf())
+                .telefone(representanteForm.getTelefone())
+                .endereco(representanteForm.getEndereco())
+                .codigo(representanteForm.getCodigo()).build();
+
+        this.representanteService.salvar(representante);
+    }
+
+    private ArmazemForm payloadArmazem(RepresentanteForm representanteForm) {
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-30")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private void persisteArmazem(ArmazemForm armazemForm) {
+
+        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+
+        Armazem armazem = Armazem.builder()
+                .codArmazem(armazemForm.getCodArmazem())
+                .nome(armazemForm.getNome())
+                .representante(representante)
+                .endereco(armazemForm.getEndereco())
+                .uf(armazemForm.getUf())
+                .build();
+
+        this.armazemService.criarArmazem(armazem);
+    }
+
+    private void persisteSetor1(SetorForm setorForm){
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+
+        Setor setor = Setor.builder()
+                .tipoProduto(setorForm.getTipoProduto())
+                .nome(setorForm.getNome())
+                .armazem(armazemSetor)
+                .espacoDisponivel(setorForm.getEspacoDisponivel())
+                .codigo(setorForm.getCodigo()).build();
+
+        this.setorService.salvarSetor(setor);
+    }
+
+    private void persisteLote2(LoteForm loteForm) {
+
+        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
+        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+
+        Lote loteEnviado = Lote.builder()
+                .setor(setorDoLote)
+                .produto(produto)
+                .numero(loteForm.getNumero())
+                .dataDeValidade(loteForm.getDataDeValidade())
+                .dataDeFabricacao(loteForm.getDataDeFabricacao())
+                .horaFabricacao(loteForm.getHoraFabricacao())
+                .quantidadeAtual(loteForm.getQuantidadeAtual())
+                .quantidadeMinina(loteForm.getQuantidadeMinina())
+                .temperaturaMinima(loteForm.getTemperaturaMinima())
+                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+
+        loteService.salvar(loteEnviado);
     }
 
 
@@ -241,6 +341,40 @@ public class ProdutoIntegrationTest {
 
         this.mockMvc.perform(get("http://localhost:8080/produtos/obter/" + produto.getCodigoDoProduto()))
                 .andExpect(status().isForbidden());
+    }
+
+
+    /**
+     * Teste deve localizar o produto no setor
+     * e listar os diferentes lotes em que ele pertence.
+     */
+    @Test
+    void deveListarLotesDoProduto() throws Exception {
+        ProdutoForm produtoForm = this.payloadProduto6();
+        this.persisteProduto(produtoForm);
+
+        RepresentanteForm representanteForm = this.payloadRepresentante();
+        ArmazemForm armazemForm = this.payloadArmazem(representanteForm);
+        this.persisteArmazem(armazemForm);
+
+        SetorForm setorForm = SetorForm.builder().codigo("S-50")
+                .nome("B").tipoProduto(TipoProduto.REFRIGERADOS)
+                .espacoDisponivel(10).armazem(armazemForm)
+                .build();
+
+        this.persisteSetor1(setorForm);
+
+        LoteForm loteForm = LoteForm.builder().numero(50)
+                .setorForm(setorForm).produtoForm(produtoForm)
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
+                .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
+                .temperaturaMinima(12.5).build();
+
+        this.persisteLote2(loteForm);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/lotes/listar/" + produtoForm.getCodigoDoProduto()))
+                .andExpect(status().isOk());
     }
 
 

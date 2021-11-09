@@ -29,10 +29,6 @@ public class CarrinhoService {
     private LoteService loteService;
 
 
-    public CarrinhoService(CarrinhoRepository carrinhoRepository){
-        this.carrinhoRepository = carrinhoRepository;
-    }
-
     @Autowired
     public CarrinhoService(CarrinhoRepository carrinhoRepository, LoteService loteService){
         this.carrinhoRepository = carrinhoRepository;
@@ -45,9 +41,20 @@ public class CarrinhoService {
             if (produtoVencido(itens.getProduto())){
                 return null;
             }
+            switch (carrinho.getStatusCompra()){
+                case PENDENTE:
+                    return retornaPrecoDosItens(carrinho);
+
+                case CANCELADO:
+                    return new BigDecimal(00.0);
+
+                case CONCLUIDO:
+                    decrementaDoLote(itens);
+                    Carrinho carrinhoSalvo = carrinhoRepository.save(carrinho);
+                    return retornaPrecoDosItens(carrinhoSalvo);
+            }
         }
-        Carrinho carrinhoSalvo = carrinhoRepository.save(carrinho);
-         return retornaPrecoDosItens(carrinhoSalvo);
+        return null;
     }
 
     public Carrinho salvar(Carrinho carrinho){
@@ -125,8 +132,20 @@ public class CarrinhoService {
         return dias < 23;
     }
 
-
-
+    /**
+     *metodo auxiliar para decrementar do lote
+     * quando um produto for comprado.
+     * @autor Joaquim Borges
+     */
+    private void decrementaDoLote(Itens itens){
+        for (Lote lote : loteService.listar()){
+            if (lote.getProduto().getCodigoDoProduto().equals(itens.getProduto().getCodigoDoProduto())){
+                int quantidadeAtual = lote.getQuantidadeAtual() - itens.getQuantidade();
+                lote.setQuantidadeAtual(quantidadeAtual);
+                loteService.atualizar(lote);
+            }
+        }
+    }
 
 
 

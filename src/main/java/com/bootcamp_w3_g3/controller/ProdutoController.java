@@ -115,7 +115,7 @@ public class ProdutoController {
      * saber sua localização no setor e diferentes lotes
      * @autor Joaquim Borges
      */
-    @GetMapping("/lotes/produtos/{codProduto}")
+    @GetMapping("/lotes/listar/{codProduto}")
     public ResponseEntity<List<LoteDTO>> retornaLotesDoProduto(@PathVariable Integer codProduto) {
         try {
             List<Lote> lotes = produtoService.retornaLotesDoProduto(codProduto);

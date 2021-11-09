@@ -22,13 +22,19 @@ public class CompradorUnitTest{
     CompradorRepository compradorRepository = Mockito.mock(CompradorRepository.class);
 
     Comprador comprador  = Comprador.builder()
-            .usuario("Alex")
-            .senha("123456789")
+            .nome("Alex")
+            .sobrenome("Cruz")
+            .cpf("2345678910")
+            .telefone("5555555")
+            .endereco("Rua Joao neves 18")
             .build();
 
     Comprador comprador2  = Comprador.builder()
-            .usuario("Alex2")
-            .senha("123456789")
+            .nome("Hugo")
+            .sobrenome("Damm")
+            .cpf("987654321")
+            .telefone("21 3333-1122")
+            .endereco("Rua Copacabana")
             .build();
 
     List<Comprador> compradorList = new ArrayList<>();
@@ -48,32 +54,33 @@ public class CompradorUnitTest{
     @Test
     void atualizarCompradorTest(){
         comprador.setId(22222L);
-        comprador.setUsuario("Alex");
-        comprador.setSenha("ba12ba13ba14");
-        Mockito.when(compradorRepository.findByUsuario(Mockito.any(String.class))).thenReturn(comprador);
+        comprador.setCodigo("25");
+        comprador.setTelefone("777777777");
+        comprador.setEndereco("Rua ABC");
+        Mockito.when(compradorRepository.getByCodigo(Mockito.any(String.class))).thenReturn(comprador);
         Mockito.when(compradorRepository.save(Mockito.any(Comprador.class))).thenReturn(comprador);
 
         compradorService = new CompradorService(compradorRepository);
         Comprador compradorAtualizado = compradorService.atualizar(comprador);
 
-        Mockito.verify(compradorRepository, Mockito.times(1)).findByUsuario(comprador.getUsuario());
+        Mockito.verify(compradorRepository, Mockito.times(1)).getByCodigo(comprador.getCodigo());
         Mockito.verify(compradorRepository, Mockito.times(1)).save(comprador);
 
         assertNotNull(compradorAtualizado);
-        assertEquals(compradorAtualizado.getUsuario(), comprador.getUsuario());
+        assertEquals(compradorAtualizado.getTelefone(), comprador.getTelefone());
 
     }
 
     @Test
     void obterCompradorTest(){
-        Mockito.when(compradorRepository.findByUsuario(Mockito.any(String.class))).thenReturn(comprador2);
+        Mockito.when(compradorRepository.findByCodigo(Mockito.any(String.class))).thenReturn(comprador2);
 
         compradorService = new CompradorService(compradorRepository);
-        Comprador compradorObtido = compradorService.obter(comprador2.getUsuario());
+        Comprador compradorObtido = compradorService.obter(comprador2.getNome());
 
-        Mockito.verify(compradorRepository, Mockito.times(1)).findByUsuario((comprador2.getUsuario()));
+        Mockito.verify(compradorRepository, Mockito.times(1)).findByCodigo((comprador2.getNome()));
 
-        assertEquals(compradorObtido.getUsuario(), comprador2.getUsuario());
+        assertEquals(compradorObtido.getNome(), comprador2.getNome());
 
     }
 }

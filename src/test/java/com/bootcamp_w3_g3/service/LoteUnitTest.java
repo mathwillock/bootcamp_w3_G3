@@ -24,12 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 public class LoteUnitTest {
-
     @Autowired
-   private LoteService loteService;
+    private LoteService loteService;
 
-   private final ArmazemService armazemService = Mockito.mock(ArmazemService.class);
-   private final LoteRepository loteRepository = Mockito.mock(LoteRepository.class);
+    private ProdutoService produtoService = Mockito.mock(ProdutoService.class);
+    private final LoteRepository loteRepository = Mockito.mock(LoteRepository.class);
 
     Produto produto = Produto.builder()
             .codigoDoProduto(123)
@@ -38,21 +37,21 @@ public class LoteUnitTest {
             .build()
     ;
 
-   Lote lote = Lote.builder()
-           .numero(10)
-           .dataDeValidade(LocalDate.now())
-           .produto(produto)
-           .quantidadeAtual(5)
-           .build()
-   ;
+    Lote lote = Lote.builder()
+            .numero(10)
+            .dataDeValidade(LocalDate.now())
+            .produto(produto)
+            .quantidadeAtual(5)
+            .build()
+    ;
 
-   Lote lote1 = Lote.builder()
-           .numero(9)
-           .dataDeValidade(LocalDate.now())
-           .produto(produto)
-           .quantidadeAtual(5)
-           .build()
-   ;
+    Lote lote2 = Lote.builder()
+            .numero(9)
+            .dataDeValidade(LocalDate.now())
+            .produto(produto)
+            .quantidadeAtual(5)
+            .build()
+    ;
 
     /**
      * teste deve salvar um lote
@@ -61,10 +60,15 @@ public class LoteUnitTest {
    void salvarLoteTest(){
 
         Mockito.when(loteRepository.save(Mockito.any(Lote.class))).thenReturn(lote);
-        loteService = new LoteService(loteRepository);
+        Mockito.when(produtoService.obter(Mockito.any(Integer.class))).thenReturn(produto);
+        produto.setCodLote(lote.getNumero());
+        Mockito.when(produtoService.atualizar(Mockito.any(Produto.class))).thenReturn(produto);
+
+        loteService = new LoteService(loteRepository, produtoService);
         Lote loteSalvo = loteService.salvar(lote);
 
         assertNotNull(loteSalvo);
+        assertEquals(loteSalvo,lote);
    }
 
    @Test
@@ -86,7 +90,7 @@ public class LoteUnitTest {
       loteService = new LoteService(loteRepository);
 
       lotes.add(lote);
-      lotes.add(lote1);
+      lotes.add(lote2);
 
       List<Lote> loteList = loteService.listar();
 

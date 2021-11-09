@@ -49,7 +49,7 @@ public class VendedorServiceUnitTest
         vendedor3.setCodigo("25");
         vendedor3.setTelefone("777777777");
         vendedor3.setEndereco("Rua Amarildo");
-        Mockito.when(vendedorRepository.getById(Mockito.any(Long.class))).thenReturn(vendedor3);
+        Mockito.when(vendedorRepository.getByCodigo(Mockito.any(String.class))).thenReturn(vendedor3);
         Mockito.when(vendedorRepository.save(Mockito.any(Vendedor.class))).thenReturn(vendedor3);
         VendedorService vendedorService = new VendedorService(vendedorRepository);
         Vendedor atualizado = vendedorService.atualizar(vendedor3);

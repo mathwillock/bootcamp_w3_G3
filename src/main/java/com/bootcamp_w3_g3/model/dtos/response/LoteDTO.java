@@ -1,11 +1,9 @@
 package com.bootcamp_w3_g3.model.dtos.response;
 
+import com.bootcamp_w3_g3.model.dtos.response.responseReq3.SetorDto;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,28 +14,27 @@ import java.util.List;
  * @autor Alex Cruz
  */
 
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoteDTO {
 
     private Integer numero;
-    private Integer quantidadeDeIntens;
     private Integer quantidadeAtual;
-    private Produto produto;
+    private ProdutoDTO produto;
+    private SetorDto setorDto;
     private Double temperaturaAtual;
-    private LocalDate dataDeFabricacao;
     private LocalDate dataDeValidade;
 
 
     public static LoteDTO converter(Lote lote) {
         return LoteDTO.builder()
                 .numero(lote.getNumero())
-                .produto(lote.getProduto())
+                .setorDto(SetorDto.converter(lote.getSetor()))
+                .produto(ProdutoDTO.convertEmProdutoDTO(lote.getProduto()))
                 .temperaturaAtual(lote.getTemperaturaAtual())
                 .quantidadeAtual(lote.getQuantidadeAtual())
-                .dataDeFabricacao(lote.getDataDeFabricacao())
                 .dataDeValidade(lote.getDataDeValidade())
                 .build();
     }
@@ -47,10 +44,10 @@ public class LoteDTO {
         for (Lote lote : loteList) {
             loteDTOList.add(LoteDTO.builder()
                     .numero(lote.getNumero())
-                    .produto(lote.getProduto())
+                    .setorDto(SetorDto.converter(lote.getSetor()))
+                    .produto(ProdutoDTO.convertEmProdutoDTO(lote.getProduto()))
                     .temperaturaAtual(lote.getTemperaturaAtual())
                     .quantidadeAtual(lote.getQuantidadeAtual())
-                    .dataDeFabricacao(lote.getDataDeFabricacao())
                     .dataDeValidade(lote.getDataDeValidade())
                     .build());
         }

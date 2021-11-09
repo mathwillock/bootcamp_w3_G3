@@ -82,6 +82,8 @@ public class ProdutoService {
         Produto produtoEdited = produtoRepository.findByCodigoDoProduto(produto.getCodigoDoProduto());
         produtoEdited.setPreco(produto.getPreco());
         produtoEdited.setNome(produto.getNome());
+        produtoEdited.setCodLote(produto.getCodLote());
+        produtoEdited.setTipoProduto(produto.getTipoProduto());
         produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
         return produtoRepository.save(produtoEdited);

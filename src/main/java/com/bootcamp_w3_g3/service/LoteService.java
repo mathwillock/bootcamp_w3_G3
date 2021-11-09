@@ -20,12 +20,11 @@ import java.util.List;
 @Service
 public class LoteService {
 
-    @Autowired
     private LoteRepository loteRepository;
-    @Autowired
+
     private ProdutoService produtoService;
 
-
+    @Autowired
     public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
         this.loteRepository = loteRepository;
         this.produtoService = produtoService;

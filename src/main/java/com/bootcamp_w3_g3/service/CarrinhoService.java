@@ -25,10 +25,9 @@ public class CarrinhoService {
 
     private CarrinhoRepository carrinhoRepository;
 
-    @Autowired
     private LoteService loteService;
 
-
+    @Autowired
     public CarrinhoService(CarrinhoRepository carrinhoRepository, LoteService loteService){
         this.carrinhoRepository = carrinhoRepository;
         this.loteService = loteService;

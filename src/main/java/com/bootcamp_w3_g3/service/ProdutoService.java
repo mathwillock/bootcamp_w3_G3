@@ -25,10 +25,8 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    @Autowired
     private ProdutoRepository produtoRepository;
 
-    @Autowired
     private LoteService loteService;
 
 

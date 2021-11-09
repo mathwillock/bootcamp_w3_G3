@@ -18,8 +18,8 @@ import java.util.Optional;
 public class VendedorService {
 
 
-    @Autowired
-    VendedorRepository vendedorRepository;
+
+    private VendedorRepository vendedorRepository;
 
     @Autowired
     public VendedorService(VendedorRepository vendedorRepository) {

@@ -27,13 +27,10 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
 
     @Autowired
+
     private LoteService loteService;
 
-    public ProdutoService(ProdutoRepository produtoRepository){
-        this.produtoRepository = produtoRepository;
-    }
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository, LoteService loteService) {
         this.produtoRepository = produtoRepository;
         this.loteService = loteService;

@@ -26,7 +26,7 @@ public class Carrinho {
     private LocalDate dataDeOrdem;
     private StatusCompra statusCompra;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Itens> itensList = new ArrayList<>();
     private String codigoComprador;
 

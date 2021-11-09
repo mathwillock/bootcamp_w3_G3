@@ -4,7 +4,6 @@ import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.repository.LoteRepository;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,20 +25,11 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    @Autowired
     private ProdutoRepository produtoRepository;
 
-    @Autowired
-    private LoteRepository loteRepository;
-
-    @Autowired
     private LoteService loteService;
 
-    public ProdutoService(ProdutoRepository produtoRepository){
-        this.produtoRepository = produtoRepository;
-    }
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository, LoteService loteService) {
         this.produtoRepository = produtoRepository;
         this.loteService = loteService;

@@ -20,11 +20,11 @@ import javax.transaction.Transactional;
 public class OrdemDeEntradaService {
     @Autowired
     private OrdemDeEntradaRepository ordemDeEntradaRepository;
-    @Autowired
+
     private final RepresentanteService representanteService;
-    @Autowired
+
     private final ArmazemService armazemService;
-    @Autowired
+
     private final SetorService setorService;
     @Autowired
     private VendedorService vendedorService;

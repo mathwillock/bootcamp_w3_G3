@@ -19,7 +19,6 @@ public class ArmazemService {
     @Autowired
     private SetorService setorService;
 
-    @Autowired
     private ArmazemRepository armazemRepository;
 
     @Autowired

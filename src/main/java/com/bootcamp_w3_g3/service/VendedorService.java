@@ -53,7 +53,6 @@ public class VendedorService {
                  editedVendedor.setCpf(vendedor.getCpf());
              }
 
-        assert editedVendedor != null;
         return vendedorRepository.save(editedVendedor);
     }
 

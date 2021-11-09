@@ -10,22 +10,26 @@ import javax.persistence.Id;
 
 /**
  * @author Math Willock
+ * @author Hugo Damm (Refaturação)
  */
+
 @Getter
 @Setter
+@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
+
 public class Comprador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String usuario;
-    private String senha;
-
-
+    private String codigo;
+    private String nome;
+    private String sobrenome;
+    private String cpf;
+    private String telefone;
+    private String endereco;
 
 }

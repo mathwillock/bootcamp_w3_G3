@@ -102,12 +102,11 @@ public class CarrinhoService {
     public Carrinho alterarPedido(Carrinho carrinho, Long id) {
         try {
             Carrinho carrinhoEncontrado = carrinhoRepository.getById(id);
-            if (carrinhoEncontrado != null){
-                carrinhoEncontrado.setItensList(carrinho.getItensList());
-                carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
-                carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
-                carrinhoRepository.save(carrinhoEncontrado);
-            }
+            carrinhoEncontrado.setItensList(carrinho.getItensList());
+            carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
+            carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
+
+            carrinhoRepository.save(carrinhoEncontrado);
             return carrinhoEncontrado;
 
         }catch (Exception e){

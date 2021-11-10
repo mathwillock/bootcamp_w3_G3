@@ -27,12 +27,9 @@ public class ProdutoService {
 
     private ProdutoRepository produtoRepository;
 
-    private LoteService loteService;
-
-
-    public ProdutoService(ProdutoRepository produtoRepository, LoteService loteService) {
+    @Autowired
+    public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
-        this.loteService = loteService;
     }
 
     @Transactional
@@ -46,9 +43,9 @@ public class ProdutoService {
         throw  new EntityNotFoundException("produto não encontrado");
     }
 
-    public Lote obterLote(Integer codLote){
-        return loteService.obter(codLote);
-    }
+    //public Lote obterLote(Integer codLote){
+    //    return loteService.obter(codLote);
+    //}
 
 
     public List<Produto> listarPorCategoria(TipoProduto categoria){
@@ -86,20 +83,7 @@ public class ProdutoService {
     }
 
 
-    /**
-     * metodo para listar todos os lotes em que o
-     * produto pertence
-     * @autor Joaquim Borges
-     */
-    public List<Lote> retornaLotesDoProduto(Integer codProduto) {
-        List<Lote> lotesDoProduto = new ArrayList<>();
-        for (Lote lote : loteService.listar()) {
-            if (lote.getProduto().getCodigoDoProduto().equals(codProduto)) {
-                lotesDoProduto.add(lote);
-            }
-        }
-        return lotesDoProduto;
-    }
+
 
 
 

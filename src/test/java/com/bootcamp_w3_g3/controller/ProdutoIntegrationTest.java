@@ -4,6 +4,7 @@ import com.bootcamp_w3_g3.BootcampW3G3Application;
 import com.bootcamp_w3_g3.model.dtos.request.*;
 import com.bootcamp_w3_g3.model.dtos.response.TokenDTO;
 import com.bootcamp_w3_g3.model.entity.*;
+import com.bootcamp_w3_g3.repository.UsuarioRepository;
 import com.bootcamp_w3_g3.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -52,6 +53,8 @@ public class ProdutoIntegrationTest {
     private ArmazemService armazemService;
     @Autowired
     private LoteService loteService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     private static ObjectMapper objectMapper;
 
@@ -243,6 +246,10 @@ public class ProdutoIntegrationTest {
 
     @Test
     void deveObterUmProdutoCadastrado() throws Exception {
+        Usuario usuario = Usuario.builder().login("joaquim")
+                .senha("$2a$10$BDoxHiGmU8F1ohZ7VEvRoeZujhmT7JP34Nmu/PGkmjPOP4sPX9nd6").build();
+        usuarioRepository.save(usuario);
+
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
 

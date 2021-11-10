@@ -1,12 +1,10 @@
 package com.bootcamp_w3_g3.service;
-
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -23,7 +21,10 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private ProdutoRepository produtoRepository;
+    @Autowired
+    private final ProdutoRepository produtoRepository;
+
+    @Autowired
 
     @Autowired
     public ProdutoService(ProdutoRepository produtoRepository) {
@@ -40,6 +41,7 @@ public class ProdutoService {
         }
         throw  new EntityNotFoundException("produto não encontrado");
     }
+
 
 
     public List<Produto> listarPorCategoria(TipoProduto categoria){
@@ -79,6 +81,39 @@ public class ProdutoService {
 
 
 
+    /**
+     * método para listar todos os lotes de forma ordenada; por número do Lote, quantidadeMinima, vencimento.
+     * @param codProduto
+     * @param tipoDeOrdenacao
+     * @return loteListProdutos
+     */
+    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
+
+        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
+
+        switch (tipoDeOrdenacao) {
+
+            case "lote" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
+                );
+            break;
+
+            case "quantidade" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
+                );
+            break;
+
+            case "vencimento" :
+                loteListProdutos.stream().sorted(
+                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
+                );
+            break;
+        }
+
+        return loteListProdutos;
+    }
 
 
 

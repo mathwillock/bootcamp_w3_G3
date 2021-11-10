@@ -128,4 +128,15 @@ public class ProdutoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/lotes/lista-ordem/{codProduto}/{tipoDeOrdenacao}")
+    public ResponseEntity<List<LoteDTO>> ordenandoLotes(
+            @PathVariable Integer codProduto,  @PathVariable String tipoDeOrdenacao)
+    {
+
+        List<Lote> lotes = produtoService.retornaLotesDoProdutoOrdenados(codProduto, tipoDeOrdenacao);
+
+        return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK) ;
+    }
+
 }

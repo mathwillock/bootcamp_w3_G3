@@ -129,14 +129,21 @@ public class ProdutoController {
         }
     }
 
+    /**
+     *
+     * @param codProduto
+     * @param tipoDeOrdenacao (Lote, quantidade, vencimento)
+     * @return Lista de lotes ordenados.
+     * @author Matheus Willock
+     */
     @GetMapping("/lotes/lista-ordem/{codProduto}/{tipoDeOrdenacao}")
     public ResponseEntity<List<LoteDTO>> ordenandoLotes(
             @PathVariable Integer codProduto,  @PathVariable String tipoDeOrdenacao)
     {
 
-        List<Lote> lotes = produtoService.retornaLotesDoProdutoOrdenados(codProduto, tipoDeOrdenacao);
+        List<Lote> lotes = loteService.retornaLotesDoProdutoOrdenados(codProduto, tipoDeOrdenacao);
 
-        return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK) ;
+        return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK);
     }
 
 }

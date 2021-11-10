@@ -3,8 +3,10 @@ package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 
+import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 public class LoteUnitTest {
-    @Autowired
+
     private LoteService loteService;
+
+    ProdutoRepository produtoRepository = Mockito.mock(ProdutoRepository.class);
 
     private ProdutoService produtoService = Mockito.mock(ProdutoService.class);
     private final LoteRepository loteRepository = Mockito.mock(LoteRepository.class);
@@ -52,6 +56,17 @@ public class LoteUnitTest {
             .quantidadeAtual(5)
             .build()
     ;
+
+    Lote lote3 = Lote.builder()
+            .numero(30)
+            .dataDeValidade(LocalDate.now())
+            .quantidadeAtual(15)
+            .build()
+    ;
+
+
+    List<Lote> loteList1 = new ArrayList<>();
+
 
     /**
      * teste deve salvar um lote
@@ -81,7 +96,6 @@ public class LoteUnitTest {
       assertEquals(lote.getNumero(), getLote.getNumero());
    }
 
-
    @Test
    void obterTodosLotesTest(){
       List<Lote> lotes = new ArrayList<>();
@@ -98,7 +112,7 @@ public class LoteUnitTest {
    }
 
     @Test
-    void atualizarLotetest() {
+    void atualizarLoteTest() {
 
        lote.setNumero(20);
        lote.setQuantidadeAtual(2);
@@ -113,6 +127,40 @@ public class LoteUnitTest {
 
     }
 
+    @Test
+    void retornarLotesDoProdutoTest(){
+        lote2.setProduto(produto);
+        lote3.setProduto(produto);
+        loteList1.add(lote2);
+        loteList1.add(lote);
+        loteList1.add(lote3);
+
+        loteService = new LoteService(loteRepository, produtoService);
+
+        Mockito.when(loteService.listar()).thenReturn(loteList1);
+
+        produtoService = new ProdutoService(produtoRepository);
+        List<Lote> listaDeLotesDoProduto = loteService.retornaLotesDoProduto(produto.getCodigoDoProduto());
+
+        assertEquals(loteList1.size(),listaDeLotesDoProduto.size());
+
+    }
+
+    @Test
+    void retornaLotesDoProdutoOrdenadosTest(){
+        lote2.setProduto(produto);
+        lote3.setProduto(produto);
+        loteList1.add(lote3);
+        loteList1.add(lote);
+        loteList1.add(lote2);
+
+        loteService = new LoteService(loteRepository, produtoService);
+        Mockito.when(loteService.listar()).thenReturn(loteList1);
+        List<Lote> listaDeLoteDoProdutoOrdenados = loteService.retornaLotesDoProdutoOrdenados(produto.getCodigoDoProduto(),"lote");
+
+        assertNotNull(listaDeLoteDoProdutoOrdenados);
+        assertEquals(lote2, listaDeLoteDoProdutoOrdenados.get(0));
+    }
 
 
 }

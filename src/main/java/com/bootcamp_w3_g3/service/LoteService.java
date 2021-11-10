@@ -83,4 +83,33 @@ public class LoteService {
         return lotesDoProduto;
     }
 
+    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
+
+        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
+
+        switch (tipoDeOrdenacao) {
+
+            case "lote" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
+                );
+            break;
+
+            case "quantidade" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
+                );
+            break;
+
+            case "vencimento" :
+                loteListProdutos.stream().sorted(
+                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
+                );
+            break;
+        }
+
+        return loteListProdutos;
+    }
+
+
 }

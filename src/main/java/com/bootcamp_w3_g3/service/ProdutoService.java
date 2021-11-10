@@ -24,7 +24,7 @@ public class ProdutoService {
     @Autowired
     private final ProdutoRepository produtoRepository;
 
-    @Autowired
+
 
     @Autowired
     public ProdutoService(ProdutoRepository produtoRepository) {
@@ -76,43 +76,6 @@ public class ProdutoService {
     public Produto apagar(Long id) {
        produtoRepository.deleteById(id);
        return null;
-    }
-
-
-
-
-    /**
-     * método para listar todos os lotes de forma ordenada; por número do Lote, quantidadeMinima, vencimento.
-     * @param codProduto
-     * @param tipoDeOrdenacao
-     * @return loteListProdutos
-     */
-    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
-
-        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
-
-        switch (tipoDeOrdenacao) {
-
-            case "lote" :
-                loteListProdutos.sort(
-                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
-                );
-            break;
-
-            case "quantidade" :
-                loteListProdutos.sort(
-                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
-                );
-            break;
-
-            case "vencimento" :
-                loteListProdutos.stream().sorted(
-                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
-                );
-            break;
-        }
-
-        return loteListProdutos;
     }
 
 

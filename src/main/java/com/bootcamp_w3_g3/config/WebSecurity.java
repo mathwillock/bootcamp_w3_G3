@@ -30,7 +30,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/produtos/obter/*").authenticated()
-                .antMatchers(HttpMethod.POST, "/produtos/*").authenticated()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/lote/salvar").authenticated()
                 .antMatchers(HttpMethod.GET, "/setor/obter/*").authenticated()

@@ -79,22 +79,6 @@ public class ProdutoServiceUnitTest {
 
 
     @Test
-    void obterLoteTest() {
-
-        produto.setCodLote(lote.getNumero());
-
-        Mockito.when(loteService.obter(Mockito.any(Integer.class))).thenReturn(lote);
-
-        produtoService = new ProdutoService(produtoRepository);
-        //Lote loteEncontrado = produtoService.obterLote(produto.getCodLote());
-        //TODO: Revisar
-        //assertNotNull(loteEncontrado);
-        assertEquals(lote.getNumero(), produto.getCodLote());
-
-    }
-
-
-    @Test
     void listarPorCategoriaTest(){
         produtosList.add(produto);
         produtosList.add(produto2);

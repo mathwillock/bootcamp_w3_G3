@@ -34,12 +34,20 @@ public class ProdutoServiceUnitTest {
     ;
 
     Produto produto2 = Produto.builder()
-            .codigoDoProduto(123)
+            .codigoDoProduto(132)
             .nome("Arroz")
             .preco(60.0)
             .tipoProduto(TipoProduto.FRESCOS)
             .build()
     ;
+
+    Produto produto3 = Produto.builder()
+            .codigoDoProduto(345)
+            .nome("Leite")
+            .preco(4.0)
+            .tipoProduto(TipoProduto.REFRIGERADOS)
+            .build()
+            ;
 
     List<Produto> produtosList = new ArrayList<>();
 
@@ -50,6 +58,23 @@ public class ProdutoServiceUnitTest {
             .quantidadeAtual(5)
             .build()
     ;
+
+    Lote lote2 = Lote.builder()
+            .numero(30)
+            .dataDeValidade(LocalDate.now())
+            .quantidadeAtual(15)
+            .build()
+    ;
+
+    Lote lote3 = Lote.builder()
+            .numero(30)
+            .dataDeValidade(LocalDate.now())
+            .quantidadeAtual(15)
+            .build()
+    ;
+
+    List<Lote> loteList1 = new ArrayList<>();
+    List<Lote> loteList2 = new ArrayList<>();
 
     @Test
     void salvarTest(){
@@ -136,5 +161,21 @@ public class ProdutoServiceUnitTest {
         Mockito.verify(produtoRepository, Mockito.times(1)).deleteById(produto.getId());
 
         assertNotEquals(deletado, produto);
+    }
+
+    @Test
+    void retornarLotesDoProdutoTest(){
+        lote2.setProduto(produto);
+        lote3.setProduto(produto);
+        loteList1.add(lote2);
+        loteList1.add(lote);
+        loteList1.add(lote3);
+
+        Mockito.when(loteService.listar()).thenReturn(loteList1);
+        produtoService = new ProdutoService(produtoRepository, loteService);
+        List<Lote> listaDeLotesDoProduto = produtoService.retornaLotesDoProduto(produto.getCodigoDoProduto());
+
+        assertEquals(loteList1.size(),listaDeLotesDoProduto.size());
+
     }
 }

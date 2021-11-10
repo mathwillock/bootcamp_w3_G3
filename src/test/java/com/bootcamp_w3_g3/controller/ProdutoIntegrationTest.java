@@ -246,14 +246,14 @@ public class ProdutoIntegrationTest {
 
     @Test
     void deveObterUmProdutoCadastrado() throws Exception {
-        Usuario usuario = Usuario.builder().login("joaquim")
+        Usuario usuario = Usuario.builder().login("representante")
                 .senha("$2a$10$BDoxHiGmU8F1ohZ7VEvRoeZujhmT7JP34Nmu/PGkmjPOP4sPX9nd6").build();
         usuarioRepository.save(usuario);
 
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
 
-        String login = "joaquim";
+        String login = "representante";
         String senha = "123";
         UsuarioForm payload = UsuarioForm.builder().login(login).senha(senha).build();
         String isso = objectMapper.writeValueAsString(payload);

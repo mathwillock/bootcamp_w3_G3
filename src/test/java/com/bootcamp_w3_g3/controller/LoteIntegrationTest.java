@@ -403,7 +403,7 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto();
         this.persisteProduto(produtoForm);
 
-        Usuario usuario = Usuario.builder().login("joaquim")
+        Usuario usuario = Usuario.builder().login("representante")
                 .senha("$2a$10$BDoxHiGmU8F1ohZ7VEvRoeZujhmT7JP34Nmu/PGkmjPOP4sPX9nd6").build();
         usuarioRepository.save(usuario);
 
@@ -414,7 +414,7 @@ public class LoteIntegrationTest {
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
-        String login = "joaquim";
+        String login = "representante";
         String senha = "123";
         UsuarioForm payload = UsuarioForm.builder().login(login).senha(senha).build();
         String isso = objectMapper.writeValueAsString(payload);

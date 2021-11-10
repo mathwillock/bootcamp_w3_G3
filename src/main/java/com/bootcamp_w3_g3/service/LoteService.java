@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,6 +68,19 @@ public class LoteService {
     }
 
 
-
+    /**
+     * metodo para listar todos os lotes em que o
+     * produto pertence
+     * @autor Joaquim Borges
+     */
+    public List<Lote> retornaLotesDoProduto(Integer codProduto) {
+        List<Lote> lotesDoProduto = new ArrayList<>();
+        for (Lote lote : listar()) {
+            if (lote.getProduto().getCodigoDoProduto().equals(codProduto)) {
+                lotesDoProduto.add(lote);
+            }
+        }
+        return lotesDoProduto;
+    }
 
 }

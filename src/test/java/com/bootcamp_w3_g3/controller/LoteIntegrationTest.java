@@ -6,6 +6,7 @@ import com.bootcamp_w3_g3.model.dtos.request.*;
 import com.bootcamp_w3_g3.model.dtos.response.TokenDTO;
 import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.LoteRepository;
+import com.bootcamp_w3_g3.repository.UsuarioRepository;
 import com.bootcamp_w3_g3.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -54,6 +55,8 @@ public class LoteIntegrationTest {
     private ArmazemService armazemService;
     @Autowired
     private RepresentanteService representanteService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
 
     private static ObjectMapper objectMapper;
@@ -318,9 +321,11 @@ public class LoteIntegrationTest {
         this.persisteSetor2(setorForm);
 
         Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
+                .produto(produto)
                 .numero(loteForm.getNumero())
                 .dataDeValidade(loteForm.getDataDeValidade())
                 .dataDeFabricacao(loteForm.getDataDeFabricacao())
@@ -344,9 +349,11 @@ public class LoteIntegrationTest {
         this.persisteSetor3(setorForm);
 
         Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
+        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
+                .produto(produto)
                 .numero(loteForm.getNumero())
                 .dataDeValidade(loteForm.getDataDeValidade())
                 .dataDeFabricacao(loteForm.getDataDeFabricacao())
@@ -362,9 +369,11 @@ public class LoteIntegrationTest {
     private void persisteLote4(LoteForm loteForm) {
 
         Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
+        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
+                .produto(produto)
                 .numero(loteForm.getNumero())
                 .dataDeValidade(loteForm.getDataDeValidade())
                 .dataDeFabricacao(loteForm.getDataDeFabricacao())
@@ -393,6 +402,10 @@ public class LoteIntegrationTest {
 
         ProdutoForm produtoForm = this.payloadProduto();
         this.persisteProduto(produtoForm);
+
+        Usuario usuario = Usuario.builder().login("joaquim")
+                .senha("$2a$10$BDoxHiGmU8F1ohZ7VEvRoeZujhmT7JP34Nmu/PGkmjPOP4sPX9nd6").build();
+        usuarioRepository.save(usuario);
 
         LoteForm loteForm = LoteForm.builder()
                 .numero(9).setorForm(setorDoLote).temperaturaAtual(17.0)

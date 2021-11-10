@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class OrdemDeEntradaUnitTest {
 
-
+    ProdutoService produtoService = Mockito.mock(ProdutoService.class);
     VendedorRepository vendedorRepository = Mockito.mock(VendedorRepository.class);
     VendedorService vendedorService = new VendedorService(vendedorRepository);
 
 
     LoteRepository loteRepository = Mockito.mock(LoteRepository.class);
-    LoteService loteService = new LoteService(loteRepository);
+    LoteService loteService = new LoteService(loteRepository, produtoService);
 
 
     RepresentanteRepository representanteRepository = Mockito.mock(RepresentanteRepository.class);

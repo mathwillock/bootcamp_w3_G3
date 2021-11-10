@@ -75,7 +75,7 @@ public class LoteUnitTest {
    void obterLoteTest(){
       Mockito.when(loteRepository.findByNumero(Mockito.any(Integer.class))).thenReturn(lote);
 
-      loteService = new LoteService(loteRepository);
+      loteService = new LoteService(loteRepository, produtoService);
       Lote getLote = loteService.obter(lote.getNumero());
 
       assertEquals(lote.getNumero(), getLote.getNumero());
@@ -87,7 +87,7 @@ public class LoteUnitTest {
       List<Lote> lotes = new ArrayList<>();
 
       Mockito.when(loteRepository.findAll()).thenReturn(lotes);
-      loteService = new LoteService(loteRepository);
+      loteService = new LoteService(loteRepository, produtoService);
 
       lotes.add(lote);
       lotes.add(lote2);
@@ -106,7 +106,7 @@ public class LoteUnitTest {
        Mockito.when(loteRepository.findByNumero(Mockito.any(Integer.class))).thenReturn(lote);
        Mockito.when(loteRepository.save(Mockito.any(Lote.class))).thenReturn(lote);
 
-       loteService = new LoteService(loteRepository);
+       loteService = new LoteService(loteRepository, produtoService);
        Lote loteUpdate = loteService.atualizar(lote);
 
        assertNotNull(lote);

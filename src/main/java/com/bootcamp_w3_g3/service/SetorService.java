@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 public class SetorService {
 
-    @Autowired
     private final SetorRepository setorRepository;
 
     @Autowired

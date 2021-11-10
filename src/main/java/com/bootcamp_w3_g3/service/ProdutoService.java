@@ -1,14 +1,11 @@
 package com.bootcamp_w3_g3.service;
-
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.repository.LoteRepository;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +24,13 @@ import java.util.List;
 public class ProdutoService {
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private final ProdutoRepository produtoRepository;
 
     @Autowired
-    private LoteRepository loteRepository;
 
-    @Autowired
     private LoteService loteService;
 
-    public ProdutoService(ProdutoRepository produtoRepository){
-        this.produtoRepository = produtoRepository;
-    }
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository, LoteService loteService) {
         this.produtoRepository = produtoRepository;
         this.loteService = loteService;
@@ -59,7 +50,6 @@ public class ProdutoService {
     public Lote obterLote(Integer codLote){
         return loteService.obter(codLote);
     }
-
 
     public List<Produto> listarPorCategoria(TipoProduto categoria){
             switch (categoria) {
@@ -111,6 +101,39 @@ public class ProdutoService {
         return lotesDoProduto;
     }
 
+    /**
+     * método para listar todos os lotes de forma ordenada; por número do Lote, quantidadeMinima, vencimento.
+     * @param codProduto
+     * @param tipoDeOrdenacao
+     * @return loteListProdutos
+     */
+    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
+
+        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
+
+        switch (tipoDeOrdenacao) {
+
+            case "lote" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
+                );
+            break;
+
+            case "quantidade" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
+                );
+            break;
+
+            case "vencimento" :
+                loteListProdutos.stream().sorted(
+                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
+                );
+            break;
+        }
+
+        return loteListProdutos;
+    }
 
 
 

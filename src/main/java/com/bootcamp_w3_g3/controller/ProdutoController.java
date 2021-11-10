@@ -6,6 +6,7 @@ import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.service.CarrinhoService;
+import com.bootcamp_w3_g3.service.LoteService;
 import com.bootcamp_w3_g3.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    @Autowired
+    private LoteService loteService;
 
     @Autowired
     private CarrinhoService carrinhoService;
@@ -118,10 +122,21 @@ public class ProdutoController {
     @GetMapping("/lotes/listar/{codProduto}")
     public ResponseEntity<List<LoteDTO>> retornaLotesDoProduto(@PathVariable Integer codProduto) {
         try {
-            List<Lote> lotes = produtoService.retornaLotesDoProduto(codProduto);
+            List<Lote> lotes = loteService.retornaLotesDoProduto(codProduto);
             return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK) ;
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/lotes/lista-ordem/{codProduto}/{tipoDeOrdenacao}")
+    public ResponseEntity<List<LoteDTO>> ordenandoLotes(
+            @PathVariable Integer codProduto,  @PathVariable String tipoDeOrdenacao)
+    {
+
+        List<Lote> lotes = produtoService.retornaLotesDoProdutoOrdenados(codProduto, tipoDeOrdenacao);
+
+        return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK) ;
+    }
+
 }

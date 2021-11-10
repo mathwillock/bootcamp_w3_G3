@@ -6,10 +6,8 @@ import com.bootcamp_w3_g3.model.dtos.request.RepresentanteForm;
 import com.bootcamp_w3_g3.model.dtos.request.SetorForm;
 import com.bootcamp_w3_g3.model.dtos.request.UsuarioForm;
 import com.bootcamp_w3_g3.model.dtos.response.TokenDTO;
-import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.Representante;
-import com.bootcamp_w3_g3.model.entity.Setor;
-import com.bootcamp_w3_g3.model.entity.TipoProduto;
+import com.bootcamp_w3_g3.model.entity.*;
+import com.bootcamp_w3_g3.repository.UsuarioRepository;
 import com.bootcamp_w3_g3.service.ArmazemService;
 import com.bootcamp_w3_g3.service.RepresentanteService;
 import com.bootcamp_w3_g3.service.SetorService;
@@ -49,6 +47,8 @@ public class SetorIntegrationTest {
     private ArmazemService armazemService;
     @Autowired
     private RepresentanteService representanteService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     private static ObjectMapper objectMapper;
 
@@ -248,6 +248,10 @@ public class SetorIntegrationTest {
      */
     @Test
     void deveObterUmSetor() throws Exception {
+        Usuario usuario = Usuario.builder().login("joaquim")
+                .senha("$2a$10$BDoxHiGmU8F1ohZ7VEvRoeZujhmT7JP34Nmu/PGkmjPOP4sPX9nd6").build();
+        usuarioRepository.save(usuario);
+
        RepresentanteForm representanteForm = this.payloadRepresentante2();
        ArmazemForm armazemForm = this.payloadArmazem2(representanteForm);
        this.persisteArmazem(armazemForm);

@@ -5,7 +5,6 @@ import com.bootcamp_w3_g3.model.dtos.response.ProdutoDTO;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.service.CarrinhoService;
 import com.bootcamp_w3_g3.service.LoteService;
 import com.bootcamp_w3_g3.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,7 @@ public class ProdutoController {
     @Autowired
     private LoteService loteService;
 
-    @Autowired
-    private CarrinhoService carrinhoService;
+
 
 
     /**
@@ -93,7 +91,7 @@ public class ProdutoController {
     /**
      *endpoint deve listar todos os produtos da
      * mesma categoria.
-     * @autor Joaquim Borges
+     * @author Joaquim Borges
      */
     @GetMapping("/listar/{categoria}")
     public ResponseEntity<List<Produto>> listarPorCategoria(@PathVariable TipoProduto categoria) {
@@ -104,20 +102,12 @@ public class ProdutoController {
         }
     }
 
-    /**
-     *endpoint deve listar todos os produtos
-     * contidos em um carrinho especifico.
-     * @autor Joaquim Borges
-     */
-    @GetMapping("/carrinho/{idCarrinho}")
-    public ResponseEntity<List<Produto>> mostrarProdutosDoPedido(@PathVariable Long idCarrinho) {
-        return new ResponseEntity<>(carrinhoService.mostrarProdutosDoPedido(idCarrinho), HttpStatus.OK);
-    }
+
 
     /**
      *endpoint para consultar um produto em stock
      * saber sua localização no setor e diferentes lotes
-     * @autor Joaquim Borges
+     * @author Joaquim Borges
      */
     @GetMapping("/lotes/listar/{codProduto}")
     public ResponseEntity<List<LoteDTO>> retornaLotesDoProduto(@PathVariable Integer codProduto) {
@@ -131,7 +121,7 @@ public class ProdutoController {
 
     /**
      *
-     * @param codProduto
+     * @param codProduto (codigoDoProduto)
      * @param tipoDeOrdenacao (Lote, quantidade, vencimento)
      * @return Lista de lotes ordenados.
      * @author Matheus Willock

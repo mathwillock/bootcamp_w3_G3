@@ -131,6 +131,40 @@ public class ProdutoIntegrationTest {
                 .build();
     }
 
+
+    private ProdutoForm payloadProduto8() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(50)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
+    private ProdutoForm payloadProduto9() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(51)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
+    private ProdutoForm payloadProduto10() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(53)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
                 .codigo("R-30")
@@ -347,6 +381,24 @@ public class ProdutoIntegrationTest {
 
         this.mockMvc.perform(delete("http://localhost:8080/produtos/deletar/" + produto.getId()))
                 .andExpect(status().isOk());
+    }
+
+    /**
+     * teste deve listar todos os produtos da lista
+     * @author Matheus Willock
+     */
+    @Test
+    void deveListarTodosProdutos() throws Exception {
+        ProdutoForm produto = this.payloadProduto8();
+        ProdutoForm produto1 = this.payloadProduto9();
+        ProdutoForm produto2 = this.payloadProduto10();
+
+        this.persisteProduto(produto);
+        this.persisteProduto(produto1);
+        this.persisteProduto(produto2);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/listar")).andExpect(status().isOk());
+
     }
 
     /**

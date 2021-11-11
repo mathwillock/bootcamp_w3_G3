@@ -78,6 +78,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 3
+     * Teste Para cubrir o estatus PENDENTE do método registrarCarrinho
      * @author Alex Cruz
      */
     @Test
@@ -100,6 +101,10 @@ public class CarrinhoUnitTest{
         assertEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
     }
 
+    /**
+     * Teste Para cubrir o estatus CANCELADO do método registrarCarrinho
+     * @author Matheus Willock
+     */
     @Test
     void registrarPedidoComStatusCanceladoTest(){
         produto.setCodLote(lote.getNumero());
@@ -119,6 +124,10 @@ public class CarrinhoUnitTest{
         assertNotEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
     }
 
+    /**
+     * Teste Para cubrir o estatus CONCLUIDO do método registrarCarrinho
+     * @author Matheus Willock
+     */
     @Test
     void registrarPedidoComStatusConcluidoTest(){
         produto.setCodLote(lote.getNumero());

@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 
 
 /**
- * @autor Joaquim Borges
+ * @author Joaquim Borges
  */
 @SpringBootTest(classes = BootcampW3G3Application.class)
 @WebAppConfiguration
@@ -121,9 +121,64 @@ public class ProdutoIntegrationTest {
                 .build();
     }
 
+    private ProdutoForm payloadProduto7() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(43)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build();
+    }
+
+
+    private ProdutoForm payloadProduto8() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(50)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
+    private ProdutoForm payloadProduto9() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(51)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
+    private ProdutoForm payloadProduto10() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(53)
+                .nome("carne")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
                 .codigo("R-30")
+                .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-100")
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -149,6 +204,18 @@ public class ProdutoIntegrationTest {
 
         return ArmazemForm.builder()
                 .codArmazem("AR-30")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem2(RepresentanteForm representanteForm) {
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-100")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -317,9 +384,27 @@ public class ProdutoIntegrationTest {
     }
 
     /**
+     * teste deve listar todos os produtos da lista
+     * @author Matheus Willock
+     */
+    @Test
+    void deveListarTodosProdutos() throws Exception {
+        ProdutoForm produto = this.payloadProduto8();
+        ProdutoForm produto1 = this.payloadProduto9();
+        ProdutoForm produto2 = this.payloadProduto10();
+
+        this.persisteProduto(produto);
+        this.persisteProduto(produto1);
+        this.persisteProduto(produto2);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/listar")).andExpect(status().isOk());
+
+    }
+
+    /**
      * teste deve listar todos os produtos da mesma
      * categoria
-     * @autor Joaquim Borges
+     * @author Joaquim Borges
      */
     @Test
     void deveListarProdutosPorCategoria() throws Exception {
@@ -384,5 +469,64 @@ public class ProdutoIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * @author Matheus Willock
+     */
+    @Test
+    void deveListarOrdenadosPorLotes() throws Exception{
+
+        ProdutoForm produtoForm = this.payloadProduto7();
+        this.persisteProduto(produtoForm);
+
+        RepresentanteForm representanteForm = this.payloadRepresentante2();
+        ArmazemForm armazemForm = this.payloadArmazem2(representanteForm);
+        this.persisteArmazem(armazemForm);
+
+        SetorForm setorForm = SetorForm.builder().codigo("S-100")
+                .nome("C").tipoProduto(TipoProduto.REFRIGERADOS)
+                .espacoDisponivel(10).armazem(armazemForm)
+                .build()
+        ;
+
+        this.persisteSetor1(setorForm);
+
+        LoteForm loteForm = LoteForm.builder().numero(110)
+                .setorForm(setorForm).produtoForm(produtoForm)
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
+                .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
+                .temperaturaMinima(12.5).build()
+        ;
+
+        this.persisteLote2(loteForm);
+
+        LoteForm loteForm2 = LoteForm.builder().numero(100)
+                .setorForm(setorForm).produtoForm(produtoForm)
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
+                .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
+                .temperaturaMinima(12.5).build()
+        ;
+
+        this.persisteLote2(loteForm2);
+
+        LoteForm loteForm3 = LoteForm.builder().numero(120)
+                .setorForm(setorForm).produtoForm(produtoForm)
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
+                .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
+                .temperaturaMinima(12.5).build()
+        ;
+
+        this.persisteLote2(loteForm3);
+
+        this.mockMvc.perform(get(
+                "http://localhost:8080/produtos/lotes/lista-ordem/"
+                        + produtoForm.getCodigoDoProduto() + "/lote" )
+                )
+                .andExpect(status().isOk()
+        );
+
+    }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.empty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.is;
@@ -77,6 +78,17 @@ public class RepresentanteIntTest {
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante5(){
+        return RepresentanteForm.builder()
+                .codigo("R-60")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
                 .cpf("123.234.345-04")
                 .telefone("11-2473648")
                 .build();
@@ -178,7 +190,16 @@ public class RepresentanteIntTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void NaoDeveApagarUmRepresentante() throws Exception {
+        Long id = 3060L;
+        RepresentanteForm representanteForm = this.payloadRepresentante5();
+        Representante representante = this.converte(representanteForm);
+        this.representanteService.salvar(representante);
 
+        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/" + id.toString())).andExpect(result -> result.getResponse().equals(status().isNoContent()));
+
+    }
 
 
 

@@ -5,6 +5,7 @@ import com.bootcamp_w3_g3.model.dtos.response.RepresentanteDTO;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.service.RepresentanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,9 @@ public class RepresentanteController {
                 representanteService.apagar(id);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            catch (EmptyResultDataAccessException e) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>("Representante deletado com sucesso", HttpStatus.OK);
         }

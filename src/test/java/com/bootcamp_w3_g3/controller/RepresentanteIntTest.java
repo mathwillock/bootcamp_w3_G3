@@ -1,5 +1,6 @@
 package com.bootcamp_w3_g3.controller;
 
+import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.dtos.request.RepresentanteForm;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.service.RepresentanteService;
@@ -12,6 +13,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.Matchers.empty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -86,6 +92,17 @@ public class RepresentanteIntTest {
     private RepresentanteForm payloadRepresentante5(){
         return RepresentanteForm.builder()
                 .codigo("R-60")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante6(){
+        return RepresentanteForm.builder()
+                .codigo("R-65")
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
@@ -181,6 +198,16 @@ public class RepresentanteIntTest {
      */
 
     @Test
+    void deveListarRepresentante() throws Exception {
+        RepresentanteForm representante6 = this.payloadRepresentante6();
+
+        this.persisteRepresentante(representante6);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/listar/"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void deveApagarUmRepresentante() throws Exception {
         RepresentanteForm representanteForm = this.payloadRepresentante4();
         Representante representante = this.converte(representanteForm);
@@ -197,7 +224,7 @@ public class RepresentanteIntTest {
         Representante representante = this.converte(representanteForm);
         this.representanteService.salvar(representante);
 
-        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/" + id.toString())).andExpect(result -> result.getResponse().equals(status().isNoContent()));
+        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/" + id.toString())).andExpect(result -> result.getResponse().equals(status().isNotFound()));
 
     }
 

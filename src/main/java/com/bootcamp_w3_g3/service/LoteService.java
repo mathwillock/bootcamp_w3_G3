@@ -2,8 +2,11 @@ package com.bootcamp_w3_g3.service;
 
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.repository.ArmazemRepository;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class LoteService {
 
 
     private ProdutoService produtoService;
+
+    private ArmazemRepository armazemRepository;
 
     @Autowired
     public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
@@ -102,13 +107,30 @@ public class LoteService {
             break;
 
             case "vencimento" :
-                loteListProdutos.stream().sorted(
+                loteListProdutos.sort(
                         (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
                 );
             break;
         }
 
         return loteListProdutos;
+    }
+
+    /**
+     * metodo para listar a quantidades total de Produtos
+     * por armazém
+     * @author Hugo Damm
+     */
+    public List<DTOArmazem> retornaQuantidadesDoProdutosPorArmazem(Integer codProduto){
+        List<DTOArmazem> armazemListProduto = new ArrayList<>();
+        List<Lote> quantidadeListProduto = retornaLotesDoProduto(codProduto);
+
+        for (Lote lote : quantidadeListProduto){
+            armazemListProduto.add(new DTOArmazem(lote.getSetor().getArmazem().getCodArmazem(),lote.getQuantidadeAtual()));
+        }
+
+        return armazemListProduto;
+
     }
 
 

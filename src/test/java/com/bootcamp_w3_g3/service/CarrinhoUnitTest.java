@@ -11,12 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bootcamp_w3_g3.model.entity.StatusCompra.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Criado teste unitário referente a classe carrinhoService.
  * Desenvolvido testes para o CRUD.
- * @autor Alex Cruz
+ * @author Alex Cruz
  */
 public class CarrinhoUnitTest{
 
@@ -61,14 +62,6 @@ public class CarrinhoUnitTest{
             .quantidadeAtual(5)
             .build();
 
-    Lote lote2 = Lote.builder()
-            .numero(30)
-            .dataDeFabricacao(LocalDate.parse("2021-10-30", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-            .dataDeValidade(LocalDate.parse("2021-11-15", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-            .produto(produto2)
-            .quantidadeAtual(10)
-            .build();
-
     Itens item = Itens.builder()
             .produto(produto)
             .quantidade(25)
@@ -85,13 +78,16 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 3
-     * @autor Alex Cruz
+     * Teste Para cubrir o estatus PENDENTE do método registrarCarrinho
+     * @author Alex Cruz
      */
     @Test
-    void regitrarPedidoTest(){
+    void registrarPedidoComStatusPendenteTest(){
         produto.setCodLote(lote.getNumero());
         itensList.add(item);
         carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(PENDENTE);
+
 
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
         Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
@@ -106,8 +102,57 @@ public class CarrinhoUnitTest{
     }
 
     /**
+     * Teste Para cubrir o estatus CANCELADO do método registrarCarrinho
+     * @author Matheus Willock
+     */
+    @Test
+    void registrarPedidoComStatusCanceladoTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(CANCELADO);
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertNotEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
+
+    /**
+     * Teste Para cubrir o estatus CONCLUIDO do método registrarCarrinho
+     * @author Matheus Willock
+     */
+    @Test
+    void registrarPedidoComStatusConcluidoTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(CONCLUIDO);
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
+
+
+
+
+    /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void salvarTest(){
@@ -123,7 +168,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void listarTest(){
@@ -142,7 +187,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void atualizarTest(){
@@ -150,7 +195,7 @@ public class CarrinhoUnitTest{
         itensList.add(item2);
         carrinho.setDataDeOrdem(LocalDate.now());
         carrinho.setItensList(itensList);
-        carrinho.setStatusCompra(StatusCompra.CANCELADO);
+        carrinho.setStatusCompra(CANCELADO);
         Mockito.when(carrinhoRepository.getByCodigo(Mockito.any(String.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
@@ -166,7 +211,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void retornaPrecoDosItensTest(){
@@ -186,7 +231,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void mostrarProdutosDoPedidoTest(){
@@ -212,7 +257,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void alterarPedidoTest(){
@@ -221,7 +266,7 @@ public class CarrinhoUnitTest{
         carrinho.setId(34234L);
         carrinho.setDataDeOrdem(LocalDate.now());
         carrinho.setItensList(itensList);
-        carrinho.setStatusCompra(StatusCompra.CANCELADO);
+        carrinho.setStatusCompra(CANCELADO);
         Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 

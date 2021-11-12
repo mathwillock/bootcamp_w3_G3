@@ -43,7 +43,7 @@ public class LoteUnitTest {
 
     Lote lote = Lote.builder()
             .numero(10)
-            .dataDeValidade(LocalDate.now())
+            .dataDeValidade(LocalDate.of(2021, 12, 11))
             .produto(produto)
             .quantidadeAtual(5)
             .build()
@@ -51,15 +51,15 @@ public class LoteUnitTest {
 
     Lote lote2 = Lote.builder()
             .numero(9)
-            .dataDeValidade(LocalDate.now())
+            .dataDeValidade(LocalDate.of(2021, 12, 12))
             .produto(produto)
-            .quantidadeAtual(5)
+            .quantidadeAtual(25)
             .build()
     ;
 
     Lote lote3 = Lote.builder()
             .numero(30)
-            .dataDeValidade(LocalDate.now())
+            .dataDeValidade(LocalDate.of(2021, 12, 13))
             .quantidadeAtual(15)
             .build()
     ;
@@ -147,7 +147,7 @@ public class LoteUnitTest {
     }
 
     @Test
-    void retornaLotesDoProdutoOrdenadosTest(){
+    void LotesDoProdutoOrdenadosPorLoteTest(){
         lote2.setProduto(produto);
         lote3.setProduto(produto);
         loteList1.add(lote3);
@@ -161,6 +161,46 @@ public class LoteUnitTest {
         assertNotNull(listaDeLoteDoProdutoOrdenados);
         assertEquals(lote2, listaDeLoteDoProdutoOrdenados.get(0));
     }
+
+    @Test
+    void LotesDoProdutoOrdenadosPorQuantidade() {
+
+        lote2.setProduto(produto);
+        lote3.setProduto(produto);
+        loteList1.add(lote3);
+        loteList1.add(lote);
+        loteList1.add(lote2);
+
+        loteService = new LoteService(loteRepository, produtoService);
+        Mockito.when(loteService.listar()).thenReturn(loteList1);
+
+        List<Lote> listaDeLoteDoProdutoOrdenados = loteService.retornaLotesDoProdutoOrdenados(produto.getCodigoDoProduto(),"quantidade");
+
+        assertNotNull(listaDeLoteDoProdutoOrdenados);
+        assertEquals(lote, listaDeLoteDoProdutoOrdenados.get(0));
+
+    }
+
+    @Test
+    void LotesDoProdutoOrdenadosPorVencimento() {
+
+        lote2.setProduto(produto);
+        lote3.setProduto(produto);
+        loteList1.add(lote3);
+        loteList1.add(lote);
+        loteList1.add(lote2);
+
+        loteService = new LoteService(loteRepository, produtoService);
+        Mockito.when(loteService.listar()).thenReturn(loteList1);
+
+        List<Lote> listaDeLoteDoProdutoOrdenados = loteService.retornaLotesDoProdutoOrdenados(produto.getCodigoDoProduto(),"vencimento");
+
+        assertNotNull(listaDeLoteDoProdutoOrdenados);
+        assertEquals(lote, listaDeLoteDoProdutoOrdenados.get(0));
+
+    }
+
+
 
 
 }

@@ -1,27 +1,36 @@
 package com.bootcamp_w3_g3.model.dtos.request;
 
 import com.bootcamp_w3_g3.model.entity.Comprador;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @autor Joaquim Borges
+ * @author Hugo Damm (Refaturação)
  */
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class CompradorForm {
 
-    private String usuario;
-    private String senha;
+    private String codigo;
+    private String nome;
+    private String sobrenome;
+    private String cpf;
+    private String telefone;
+    private String endereco;
 
+    public CompradorForm() {
+    }
 
     public Comprador converte(){
         return Comprador.builder()
-                .senha(usuario)
-                .senha(senha).build();
+                .codigo(this.codigo)
+                .nome(this.nome)
+                .sobrenome(this.sobrenome)
+                .cpf(this.cpf)
+                .telefone(this.telefone)
+                .endereco(this.endereco)
+                .build();
     }
 }

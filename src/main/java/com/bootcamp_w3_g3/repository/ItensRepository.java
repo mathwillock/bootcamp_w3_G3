@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
     public interface ItensRepository extends JpaRepository<Itens, Long> {
 
-        Itens findItensById(Long id);
-
 
     }
 

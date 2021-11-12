@@ -1,14 +1,10 @@
 package com.bootcamp_w3_g3.service;
-
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
-import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
-import com.bootcamp_w3_g3.repository.LoteRepository;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -18,18 +14,20 @@ import java.util.List;
  * Bem como aplicar camada dde regra de negócios neccessária.
  *
  * @author Alex Cruz
- * @autor Joaquim Borges
+ * @author  Joaquim Borges
+ * @author  Matheus Willock
  */
 
 @Service
 public class ProdutoService {
 
-    private ProdutoRepository produtoRepository;
-    private LoteRepository loteRepository;
+    @Autowired
+    private final ProdutoRepository produtoRepository;
+
 
 
     @Autowired
-    public ProdutoService(ProdutoRepository produtoRepository){
+    public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
 
@@ -44,10 +42,6 @@ public class ProdutoService {
         throw  new EntityNotFoundException("produto não encontrado");
     }
 
-    public Lote obterLote(Integer codLote){
-        Lote lote = loteRepository.findByNumero(codLote);
-        return lote;
-    }
 
 
     public List<Produto> listarPorCategoria(TipoProduto categoria){
@@ -72,6 +66,8 @@ public class ProdutoService {
         Produto produtoEdited = produtoRepository.findByCodigoDoProduto(produto.getCodigoDoProduto());
         produtoEdited.setPreco(produto.getPreco());
         produtoEdited.setNome(produto.getNome());
+        produtoEdited.setCodLote(produto.getCodLote());
+        produtoEdited.setTipoProduto(produto.getTipoProduto());
         produtoEdited.setTemperaturaIndicada(produto.getTemperaturaIndicada());
 
         return produtoRepository.save(produtoEdited);
@@ -80,7 +76,8 @@ public class ProdutoService {
     public Produto apagar(Long id) {
        produtoRepository.deleteById(id);
        return null;
-
     }
+
+
 
 }

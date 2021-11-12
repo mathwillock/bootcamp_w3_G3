@@ -1,5 +1,6 @@
 package com.bootcamp_w3_g3.controller;
 
+import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.dtos.request.RepresentanteForm;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.service.RepresentanteService;
@@ -13,6 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.Matchers.empty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.is;
@@ -40,10 +47,54 @@ public class RepresentanteIntTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-123")
+                .codigo("R-1")
+                .nome("Pedro")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante2(){
+        return RepresentanteForm.builder()
+                .codigo("R-2")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante3(){
+        return RepresentanteForm.builder()
+                .codigo("R-3")
+                .nome("Paulo")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante4(){
+        return RepresentanteForm.builder()
+                .codigo("R-4")
+                .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante5(){
+        return RepresentanteForm.builder()
+                .codigo("R-60")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
                 .cpf("123.234.345-04")
                 .telefone("11-2473648")
                 .build();
@@ -94,7 +145,7 @@ public class RepresentanteIntTest {
 
     @Test
     void deveObterUmRepresentante() throws Exception {
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante2();
         this.persisteRepresentante(representanteForm);
 
         this.mockMvc.perform(get("http://localhost:8080/representante/obter/" + representanteForm.getCodigo()))
@@ -109,11 +160,11 @@ public class RepresentanteIntTest {
     @Test
     void deveAlterarDadosDoRepresentante() throws Exception {
 
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante3();
         this.persisteRepresentante(representanteForm);
 
         RepresentanteForm representanteAlterado = RepresentanteForm.builder()
-                .codigo("R-123")
+                .codigo("R-3")
                 .nome("Jose")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
@@ -136,8 +187,23 @@ public class RepresentanteIntTest {
      */
 
     @Test
+    void deveListarRepresentante() throws Exception {
+        RepresentanteForm representante = this.payloadRepresentante();
+        RepresentanteForm representante2 = this.payloadRepresentante2();
+        RepresentanteForm representante3 = this.payloadRepresentante3();
+
+
+        this.persisteRepresentante(representante);
+        this.persisteRepresentante(representante2);
+        this.persisteRepresentante(representante3);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/listar/"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void deveApagarUmRepresentante() throws Exception {
-        RepresentanteForm representanteForm = this.payloadRepresentante();
+        RepresentanteForm representanteForm = this.payloadRepresentante4();
         Representante representante = this.converte(representanteForm);
         this.representanteService.salvar(representante);
 
@@ -145,7 +211,16 @@ public class RepresentanteIntTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void NaoDeveApagarUmRepresentante() throws Exception {
+        Long id = 3060L;
+        RepresentanteForm representanteForm = this.payloadRepresentante5();
+        Representante representante = this.converte(representanteForm);
+        this.representanteService.salvar(representante);
 
+        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/" + id.toString())).andExpect(result -> result.getResponse().equals(status().isNotFound()));
+
+    }
 
 
 

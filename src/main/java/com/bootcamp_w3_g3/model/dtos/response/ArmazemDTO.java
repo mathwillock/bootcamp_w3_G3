@@ -18,7 +18,6 @@ public class ArmazemDTO {
     private String codArmazem;
     private String nome;
     private String endereco;
-    private String uf;
     private RepresentanteDTO representanteDTO;
 
     public static ArmazemDTO converter(Armazem armazem) {
@@ -27,7 +26,6 @@ public class ArmazemDTO {
                 armazem.getCodArmazem(),
                 armazem.getNome(),
                 armazem.getEndereco(),
-                armazem.getUf(),
                 RepresentanteDTO.converteEmRepresentanteDTO(armazem.getRepresentante())
 
         );
@@ -44,7 +42,6 @@ public class ArmazemDTO {
                             armazem.getCodArmazem(),
                             armazem.getNome(),
                             armazem.getEndereco(),
-                            armazem.getUf(),
                             RepresentanteDTO.converteEmRepresentanteDTO(armazem.getRepresentante())
                     )
             );

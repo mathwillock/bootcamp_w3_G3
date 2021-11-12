@@ -24,12 +24,12 @@ public class CarrinhoForm {
     private String codigoCarrinho;
     private LocalDate dataDaOrdem;
     private StatusCompra statusCompra;
-    private List<ItensForm> itensList = new ArrayList<>();
-    private String usuario;
+    private List<ItensForm> itensList;
+    private String codigoComprador;
 
 
     public Carrinho converte(ProdutoService produtoService, CompradorService compradorService) {
-        Comprador comprador = compradorService.obter(this.usuario);
+        Comprador comprador = compradorService.obter(this.codigoComprador);
 
         List<Itens> itens = new ArrayList<>();
         for (ItensForm i : itensList){
@@ -42,7 +42,7 @@ public class CarrinhoForm {
                 .codigo(codigoCarrinho)
                 .dataDeOrdem(dataDaOrdem)
                 .statusCompra(statusCompra)
-                .codigoComprador(comprador.getUsuario())
+                .codigoComprador(comprador.getCodigo())
                 .itensList(itens).build();
     }
 

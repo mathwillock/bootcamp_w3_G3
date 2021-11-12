@@ -3,11 +3,13 @@ package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.Lote;
+import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,22 +21,22 @@ import java.util.List;
 @Service
 public class LoteService {
 
-    @Autowired
     private LoteRepository loteRepository;
-    @Autowired
-    private ArmazemService armazemService;
-    @Autowired
+
+
     private ProdutoService produtoService;
+
     @Autowired
-    private SetorService setorService;
-
-    public LoteService(LoteRepository loteRepository) {
+    public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
         this.loteRepository = loteRepository;
+        this.produtoService = produtoService;
     }
-
 
     @Transactional
     public Lote salvar(Lote lote) {
+        Produto produto = produtoService.obter(lote.getProduto().getCodigoDoProduto());
+        produto.setCodLote(lote.getNumero());
+        produtoService.atualizar(produto);
 
         return loteRepository.save(lote);
     }
@@ -65,10 +67,49 @@ public class LoteService {
         return loteRepository.save(editedLote);
     }
 
-    public Lote apagar(Integer numeroDoLote) {
-        return loteRepository.deleteByNumero(numeroDoLote);
+
+    /**
+     * metodo para listar todos os lotes em que o
+     * produto pertence
+     * @autor Joaquim Borges
+     */
+    public List<Lote> retornaLotesDoProduto(Integer codProduto) {
+        List<Lote> lotesDoProduto = new ArrayList<>();
+        for (Lote lote : listar()) {
+            if (lote.getProduto().getCodigoDoProduto().equals(codProduto)) {
+                lotesDoProduto.add(lote);
+            }
+        }
+        return lotesDoProduto;
     }
 
+    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
+
+        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
+
+        switch (tipoDeOrdenacao) {
+
+            case "lote" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
+                );
+            break;
+
+            case "quantidade" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
+                );
+            break;
+
+            case "vencimento" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
+                );
+            break;
+        }
+
+        return loteListProdutos;
+    }
 
 
 }

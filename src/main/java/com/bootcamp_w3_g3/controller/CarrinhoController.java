@@ -2,6 +2,7 @@ package com.bootcamp_w3_g3.controller;
 
 import com.bootcamp_w3_g3.model.dtos.request.CarrinhoForm;
 import com.bootcamp_w3_g3.model.entity.Carrinho;
+import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.service.CarrinhoService;
 import com.bootcamp_w3_g3.service.CompradorService;
 import com.bootcamp_w3_g3.service.ProdutoService;
@@ -54,6 +55,16 @@ public class CarrinhoController {
         Carrinho carrinho = carrinhoService
                 .alterarPedido(carrinhoForm.converte(produtoService, compradorService), id);
         return new ResponseEntity<>(carrinho, HttpStatus.OK);
+    }
+
+    /**
+     *endpoint deve listar todos os produtos
+     * contidos em um carrinho especifico.
+     * @author Joaquim Borges
+     */
+    @GetMapping("/carrinho/{idCarrinho}")
+    public ResponseEntity<List<Produto>> mostrarProdutosDoPedido(@PathVariable Long idCarrinho) {
+        return new ResponseEntity<>(carrinhoService.mostrarProdutosDoPedido(idCarrinho), HttpStatus.OK);
     }
 
 }

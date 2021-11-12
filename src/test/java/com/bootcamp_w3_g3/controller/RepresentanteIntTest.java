@@ -100,6 +100,17 @@ public class RepresentanteIntTest {
                 .build();
     }
 
+    private RepresentanteForm payloadRepresentante6(){
+        return RepresentanteForm.builder()
+                .codigo("R-65")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
     private Representante converte(RepresentanteForm representanteForm){
         return Representante.builder()
                 .nome(representanteForm.getNome())
@@ -188,14 +199,9 @@ public class RepresentanteIntTest {
 
     @Test
     void deveListarRepresentante() throws Exception {
-        RepresentanteForm representante = this.payloadRepresentante();
-        RepresentanteForm representante2 = this.payloadRepresentante2();
-        RepresentanteForm representante3 = this.payloadRepresentante3();
+        RepresentanteForm representante6 = this.payloadRepresentante6();
 
-
-        this.persisteRepresentante(representante);
-        this.persisteRepresentante(representante2);
-        this.persisteRepresentante(representante3);
+        this.persisteRepresentante(representante6);
 
         this.mockMvc.perform(get("http://localhost:8080/produtos/listar/"))
                 .andExpect(status().isOk());

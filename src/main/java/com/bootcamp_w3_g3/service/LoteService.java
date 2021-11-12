@@ -102,7 +102,7 @@ public class LoteService {
             break;
 
             case "vencimento" :
-                loteListProdutos.stream().sorted(
+                loteListProdutos.sort(
                         (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
                 );
             break;

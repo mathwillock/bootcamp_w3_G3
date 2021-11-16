@@ -2,6 +2,7 @@ package com.bootcamp_w3_g3.controller;
 import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.dtos.response.LoteDTO;
 import com.bootcamp_w3_g3.model.dtos.response.ProdutoDTO;
+import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
@@ -134,6 +135,17 @@ public class ProdutoController {
         List<Lote> lotes = loteService.retornaLotesDoProdutoOrdenados(codProduto, tipoDeOrdenacao);
 
         return new ResponseEntity<>(LoteDTO.converterLista(lotes), HttpStatus.OK);
+    }
+
+    /**
+     * @param codProduto (codigoDoProduto)
+     * @return quantidade total de Produtos por armazém
+     * @author Hugo Damm
+     */
+    @GetMapping(value = "listar/armazem/{codProduto}")
+    public ResponseEntity<List<DTOArmazem>> quantidadesProdutosPorArmazem(@PathVariable Integer codProduto){
+
+        return new ResponseEntity<>(loteService.retornaQuantidadesDoProdutosPorArmazem(codProduto), HttpStatus.OK);
     }
 
 }

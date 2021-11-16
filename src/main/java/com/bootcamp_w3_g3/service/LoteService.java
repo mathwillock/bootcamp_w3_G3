@@ -2,13 +2,19 @@ package com.bootcamp_w3_g3.service;
 
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.dtos.response.requisito5.DTOLote;
+import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.repository.ArmazemRepository;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +31,10 @@ public class LoteService {
 
 
     private ProdutoService produtoService;
+    @Autowired
+    private SetorService setorService;
+
+    private ArmazemRepository armazemRepository;
 
     @Autowired
     public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
@@ -109,6 +119,56 @@ public class LoteService {
         }
 
         return loteListProdutos;
+    }
+
+    /**
+     * metodo para listar a quantidades total de Produtos
+     * por armazém
+     * @author Hugo Damm
+     */
+    public List<DTOArmazem> retornaQuantidadesDoProdutosPorArmazem(Integer codProduto){
+        List<DTOArmazem> armazemListProduto = new ArrayList<>();
+        List<Lote> quantidadeListProduto = retornaLotesDoProduto(codProduto);
+
+        for (Lote lote : quantidadeListProduto){
+            armazemListProduto.add(new DTOArmazem(lote.getSetor().getArmazem().getCodArmazem(),lote.getQuantidadeAtual()));
+        }
+
+        return armazemListProduto;
+
+    }
+
+    /**
+     *metodo para retornar todos os lotes do setor do produto
+     * ordenados pela data de validade.
+     * @autor Joaquim Borges
+     */
+    public List<DTOLote> retornaLotesArmazenadosDoProduto(String codSetor, Integer qtdDias) {
+        List<Lote> lotes = new ArrayList<>();
+        for (Lote lote : listar()) {
+            if (lote.getSetor().getCodigo().equals(codSetor)){
+               lotes = retornaLotesDoProdutoOrdenados(lote.getProduto().getCodigoDoProduto(), "vencimento");
+            }
+        }
+        return lotesDentroDoPeriodo(lotes, qtdDias);
+    }
+
+
+    /**
+     * metodo auxiliar para retornar todos os lotes que têm a
+     * validade dentro do perido requerido.
+     * @autor Joaquim Borges
+     */
+    private List<DTOLote> lotesDentroDoPeriodo(List<Lote> lotes, Integer qtdDias) {
+        List<DTOLote> lotesRetornado = new ArrayList<>();
+        for (Lote lote : lotes) {
+            long dias = ChronoUnit.DAYS.between(lote.getDataDeFabricacao(), lote.getDataDeValidade());
+            if (dias <= qtdDias){
+                lotesRetornado.add(new DTOLote(lote.getNumero(), lote.getProduto().getCodigoDoProduto(),
+                        lote.getProduto().getTipoProduto(), lote.getDataDeValidade(), lote.getQuantidadeAtual()));
+            }
+        }
+        return lotesRetornado;
     }
 
 

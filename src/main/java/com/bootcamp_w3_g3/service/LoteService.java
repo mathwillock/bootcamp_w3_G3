@@ -156,7 +156,7 @@ public class LoteService {
 
     /**
      * metodo auxiliar para retornar todos os lotes que têm a
-     * validade dentro do perido requerido.
+     * validade dentro do periodo requerido.
      * @autor Joaquim Borges
      */
     private List<DTOLote> lotesDentroDoPeriodo(List<Lote> lotes, Integer qtdDias) {

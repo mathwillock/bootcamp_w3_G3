@@ -3,6 +3,7 @@ import com.bootcamp_w3_g3.model.dtos.request.ProdutoForm;
 import com.bootcamp_w3_g3.model.dtos.response.LoteDTO;
 import com.bootcamp_w3_g3.model.dtos.response.ProdutoDTO;
 import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.dtos.response.requisito5.DTOLote;
 import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
@@ -146,6 +147,20 @@ public class ProdutoController {
     public ResponseEntity<List<DTOArmazem>> quantidadesProdutosPorArmazem(@PathVariable Integer codProduto){
 
         return new ResponseEntity<>(loteService.retornaQuantidadesDoProdutosPorArmazem(codProduto), HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param codSetor (códigoDoSetpr )
+     * @param dias (passammos a quantidade de dias de vencimento que desejamos que o produto tenha a vencer.)
+     * @return retorna uma lista de setores que contêm os produtos que estão no setor especifico e que contêm
+     * o vencimento igual ou menor a qtd de Dias que passamos anteriormente.
+     *
+     * @author Matheus Willock
+     */
+    @GetMapping("/lotes/validade/{codSetor}/{dias}")
+    public ResponseEntity<List<DTOLote>> lotesPorVencimento(@PathVariable String codSetor, @PathVariable Integer dias) {
+        return new ResponseEntity<>(loteService.retornaLotesArmazenadosDoProduto(codSetor, dias), HttpStatus.OK);
     }
 
 }

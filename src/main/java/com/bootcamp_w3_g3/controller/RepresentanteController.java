@@ -46,14 +46,7 @@ public class RepresentanteController {
 
         @DeleteMapping(value = "/delete/{id}")
         public ResponseEntity<String> apagar(@PathVariable Long id) {
-            try{
                 representanteService.apagar(id);
-            } catch (NoSuchElementException e) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            catch (EmptyResultDataAccessException e) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
             return new ResponseEntity<>("Representante deletado com sucesso", HttpStatus.OK);
         }
     }

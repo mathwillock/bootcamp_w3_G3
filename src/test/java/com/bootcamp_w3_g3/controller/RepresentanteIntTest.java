@@ -111,6 +111,39 @@ public class RepresentanteIntTest {
                 .build();
     }
 
+    private RepresentanteForm payloadRepresentante7(){
+        return RepresentanteForm.builder()
+                .codigo("R-75")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante8(){
+        return RepresentanteForm.builder()
+                .codigo("R-85")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante9(){
+        return RepresentanteForm.builder()
+                .codigo("R-95")
+                .nome("Alexia")
+                .sobrenome("Gomez")
+                .endereco("rua morundinumoraninguem")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
     private Representante converte(RepresentanteForm representanteForm){
         return Representante.builder()
                 .nome(representanteForm.getNome())
@@ -205,6 +238,28 @@ public class RepresentanteIntTest {
 
         this.mockMvc.perform(get("http://localhost:8080/produtos/listar/"))
                 .andExpect(status().isOk());
+    }
+
+    /**
+     *  Teste lista todos os representantes
+     * @author Matheus Willock
+     */
+    @Test
+    void listartodosRepresentantes() throws Exception {
+
+        RepresentanteForm representanteForm1 = this.payloadRepresentante7();
+        this.persisteRepresentante(representanteForm1);
+
+        RepresentanteForm representanteForm2 = this.payloadRepresentante8();
+        this.persisteRepresentante(representanteForm2);
+
+        RepresentanteForm representanteForm3 = this.payloadRepresentante9();
+        this.persisteRepresentante(representanteForm3);
+
+        this.mockMvc.perform(get("http://localhost:8080/representante/listar"))
+                .andExpect(status().isOk()
+                );
+
     }
 
     @Test

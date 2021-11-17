@@ -797,10 +797,10 @@ public class ProdutoIntegrationTest {
         this.persisteLote6(loteForm6);
 
         this.mockMvc.perform(get(
-            "http://localhost:8080/produtoslistar/armazem/"
+            "http://localhost:8080/produtos/listar/armazem/"
                     + produtoForm.getCodigoDoProduto() )
             )
-            .andExpect(status().isNotFound()
+            .andExpect(status().isOk()
         );
 
     }

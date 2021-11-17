@@ -165,6 +165,17 @@ public class ProdutoIntegrationTest {
                 ;
     }
 
+    private ProdutoForm payloadProduto11() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(59)
+                .nome("sorvete")
+                .preco(10.0)
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .temperaturaIndicada(16.0)
+                .build()
+                ;
+    }
+
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
                 .codigo("R-30")
@@ -180,6 +191,17 @@ public class ProdutoIntegrationTest {
         return RepresentanteForm.builder()
                 .codigo("R-100")
                 .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("123.234.345-04")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payloadRepresentante3(){
+        return RepresentanteForm.builder()
+                .codigo("R-102")
+                .nome("Matheus")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
                 .cpf("123.234.345-04")
@@ -216,6 +238,18 @@ public class ProdutoIntegrationTest {
 
         return ArmazemForm.builder()
                 .codArmazem("AR-100")
+                .nome("armazem central")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payloadArmazem3(RepresentanteForm representanteForm) {
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-102")
                 .nome("armazem central")
                 .representante(representanteForm)
                 .endereco("qualquer lugar")
@@ -527,6 +561,45 @@ public class ProdutoIntegrationTest {
                 .andExpect(status().isOk()
         );
 
+    }
+
+    /**
+     * Teste deve listar todos os lotes do setor do produto
+     * ordenados pela data de validade.
+     * @autor Joaquim Borges
+     */
+    @Test
+    void deveListarLotesDoSetorDoProduto() throws Exception {
+        ProdutoForm produtoForm = payloadProduto11();
+        this.persisteProduto(produtoForm);
+
+        RepresentanteForm representanteForm = payloadRepresentante3();
+        ArmazemForm armazemForm = payloadArmazem3(representanteForm);
+        this.persisteArmazem(armazemForm);
+
+        SetorForm setorForm = SetorForm.builder().codigo("S-102")
+                .tipoProduto(TipoProduto.REFRIGERADOS).nome("B")
+                .armazem(armazemForm).build();
+
+        this.persisteSetor1(setorForm);
+
+        LoteForm loteForm1 = LoteForm.builder().numero(102)
+                .produtoForm(produtoForm).setorForm(setorForm)
+                .temperaturaAtual(14.2).temperaturaMinima(12.1)
+                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 17))
+                .quantidadeAtual(4).build();
+
+        LoteForm loteForm2 = LoteForm.builder().numero(103)
+                .produtoForm(produtoForm).setorForm(setorForm)
+                .temperaturaAtual(14.2).temperaturaMinima(12.1)
+                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 27))
+                .quantidadeAtual(4).build();
+
+        persisteLote2(loteForm1);
+        persisteLote2(loteForm2);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/lotes/validade/" + setorForm.getCodigo() + "/20" ))
+                .andExpect(status().isOk());
     }
 
 }

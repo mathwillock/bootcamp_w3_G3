@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Joaquim Borges
  * @author Matheus Willock
+ * @author Hugo Damm
  */
 
 public class LoteUnitTest {

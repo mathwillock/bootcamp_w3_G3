@@ -7,21 +7,24 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bootcamp_w3_g3.model.entity.StatusCompra.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Criado teste unitário referente a classe carrinhoService.
  * Desenvolvido testes para o CRUD.
- * @autor Alex Cruz
+ * @author Alex Cruz
  */
 public class CarrinhoUnitTest{
 
     CarrinhoService carrinhoService;
-
     CarrinhoRepository carrinhoRepository = Mockito.mock(CarrinhoRepository.class);
+
+    LoteService loteServiceMock = Mockito.mock(LoteService.class);
 
     Carrinho carrinho  = Carrinho.builder()
             .codigo("12345")
@@ -51,6 +54,13 @@ public class CarrinhoUnitTest{
             .temperaturaIndicada(18.5)
             .tipoProduto(TipoProduto.FRESCOS)
             .build();
+    Lote lote = Lote.builder()
+            .numero(10)
+            .dataDeFabricacao(LocalDate.parse("2021-10-30", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .dataDeValidade(LocalDate.parse("2022-11-15", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .produto(produto)
+            .quantidadeAtual(5)
+            .build();
 
     Itens item = Itens.builder()
             .produto(produto)
@@ -66,16 +76,89 @@ public class CarrinhoUnitTest{
 
     List<Itens> itensList = new ArrayList<>();
 
+    /**
+     * Criado teste unitário de método que atende ao requisito 3
+     * Teste Para cubrir o estatus PENDENTE do método registrarCarrinho
+     * @author Alex Cruz
+     */
+    @Test
+    void registrarPedidoComStatusPendenteTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(PENDENTE);
+
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
+
+    /**
+     * Teste Para cubrir o estatus CANCELADO do método registrarCarrinho
+     * @author Matheus Willock
+     */
+    @Test
+    void registrarPedidoComStatusCanceladoTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(CANCELADO);
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertNotEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
+
+    /**
+     * Teste Para cubrir o estatus CONCLUIDO do método registrarCarrinho
+     * @author Matheus Willock
+     */
+    @Test
+    void registrarPedidoComStatusConcluidoTest(){
+        produto.setCodLote(lote.getNumero());
+        itensList.add(item);
+        carrinho.setItensList(itensList);
+        carrinho.setStatusCompra(CONCLUIDO);
+
+        Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
+        Mockito.when(loteServiceMock.obter(Mockito.any(Integer.class))).thenReturn(lote);
+
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
+
+        BigDecimal retornoDoPrecoDosItens = carrinhoService.retornaPrecoDosItens(carrinho);
+
+        BigDecimal retornoDoRegistrarPedido = carrinhoService.registrarPedido(carrinho);
+
+        assertEquals(retornoDoPrecoDosItens,retornoDoRegistrarPedido);
+    }
+
+
+
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void salvarTest(){
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho salvo = carrinhoService.salvar(carrinho);
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
@@ -85,7 +168,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void listarTest(){
@@ -93,7 +176,7 @@ public class CarrinhoUnitTest{
         carrinhoList.add(carrinho2);
         Mockito.when(carrinhoRepository.findAll()).thenReturn(carrinhoList);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         List<Carrinho> lista = carrinhoService.listar();
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).findAll();
@@ -104,7 +187,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void atualizarTest(){
@@ -112,11 +195,11 @@ public class CarrinhoUnitTest{
         itensList.add(item2);
         carrinho.setDataDeOrdem(LocalDate.now());
         carrinho.setItensList(itensList);
-        carrinho.setStatusCompra(StatusCompra.CANCELADO);
+        carrinho.setStatusCompra(CANCELADO);
         Mockito.when(carrinhoRepository.getByCodigo(Mockito.any(String.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho carrinhoAtualizado = carrinhoService.atualizar(carrinho);
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).getByCodigo(carrinho.getCodigo());
@@ -128,7 +211,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void retornaPrecoDosItensTest(){
@@ -139,7 +222,7 @@ public class CarrinhoUnitTest{
             valorEsperado += item.getProduto().getPreco() * item.getQuantidade();
         }
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         BigDecimal valotTotal = carrinhoService.retornaPrecoDosItens(carrinho);
 
         assertNotNull(valotTotal);
@@ -148,7 +231,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void mostrarProdutosDoPedidoTest(){
@@ -163,7 +246,7 @@ public class CarrinhoUnitTest{
 
         Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         List<Produto> listaDeProdutosRetornada = carrinhoService.mostrarProdutosDoPedido(carrinho.getId());
 
         Mockito.verify(carrinhoRepository,Mockito.times(1)).getById(carrinho.getId());
@@ -174,7 +257,7 @@ public class CarrinhoUnitTest{
 
     /**
      * Criado teste unitário de método que atende ao requisito 2
-     * @autor Alex Cruz
+     * @author Alex Cruz
      */
     @Test
     void alterarPedidoTest(){
@@ -183,11 +266,11 @@ public class CarrinhoUnitTest{
         carrinho.setId(34234L);
         carrinho.setDataDeOrdem(LocalDate.now());
         carrinho.setItensList(itensList);
-        carrinho.setStatusCompra(StatusCompra.CANCELADO);
+        carrinho.setStatusCompra(CANCELADO);
         Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
-        carrinhoService = new CarrinhoService(carrinhoRepository);
+        carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
         Carrinho carrinhoAlterado = carrinhoService.alterarPedido(carrinho, carrinho.getId());
 
         Mockito.verify(carrinhoRepository, Mockito.times(1)).getById(carrinho.getId());

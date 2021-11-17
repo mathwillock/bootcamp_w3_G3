@@ -30,11 +30,4 @@ public class ItensService {
         return itensRepository.findAll();
     }
 
-    public Itens atualizar(Itens itens) {
-        Itens itensEdited = itensRepository.findItensById(itens.getId());
-        itensEdited.setProduto(itens.getProduto());
-        itensEdited.setQuantidade(itens.getQuantidade());
-
-        return itensRepository.save(itensEdited);
-    }
 }

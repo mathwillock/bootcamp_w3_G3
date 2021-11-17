@@ -1,13 +1,16 @@
 package com.bootcamp_w3_g3.service;
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.advisor.handler.DeleteException;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.repository.RepresentanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -53,8 +56,14 @@ public class RepresentanteService {
         return representanteRepository.save(representanteEdited);
     }
 
-    public Representante apagar(Long id){
-        representanteRepository.deleteById(id);
+    public Representante apagar(Long id) {
+        try {
+            representanteRepository.deleteById(id);
+        } catch (NoSuchElementException | IllegalArgumentException | EmptyResultDataAccessException e) {
+            throw new DeleteException("Erro ao excluir o representante, ou ID inválido.");
+        }
+
         return null;
+
     }
 }

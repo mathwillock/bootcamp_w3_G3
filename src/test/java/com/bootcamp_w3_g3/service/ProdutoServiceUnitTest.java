@@ -1,20 +1,20 @@
 package com.bootcamp_w3_g3.service;
 
+import com.bootcamp_w3_g3.model.entity.Lote;
 import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Criado teste unitário referente a classe ProdutosService.
  * Desenvolvido testes para o CRUD.
- * @autor Alex Cruz
+ * @author Alex Cruz
  */
 
 public class ProdutoServiceUnitTest {
@@ -28,17 +28,19 @@ public class ProdutoServiceUnitTest {
             .nome("carne")
             .preco(60.0)
             .tipoProduto(TipoProduto.CONGELADOS)
-            .build();
+            .build()
+    ;
 
     Produto produto2 = Produto.builder()
-            .codigoDoProduto(123)
+            .codigoDoProduto(132)
             .nome("Arroz")
             .preco(60.0)
             .tipoProduto(TipoProduto.FRESCOS)
-            .build();
-
+            .build()
+    ;
 
     List<Produto> produtosList = new ArrayList<>();
+
 
     @Test
     void salvarTest(){
@@ -65,6 +67,7 @@ public class ProdutoServiceUnitTest {
 
         assertEquals(obtido.getPreco(), produto.getPreco());
     }
+
 
     @Test
     void listarPorCategoriaTest(){
@@ -125,4 +128,6 @@ public class ProdutoServiceUnitTest {
 
         assertNotEquals(deletado, produto);
     }
+
+
 }

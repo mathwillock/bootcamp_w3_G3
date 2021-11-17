@@ -33,10 +33,9 @@ public class SetorController {
     }
 
     @DeleteMapping("/remover/{id}")
-    public String remover(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> remover(@PathVariable Long id) {
         setorService.removerSetor(id);
-
-        return "Setor removido";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/obter/{codigo}")

@@ -2,12 +2,17 @@ package com.bootcamp_w3_g3.service;
 
 
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
+import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.entity.Armazem;
 import com.bootcamp_w3_g3.model.entity.Lote;
+import com.bootcamp_w3_g3.model.entity.Produto;
+import com.bootcamp_w3_g3.repository.ArmazemRepository;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,27 +24,24 @@ import java.util.List;
 @Service
 public class LoteService {
 
-    @Autowired
     private LoteRepository loteRepository;
-    @Autowired
-    private ArmazemService armazemService;
-    @Autowired
+
+
     private ProdutoService produtoService;
-    @Autowired
-    private SetorService setorService;
+
+    private ArmazemRepository armazemRepository;
 
     @Autowired
-    public LoteService(LoteRepository loteRepository) {
+    public LoteService(LoteRepository loteRepository, ProdutoService produtoService){
         this.loteRepository = loteRepository;
+        this.produtoService = produtoService;
     }
 
     @Transactional
     public Lote salvar(Lote lote) {
-
-        Integer numeroLote = lote.getNumero();
-        lote.getProduto().setCodLote(numeroLote);
-        lote.setSetor(lote.getSetor());
-        lote.setProduto(lote.getProduto());
+        Produto produto = produtoService.obter(lote.getProduto().getCodigoDoProduto());
+        produto.setCodLote(lote.getNumero());
+        produtoService.atualizar(produto);
 
         return loteRepository.save(lote);
     }
@@ -71,6 +73,65 @@ public class LoteService {
     }
 
 
+    /**
+     * metodo para listar todos os lotes em que o
+     * produto pertence
+     * @autor Joaquim Borges
+     */
+    public List<Lote> retornaLotesDoProduto(Integer codProduto) {
+        List<Lote> lotesDoProduto = new ArrayList<>();
+        for (Lote lote : listar()) {
+            if (lote.getProduto().getCodigoDoProduto().equals(codProduto)) {
+                lotesDoProduto.add(lote);
+            }
+        }
+        return lotesDoProduto;
+    }
+
+    public List<Lote> retornaLotesDoProdutoOrdenados(Integer codProduto, String tipoDeOrdenacao) {
+
+        List<Lote> loteListProdutos = retornaLotesDoProduto(codProduto);
+
+        switch (tipoDeOrdenacao) {
+
+            case "lote" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getNumero(), lote2.getNumero())
+                );
+            break;
+
+            case "quantidade" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> Integer.compare(lote1.getQuantidadeAtual(), lote2.getQuantidadeAtual())
+                );
+            break;
+
+            case "vencimento" :
+                loteListProdutos.sort(
+                        (lote1, lote2) -> lote1.getDataDeValidade().compareTo(lote2.getDataDeValidade())
+                );
+            break;
+        }
+
+        return loteListProdutos;
+    }
+
+    /**
+     * metodo para listar a quantidades total de Produtos
+     * por armazém
+     * @author Hugo Damm
+     */
+    public List<DTOArmazem> retornaQuantidadesDoProdutosPorArmazem(Integer codProduto){
+        List<DTOArmazem> armazemListProduto = new ArrayList<>();
+        List<Lote> quantidadeListProduto = retornaLotesDoProduto(codProduto);
+
+        for (Lote lote : quantidadeListProduto){
+            armazemListProduto.add(new DTOArmazem(lote.getSetor().getArmazem().getCodArmazem(),lote.getQuantidadeAtual()));
+        }
+
+        return armazemListProduto;
+
+    }
 
 
 }

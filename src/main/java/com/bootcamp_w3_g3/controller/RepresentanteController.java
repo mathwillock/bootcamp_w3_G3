@@ -5,6 +5,7 @@ import com.bootcamp_w3_g3.model.dtos.response.RepresentanteDTO;
 import com.bootcamp_w3_g3.model.entity.Representante;
 import com.bootcamp_w3_g3.service.RepresentanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +46,7 @@ public class RepresentanteController {
 
         @DeleteMapping(value = "/delete/{id}")
         public ResponseEntity<String> apagar(@PathVariable Long id) {
-            try{
                 representanteService.apagar(id);
-            } catch (NoSuchElementException e) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
             return new ResponseEntity<>("Representante deletado com sucesso", HttpStatus.OK);
         }
     }

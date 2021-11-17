@@ -25,12 +25,12 @@ public class CarrinhoService {
 
     private CarrinhoRepository carrinhoRepository;
 
-    @Autowired
     private LoteService loteService;
 
     @Autowired
-    public CarrinhoService(CarrinhoRepository carrinhoRepository){
+    public CarrinhoService(CarrinhoRepository carrinhoRepository, LoteService loteService){
         this.carrinhoRepository = carrinhoRepository;
+        this.loteService = loteService;
     }
 
     @Transactional
@@ -39,9 +39,20 @@ public class CarrinhoService {
             if (produtoVencido(itens.getProduto())){
                 return null;
             }
+            switch (carrinho.getStatusCompra()){
+                case PENDENTE:
+                    return retornaPrecoDosItens(carrinho);
+
+                case CANCELADO:
+                    return new BigDecimal(00.0);
+
+                case CONCLUIDO:
+                    decrementaDoLote(itens);
+                    Carrinho carrinhoSalvo = carrinhoRepository.save(carrinho);
+                    return retornaPrecoDosItens(carrinhoSalvo);
+            }
         }
-        Carrinho carrinhoSalvo = carrinhoRepository.save(carrinho);
-         return retornaPrecoDosItens(carrinhoSalvo);
+        return null;
     }
 
     public Carrinho salvar(Carrinho carrinho){
@@ -67,7 +78,7 @@ public class CarrinhoService {
      * @autor Joaquim Borges
      */
     public BigDecimal retornaPrecoDosItens(Carrinho carrinho) {
-        double valorTotal = 0.0;
+        double valorTotal = 0.00;
         for (Itens item : carrinho.getItensList()) {
             valorTotal += item.getProduto().getPreco() * item.getQuantidade();
         }
@@ -96,12 +107,11 @@ public class CarrinhoService {
     public Carrinho alterarPedido(Carrinho carrinho, Long id) {
         try {
             Carrinho carrinhoEncontrado = carrinhoRepository.getById(id);
-            if (carrinhoEncontrado != null){
-                carrinhoEncontrado.setItensList(carrinho.getItensList());
-                carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
-                carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
-                carrinhoRepository.save(carrinhoEncontrado);
-            }
+            carrinhoEncontrado.setItensList(carrinho.getItensList());
+            carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
+            carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());
+
+            carrinhoRepository.save(carrinhoEncontrado);
             return carrinhoEncontrado;
 
         }catch (Exception e){
@@ -113,15 +123,27 @@ public class CarrinhoService {
      *metodo auxiliar para verificar a validade do produto
      * @autor Joaquim Borges
      */
-    public boolean produtoVencido(Produto produto){
+    private boolean produtoVencido(Produto produto){
         Lote loteDoProduto = loteService.obter(produto.getCodLote());
         long dias = ChronoUnit.DAYS
                 .between(loteDoProduto.getDataDeFabricacao(), loteDoProduto.getDataDeValidade());
         return dias < 23;
     }
 
-
-
+    /**
+     *metodo auxiliar para decrementar do lote
+     * quando um produto for comprado.
+     * @autor Joaquim Borges
+     */
+    private void decrementaDoLote(Itens itens){
+        for (Lote lote : loteService.listar()){
+            if (lote.getProduto().getCodigoDoProduto().equals(itens.getProduto().getCodigoDoProduto())){
+                int quantidadeAtual = lote.getQuantidadeAtual() - itens.getQuantidade();
+                lote.setQuantidadeAtual(quantidadeAtual);
+                loteService.atualizar(lote);
+            }
+        }
+    }
 
 
 

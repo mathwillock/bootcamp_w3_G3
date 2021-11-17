@@ -163,4 +163,18 @@ public class ProdutoController {
         return new ResponseEntity<>(loteService.retornaLotesArmazenadosDoProduto(codSetor, dias), HttpStatus.OK);
     }
 
+    @GetMapping("/lotes/validade/{tipoProduto}/{dias}")
+
+        public ResponseEntity<List<DTOLote>> LotesPorCategoria2 (@PathVariable String tipoProduto, @PathVariable Integer dias)
+    {
+            return new ResponseEntity<>(loteService.retornarLotesPorCategoria(TipoProduto.valueOf(tipoProduto), dias), HttpStatus.OK);
+    }
+
+    @GetMapping("/lotes/validade")
+
+    public ResponseEntity<List<DTOLote>> LotesPorCategoria (@RequestParam String tipoProduto, @RequestParam Integer dias)
+    {
+        return new ResponseEntity<>(loteService.retornarLotesPorCategoria(TipoProduto.valueOf(tipoProduto), dias), HttpStatus.OK);
+    }
+
 }

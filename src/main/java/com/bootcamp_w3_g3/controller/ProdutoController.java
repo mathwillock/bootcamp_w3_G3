@@ -163,4 +163,22 @@ public class ProdutoController {
         return new ResponseEntity<>(loteService.retornaLotesArmazenadosDoProduto(codSetor, dias), HttpStatus.OK);
     }
 
+
+
+    /**
+     *
+     * @param tipoProduto (Tipo de produto. deve ser pertinente a ENUMERACAO)
+     * @param dias (Dias a vencer)
+     * @return uma lista de lotes que vencem até os dias passados.
+     *
+     * usamos @RequestParam para as variaveis supracitadas.
+     */
+
+    @GetMapping("/lotes/validade")
+
+    public ResponseEntity<List<DTOLote>> LotesPorCategoria (@RequestParam TipoProduto tipoProduto, @RequestParam Integer dias)
+    {
+        return new ResponseEntity<>(loteService.retornarLotesPorCategoria(tipoProduto, dias), HttpStatus.OK);
+    }
+
 }

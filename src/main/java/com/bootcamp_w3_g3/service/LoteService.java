@@ -168,7 +168,11 @@ public class LoteService {
         return lotesRetornado;
     }
 
-
+    /**
+     * metodo para retornar todos os lotes por categoria/tipo de pproduto
+     * ordenados pela data de validade.
+     * @autor Alex Cruz
+     */
     public List<DTOLote> retornarLotesPorCategoria(TipoProduto tipoProduto, Integer qtdDias){
 
         List<Lote> lotesList = new ArrayList<>();

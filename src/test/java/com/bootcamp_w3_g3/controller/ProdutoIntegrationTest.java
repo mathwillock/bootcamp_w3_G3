@@ -694,10 +694,10 @@ public class ProdutoIntegrationTest {
         this.persisteLote3(loteForm3);
 
         this.mockMvc.perform(get(
-            "http://localhost:8080/produtos/lotes/lista-ordem/"
-                    + produtoForm.getCodigoDoProduto() + "/lote" )
+            "http://localhost:8080/produtoslistar/armazem/"
+                    + produtoForm.getCodigoDoProduto() )
             )
-            .andExpect(status().isOk()
+            .andExpect(status().isNotFound()
         );
     }
 

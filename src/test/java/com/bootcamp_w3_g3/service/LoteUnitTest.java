@@ -1,7 +1,9 @@
 package com.bootcamp_w3_g3.service;
 
 
+import com.bootcamp_w3_g3.model.dtos.response.LoteDTO;
 import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.dtos.response.requisito5.DTOLote;
 import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 
@@ -39,7 +41,21 @@ public class LoteUnitTest {
             .nome("carne")
             .preco(60.0)
             .build()
-    ;
+            ;
+
+    Produto produto2 = Produto.builder()
+            .codigoDoProduto(321)
+            .nome("peixe")
+            .preco(53.12)
+            .build()
+            ;
+
+    Produto produto3 = Produto.builder()
+            .codigoDoProduto(688)
+            .nome("bisteca")
+            .preco(29.98)
+            .build()
+            ;
 
     Lote lote = Lote.builder()
             .numero(10)
@@ -73,6 +89,10 @@ public class LoteUnitTest {
     Setor setor2 = Setor.builder().codigo("S-2")
             .armazem(armazem2).nome("H").tipoProduto(TipoProduto.FRESCOS)
             .build();
+    Setor setor3 = Setor.builder().codigo("S-3")
+            .armazem(armazem2).nome("I").tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
 
     Lote lote3 = Lote.builder()
             .numero(30)
@@ -99,6 +119,7 @@ public class LoteUnitTest {
 
 
     List<Lote> loteList1 = new ArrayList<>();
+    List<DTOLote> loteDTOList = new ArrayList<>();
     List<DTOArmazem> armazemList = new ArrayList<>();
     List<Armazem> armazemList2 = new ArrayList<>();
 
@@ -250,6 +271,22 @@ public class LoteUnitTest {
        assertEquals(2, armazensDoProduto.size());
     }
 
+    @Test
+    void deveListarLotesDentroDoPeriodo()
+    {
+        lote.setProduto(produto3);
+        lote2.setProduto(produto2);
+        lote3.setProduto(produto);
+        loteDTOList.add(DTOLote.converter(lote3));
+        loteDTOList.add(DTOLote.converter(lote));
+        loteDTOList.add(DTOLote.converter(lote2));
+
+        Mockito.when(loteService.retornaLotesArmazenadosDoProduto(Mockito.any(String.class), Mockito.any(Integer.class)))
+                .thenReturn(loteDTOList);
+
+        assertEquals(3, loteDTOList.size());
+
+    }
 
 
 

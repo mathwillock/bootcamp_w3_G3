@@ -4,10 +4,7 @@ package com.bootcamp_w3_g3.service;
 import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
 import com.bootcamp_w3_g3.model.dtos.response.requisito5.DTOLote;
-import com.bootcamp_w3_g3.model.entity.Armazem;
-import com.bootcamp_w3_g3.model.entity.Lote;
-import com.bootcamp_w3_g3.model.entity.Produto;
-import com.bootcamp_w3_g3.model.entity.Setor;
+import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.ArmazemRepository;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +166,23 @@ public class LoteService {
             }
         }
         return lotesRetornado;
+    }
+
+    /**
+     * metodo para retornar todos os lotes por categoria/tipo de pproduto
+     * ordenados pela data de validade.
+     * @autor Alex Cruz
+     */
+    public List<DTOLote> retornarLotesPorCategoria(TipoProduto tipoProduto, Integer qtdDias){
+
+        List<Lote> lotesList = new ArrayList<>();
+
+        for ( Lote lote : listar()) {
+            if(lote.getProduto().getTipoProduto().equals(tipoProduto)){
+                lotesList.add(lote);
+            }
+        }
+        return lotesDentroDoPeriodo(lotesList, qtdDias);
     }
 
 

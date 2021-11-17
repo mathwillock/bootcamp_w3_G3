@@ -172,6 +172,7 @@ public class ProdutoController {
      * @return uma lista de lotes que vencem até os dias passados.
      *
      * usamos @RequestParam para as variaveis supracitadas.
+     * @author Marcelo de Oliveira
      */
 
     @GetMapping("/lotes/validade")

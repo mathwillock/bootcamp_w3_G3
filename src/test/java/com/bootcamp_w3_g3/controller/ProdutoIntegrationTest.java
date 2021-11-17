@@ -175,6 +175,17 @@ public class ProdutoIntegrationTest {
                 ;
     }
 
+
+    private ProdutoForm payloadProduto13() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(85)
+                .nome("Peixes")
+                .preco(50.0)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(5.0)
+                .build()
+                ;
+
     private ProdutoForm payloadProduto12() {
         return ProdutoForm.builder()
                 .codigoDoProduto(60)
@@ -184,6 +195,7 @@ public class ProdutoIntegrationTest {
                 .temperaturaIndicada(16.0)
                 .build()
             ;
+
     }
 
     private RepresentanteForm payloadRepresentante(){
@@ -219,6 +231,16 @@ public class ProdutoIntegrationTest {
                 .build();
     }
 
+
+    private RepresentanteForm payloadRepresentante5(){
+        return RepresentanteForm.builder()
+                .codigo("R-105")
+                .nome("Marcelo")
+                .sobrenome("Souza")
+                .endereco("Rua A")
+                .cpf("345.123.678-04")
+                .telefone("11-24473648")
+
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
                 .codigo("R-103")
@@ -227,6 +249,7 @@ public class ProdutoIntegrationTest {
                 .endereco("rua qualquer")
                 .cpf("123.234.345-04")
                 .telefone("11-2473648")
+
                 .build();
     }
 
@@ -278,6 +301,18 @@ public class ProdutoIntegrationTest {
                 .uf("SP").build();
     }
 
+
+    private ArmazemForm payloadArmazem5(RepresentanteForm representanteForm) {
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-105")
+                .nome("Armazem São Paulo")
+                .representante(representanteForm)
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+
     private ArmazemForm payloadArmazem4(RepresentanteForm representanteForm) {
         this.persisteRepresentante(representanteForm);
 
@@ -289,6 +324,7 @@ public class ProdutoIntegrationTest {
                 .numero(110)
                 .uf("SP").build()
         ;
+
     }
 
     private void persisteArmazem(ArmazemForm armazemForm) {
@@ -652,6 +688,55 @@ public class ProdutoIntegrationTest {
     }
 
     /**
+
+     * Teste deve listar todos os lotes por prazo de validade
+     * que pertencem a uma determinada categoria de produto
+     * @author Hugo Damm
+     */
+    @Test
+    void deveListarLotesValidadeCategoria() throws Exception{
+        ProdutoForm produtoForm13 = payloadProduto13();
+        this.persisteProduto(produtoForm13);
+
+        RepresentanteForm representanteForm5 = payloadRepresentante5();
+        ArmazemForm armazemForm5 = payloadArmazem5(representanteForm5);
+        this.persisteArmazem(armazemForm5);
+
+        SetorForm setorForm5 = SetorForm.builder()
+                .codigo("S-105")
+                .tipoProduto(TipoProduto.FRESCOS)
+                .nome("C")
+                .armazem(armazemForm5)
+                .build();
+
+        this.persisteSetor1(setorForm5);
+
+        LoteForm loteForm3 = LoteForm.builder()
+                .numero(104)
+                .produtoForm(produtoForm13)
+                .setorForm(setorForm5)
+                .temperaturaAtual(14.2)
+                .temperaturaMinima(11.0)
+                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 9, 01))
+                .quantidadeAtual(10)
+                .build();
+
+        LoteForm loteForm4 = LoteForm.builder()
+                .numero(105)
+                .produtoForm(produtoForm13)
+                .setorForm(setorForm5)
+                .temperaturaAtual(14.2)
+                .temperaturaMinima(11.0)
+                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 9, 20))
+                .quantidadeAtual(10)
+                .build();
+
+        persisteLote2(loteForm3);
+        persisteLote2(loteForm4);
+
+        this.mockMvc.perform(get("http://localhost:8080/produtos/lotes/validade?tipoProduto=" + setorForm5.getTipoProduto() + "&dias=45" ))
+                .andExpect(status().isOk());
+
      * Teste deve trazer a quanidade de produtos por Armazem
      * @author Matheus Willock
      */
@@ -699,6 +784,7 @@ public class ProdutoIntegrationTest {
             )
             .andExpect(status().isNotFound()
         );
+
     }
 
 }

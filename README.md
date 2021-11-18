@@ -23,19 +23,21 @@ $ git clone git@github.com:Joaquimborges/bootcamp_w3_G3.git
 
 # :memo: Requisitos
 ### Histórico de Lançamentos
-  * 0.2.1
-      * MUDANÇA: Atualização de docs (código do módulo permanece inalterado)
-  * 0.2.0
-      * MUDANÇA: Remove `setDefaultXYZ()`
-      * ADD: Adiciona `init()`
-  * 0.1.1
-      * CONSERTADO: Crash quando chama `baz()` (Obrigado @NomeDoContribuidorGeneroso!)
-  * 0.1.0
-      * O primeiro lançamento adequado
-      * MUDANÇA: Renomeia `foo()` para `bar()`
-  * 0.0.1
-      * Trabalho em andamento
 
+  * v4.0.0 [Requisito 4](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v4.0.0)
+     * Atendendo o requisito 4.   
+         
+  * v3.0.0 [Requisito 3](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v3.0.0)
+     * Atendendo o requisito 2 e feito o testes unitários e de integração.     
+     
+  * v2.0.0 [Requisito 2](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v2.0.0)
+     * Atendendo o requisito 2 e feito o testes unitários e de integração.
+     
+  * v1.0.1 [Requisito 1](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.1)
+     * Atendendo o requisito 1 e feito o testes unitários e de integração. 
+     
+  * v1.0.0 [Lançamento do projeto](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.0)
+    * Lançamento do projeto para validações iniciais do Requisito 1.   
   
 # Membros do grupo 3
 

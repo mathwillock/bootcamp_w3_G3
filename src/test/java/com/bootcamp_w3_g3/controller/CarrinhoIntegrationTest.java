@@ -367,7 +367,7 @@ public class CarrinhoIntegrationTest {
 
     private void persisteSetor222(SetorForm setorForm){
 
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -381,7 +381,7 @@ public class CarrinhoIntegrationTest {
 
     private void persisteSetor333(SetorForm setorForm){
 
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -415,8 +415,8 @@ public class CarrinhoIntegrationTest {
 
     private void persisteLote222(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -435,8 +435,8 @@ public class CarrinhoIntegrationTest {
 
     private void persisteLote333(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -572,9 +572,9 @@ public class CarrinhoIntegrationTest {
         this.persisteProduto(produtoForm444);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(99).codigoSetor(setorDoLote.getCodigo()).temperaturaAtual(17.0)
+                .numero(99).codigoSetor(setorDoLote222.getCodigo()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .codigoProduto(produtoForm.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
+                .codigoProduto(produtoForm444.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
         this.persisteLote111(loteForm);
@@ -634,7 +634,7 @@ public class CarrinhoIntegrationTest {
                 .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
-        this.persisteLote(loteForm);
+        this.persisteLote222(loteForm);
 
         ItensForm itensForm = ItensForm.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
@@ -683,7 +683,7 @@ public class CarrinhoIntegrationTest {
                 .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
-        this.persisteLote(loteForm);
+        this.persisteLote222(loteForm);
 
         ItensForm itensForm = ItensForm.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
@@ -710,7 +710,7 @@ public class CarrinhoIntegrationTest {
                 .codigoProduto(produto2.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
-        this.persisteLote(lote2);
+        this.persisteLote222(lote2);
 
         ItensForm itensAlterado = ItensForm.builder()
                 .codigoDoProduto(produto2.getCodigoDoProduto())

@@ -450,7 +450,7 @@ public class CarrinhoIntegrationTest {
      * @author Joaquim Borges
      */
     @Test
-    void deveListarProdutosDoCarrinho() throws Exception {
+    void deveMostrarProdutosDoCarrinho() throws Exception {
         RepresentanteForm representanteForm = payLoadRepresentante22();
         ArmazemForm armazemForm = payLoadArmazem22(representanteForm);
         this.persisteArmazem(armazemForm);

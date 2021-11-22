@@ -26,8 +26,8 @@ public class LoteForm {
     private Integer quantidadeAtual;
     private  Integer quantidadeMinina;
 
-    private SetorForm setorForm;
-    private ProdutoForm produtoForm;
+    private String codigoSetor;
+    private Integer codigoProduto;
 
     private Double temperaturaAtual;
     private Double temperaturaMinima;
@@ -37,8 +37,9 @@ public class LoteForm {
     private LocalDate dataDeValidade;
 
     public Lote converte(ProdutoService produtoService, SetorService setorService) {
-        Produto produto = produtoService.obter(produtoForm.getCodigoDoProduto());
-        Setor setor = setorService.obterSetor(this.setorForm.getCodigo());
+        Produto produto = produtoService.obter(this.codigoProduto);
+        Setor setor = setorService.obterSetor(this.codigoSetor);
+
         return Lote.builder()
                 .numero(numero)
                 .produto(produto)

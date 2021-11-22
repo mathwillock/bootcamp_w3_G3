@@ -294,7 +294,7 @@ public class CarrinhoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-3000")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -306,7 +306,7 @@ public class CarrinhoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-100")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -318,7 +318,7 @@ public class CarrinhoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-400")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -330,7 +330,7 @@ public class CarrinhoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-401")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -338,7 +338,7 @@ public class CarrinhoIntegrationTest {
 
     private void persisteArmazem(ArmazemForm armazemForm) {
 
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -353,7 +353,7 @@ public class CarrinhoIntegrationTest {
 
     private void persisteSetor111(SetorForm setorForm){
 
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -395,8 +395,8 @@ public class CarrinhoIntegrationTest {
 
     private void persisteLote111(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -564,7 +564,7 @@ public class CarrinhoIntegrationTest {
         SetorForm setorDoLote222 =  SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
                 .nome("Setor de congelados").codigo("Se-400")
-                .armazem(armazemForm111).espacoDisponivel(100).build();
+                .codigoArmazem(armazemForm111.getCodArmazem()).espacoDisponivel(100).build();
 
         this.persisteSetor111(setorDoLote222);
 
@@ -572,9 +572,9 @@ public class CarrinhoIntegrationTest {
         this.persisteProduto(produtoForm444);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(99).setorForm(setorDoLote222).temperaturaAtual(17.0)
+                .numero(99).codigoSetor(setorDoLote.getCodigo()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produtoForm444).horaFabricacao(LocalTime.now())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
         this.persisteLote111(loteForm);
@@ -621,7 +621,7 @@ public class CarrinhoIntegrationTest {
         this.persisteArmazem(armazemForm);
 
         SetorForm setorForm = SetorForm.builder().codigo("S-400")
-                .nome("B").armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS)
+                .nome("B").codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS)
                 .espacoDisponivel(100).build();
         this.persisteSetor111(setorForm);
 
@@ -630,8 +630,8 @@ public class CarrinhoIntegrationTest {
                 .nome("picanha").preco(60.0).build();
         this.persisteProduto(produtoForm);
 
-        LoteForm loteForm = LoteForm.builder().numero(400).setorForm(setorForm)
-                .produtoForm(produtoForm).quantidadeMinina(2).quantidadeAtual(10)
+        LoteForm loteForm = LoteForm.builder().numero(400).codigoSetor(setorForm.getCodigo())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
         this.persisteLote(loteForm);
@@ -670,7 +670,7 @@ public class CarrinhoIntegrationTest {
         this.persisteArmazem(armazemForm);
 
         SetorForm setorForm = SetorForm.builder().codigo("S-401")
-                .nome("C").armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS)
+                .nome("C").codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS)
                 .espacoDisponivel(100).build();
         this.persisteSetor111(setorForm);
 
@@ -679,8 +679,8 @@ public class CarrinhoIntegrationTest {
                 .nome("picanha").preco(60.0).build();
         this.persisteProduto(produtoForm);
 
-        LoteForm loteForm = LoteForm.builder().numero(401).setorForm(setorForm)
-                .produtoForm(produtoForm).quantidadeMinina(2).quantidadeAtual(10)
+        LoteForm loteForm = LoteForm.builder().numero(401).codigoSetor(setorForm.getCodigo())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
         this.persisteLote(loteForm);
@@ -706,8 +706,8 @@ public class CarrinhoIntegrationTest {
                 .nome("Peixe").preco(40.0).build();
         this.persisteProduto(produto2);
 
-        LoteForm lote2 = LoteForm.builder().numero(401).setorForm(setorForm)
-                .produtoForm(produto2).quantidadeMinina(2).quantidadeAtual(10)
+        LoteForm lote2 = LoteForm.builder().numero(401).codigoSetor(setorForm.getCodigo())
+                .codigoProduto(produto2.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
                 .build();
         this.persisteLote(lote2);

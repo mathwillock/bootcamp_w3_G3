@@ -2,10 +2,7 @@ package com.bootcamp_w3_g3.model.dtos.request;
 
 
 import com.bootcamp_w3_g3.model.entity.*;
-import com.bootcamp_w3_g3.service.ArmazemService;
-import com.bootcamp_w3_g3.service.ProdutoService;
-import com.bootcamp_w3_g3.service.SetorService;
-import com.bootcamp_w3_g3.service.VendedorService;
+import com.bootcamp_w3_g3.service.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,32 +24,19 @@ public class OrdemDeEntradaForm {
     private String codigoSetor;
     private String codigoRepresentante;
     private String codigoVendedor;
-    private Integer quantidade;
-    private ProdutoForm produtoForm;
-    private LocalDate dataFabricacao;
-    private LocalDate dataVencimento;
+    private Integer qtdLotes;
     private LocalDate dataOrdem;
-    private LoteForm loteForm;
+    private Integer codigoLote;
 
 
     /**
      * construindo o payload da ordem de entrada
      */
-    public OrdemDeEntrada converte(VendedorService vendedorService, ArmazemService armazemService, ProdutoService produtoService, SetorService setorService) {
+    public OrdemDeEntrada converte(VendedorService vendedorService, ArmazemService armazemService, SetorService setorService, LoteService loteService) {
        Vendedor vendedor = vendedorService.obter(codigoVendedor);
        Representante representante = armazemService.retornaRepresentanteDoArmazem(codigoRepresentante);
        Setor setor = setorService.obterSetor(codigoSetor);
-
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
-        Lote lote = Lote.builder()
-                .numero(loteForm.getNumero())
-                .temperaturaMinima(loteForm.getTemperaturaMinima())
-                .quantidadeAtual(quantidade)
-                .produto(produto)
-                .dataDeFabricacao(dataFabricacao)
-                .dataDeValidade(dataVencimento)
-                .setor(setor)
-                .build();
+       Lote lote = loteService.obter(codigoLote);
 
 
         return OrdemDeEntrada.builder()
@@ -61,6 +45,7 @@ public class OrdemDeEntradaForm {
                 .representante(representante)
                 .setor(setor)
                 .vendedor(vendedor)
+                .quantidade(qtdLotes)
                 .lote(lote)
                 .build();
     }

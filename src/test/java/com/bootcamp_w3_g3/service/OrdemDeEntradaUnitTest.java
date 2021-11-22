@@ -72,6 +72,7 @@ public class OrdemDeEntradaUnitTest {
             .codigo("123")
             .nome("Setor123")
             .tipoProduto(TipoProduto.CONGELADOS)
+            .espacoDisponivel(100)
             .armazem(armazem1).build();
 
     Setor setor2 = Setor.builder()
@@ -123,6 +124,7 @@ public class OrdemDeEntradaUnitTest {
             .dataDaOrdem(LocalDate.now())
             .setor(setor1)
             .representante(representante1)
+            .quantidade(3)
             .lote(lote)
             .vendedor(vendedor)
             .build();
@@ -131,6 +133,7 @@ public class OrdemDeEntradaUnitTest {
     void registrarOrdemDeEntradaTest()
     {
         ordemDeEntrada.setSetor(setor1);
+
         Mockito.when(setorRepository.save(Mockito.any(Setor.class))).thenReturn(setor1);
         setorService.salvarSetor(setor1);
         Mockito.when(ordemDeEntradaRepository.save(Mockito.any(OrdemDeEntrada.class))).thenReturn(ordemDeEntrada);

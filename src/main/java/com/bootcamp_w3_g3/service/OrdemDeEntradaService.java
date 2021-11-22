@@ -149,7 +149,7 @@ public class OrdemDeEntradaService {
 
             return ordemDeEntradaRepository.save(ordemDeEntrada);
         }
-        throw new EntityNotFoundException("Erro ao registrar a ordem");
+        return null;
     }
 
     private OrdemDeEntrada retornaOrdem(Integer numeroOrdem) {

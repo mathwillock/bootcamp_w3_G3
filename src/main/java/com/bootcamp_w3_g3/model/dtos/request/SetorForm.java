@@ -22,14 +22,14 @@ public class SetorForm {
     private String codigo;
     private String nome;
     private TipoProduto tipoProduto;
-    private ArmazemForm armazem;
+    private String codigoArmazem;
     private Integer espacoDisponivel = 100;
 
 
 
 
     public Setor converte(ArmazemService armazemService){
-        Armazem armazem = armazemService.obterArmazem(this.armazem.getCodArmazem());
+        Armazem armazem = armazemService.obterArmazem(this.codigoArmazem);
         return Setor.builder()
                 .codigo(codigo)
                 .nome(nome)

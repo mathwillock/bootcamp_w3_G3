@@ -118,7 +118,7 @@ public class OrdemEntradaIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-11")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -131,14 +131,14 @@ public class OrdemEntradaIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-12")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
     }
 
     private void persisteArmazem(ArmazemForm armazemForm) {
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -234,7 +234,7 @@ public class OrdemEntradaIntegrationTest {
 
 
     private void persisteOrdem(OrdemDeEntradaForm ordemDeEntradaForm, SetorForm setorForm, LoteForm loteForm, VendedorForm vendedorForm){
-        Representante representante = representanteService.obter(setorForm.getArmazem().getRepresentante().getCodigo());
+        Representante representante = representanteService.obter(ordemDeEntradaForm.getCodigoRepresentante());
         Vendedor vendedor = vendedorService.obter(vendedorForm.getCodigo());
         Setor setor = setorService.obterSetor(setorForm.getCodigo());
         Lote lote = loteService.obter(loteForm.getNumero());
@@ -242,7 +242,7 @@ public class OrdemEntradaIntegrationTest {
         OrdemDeEntrada ordemDeEntrada = OrdemDeEntrada.builder()
                 .vendedor(vendedor).representante(representante).setor(setor).lote(lote)
                 .dataDaOrdem(ordemDeEntradaForm.getDataOrdem())
-                .quantidade(ordemDeEntradaForm.getQuantidade())
+                .quantidade(ordemDeEntradaForm.getQtdLotes())
                 .numeroDaOrdem(ordemDeEntradaForm.getNumeroOrdem()).build();
 
         ordemDeEntradaService.registra(ordemDeEntrada);
@@ -258,15 +258,15 @@ public class OrdemEntradaIntegrationTest {
         this.persisteArmazem(armazemForm);
 
         SetorForm setorForm = SetorForm.builder().codigo("Se-1").nome("central")
-                .armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
 
         this.persisteSetor1(setorForm, armazemForm);
         ProdutoForm produto = this.payloadProduto(produtoForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(15).setorForm(setorForm).temperaturaAtual(17.0)
+                .numero(15).codigoSetor(setorForm.getCodigo()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produto).horaFabricacao(LocalTime.now())
+                .codigoProduto(produto.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
@@ -277,15 +277,12 @@ public class OrdemEntradaIntegrationTest {
 
         OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante(setorForm.getArmazem().getRepresentante().getCodigo())
-                .codigoSetor(loteForm.getSetorForm().getCodigo())
+                .codigoRepresentante(armazemForm.getCodigoRepresentante())
+                .codigoSetor(loteForm.getCodigoSetor())
                 .numeroOrdem(456)
                 .codigoVendedor(vendedor.getCodigo())
-                .dataFabricacao(LocalDate.of(2021, 10, 12))
-                .dataVencimento(LocalDate.of(2021, 12, 12))
-                .produtoForm(loteForm.getProdutoForm())
-                .loteForm(loteForm)
-                .quantidade(2)
+                .codigoLote(loteForm.getNumero())
+                .qtdLotes(2)
                 .build();
 
 
@@ -314,13 +311,13 @@ public class OrdemEntradaIntegrationTest {
         this.persisteArmazem(armazemForm);
 
         SetorForm setorForm = SetorForm.builder().codigo("Se-2").nome("central")
-                .armazem(armazemForm).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
         this.persisteSetor2(setorForm, armazemForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(17).setorForm(setorForm).temperaturaAtual(17.0)
+                .numero(17).codigoSetor(setorForm.getCodigo()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produto).horaFabricacao(LocalTime.now())
+                .codigoProduto(produto.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
@@ -332,10 +329,10 @@ public class OrdemEntradaIntegrationTest {
         OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
                         .numeroOrdem(3)
                         .codigoSetor(setorForm.getCodigo())
-                        .loteForm(loteForm)
+                        .codigoLote(loteForm.getNumero())
                         .dataOrdem(LocalDate.now())
-                        .quantidade(2)
-                        .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
+                        .qtdLotes(2)
+                        .codigoRepresentante(armazemForm.getCodigoRepresentante())
                         .codigoVendedor(vendedor.getCodigo()).build();
 
         this.persisteOrdem(ordemDeEntrada, setorForm, loteForm, vendedor);
@@ -344,10 +341,10 @@ public class OrdemEntradaIntegrationTest {
         OrdemDeEntradaForm ordemDeEntradaAlterada = OrdemDeEntradaForm.builder()
                 .numeroOrdem(3)
                 .codigoSetor(setorForm.getCodigo())
-                .loteForm(loteForm)
+                .codigoLote(loteForm.getNumero())
                 .dataOrdem(LocalDate.now())
-                .codigoRepresentante(armazemForm.getRepresentante().getCodigo())
-                .quantidade(4)
+                .codigoRepresentante(armazemForm.getCodigoRepresentante())
+                .qtdLotes(4)
                 .codigoVendedor(vendedor.getCodigo()).build();
 
         String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaAlterada);

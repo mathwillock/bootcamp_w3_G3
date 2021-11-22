@@ -1,6 +1,7 @@
 package com.bootcamp_w3_g3.service;
 
 
+import com.bootcamp_w3_g3.advisor.EntityNotFoundException;
 import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.OrdemDeEntradaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,6 +142,11 @@ public class OrdemDeEntradaService {
             ordemDeEntrada.setVendedor(v);
             ordemDeEntrada.setSetor(s);
             ordemDeEntrada.setLote(l);
+
+            Integer espacoAtual = s.getEspacoDisponivel() - ordemDeEntrada.getQuantidade();
+            s.setEspacoDisponivel(espacoAtual);
+            setorService.atualizarSetor(s);
+
             return ordemDeEntradaRepository.save(ordemDeEntrada);
         }
         return null;

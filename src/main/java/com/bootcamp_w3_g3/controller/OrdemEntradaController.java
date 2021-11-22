@@ -33,7 +33,7 @@ public class OrdemEntradaController {
     private ArmazemService armazemService;
 
     @Autowired
-    private ProdutoService produtoService;
+    private LoteService loteService;
 
     @Autowired
     private SetorService setorService;
@@ -41,7 +41,7 @@ public class OrdemEntradaController {
 
     @PostMapping("/registrar")
     public ResponseEntity<OrdemDeEntradaForm> registrarOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder) {
-        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService, armazemService, produtoService, setorService);
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService, armazemService, setorService, loteService);
         ordemService.registra(ordemDeEntrada);
         URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -49,7 +49,7 @@ public class OrdemEntradaController {
 
     @PutMapping("/alterar")
     public ResponseEntity<OrdemDeEntradaForm> alteraOrdem(@RequestBody OrdemDeEntradaForm dto, UriComponentsBuilder uriComponentsBuilder){
-        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService,armazemService, produtoService, setorService);
+        OrdemDeEntrada ordemDeEntrada = dto.converte(vendedorService,armazemService, setorService, loteService);
         ordemService.atualizaOrdem(ordemDeEntrada);
         URI uri = uriComponentsBuilder.path("api/ordem-entrada/{id}").buildAndExpand(ordemDeEntrada.getId()).toUri();
         return ResponseEntity.created(uri).build();

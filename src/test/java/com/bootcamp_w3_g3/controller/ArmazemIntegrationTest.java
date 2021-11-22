@@ -103,7 +103,7 @@ public class ArmazemIntegrationTest {
 
 
     private void persisteArmazem(ArmazemForm armazemForm) {
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -130,7 +130,7 @@ public class ArmazemIntegrationTest {
 
         ArmazemForm armazemForm = ArmazemForm.builder()
                 .codArmazem("A-1").nome("central").endereco("rua qualquer")
-                .uf("RJ").numero(3).representante(representanteForm).build();
+                .uf("RJ").numero(3).codigoRepresentante(representanteForm.getCodigo()).build();
 
         String requestPayload = objectMapper.writeValueAsString(armazemForm);
 
@@ -154,7 +154,7 @@ public class ArmazemIntegrationTest {
 
         ArmazemForm armazemForm = ArmazemForm.builder()
                 .codArmazem("A-2").nome("central").endereco("rua qualquer")
-                .uf("RJ").numero(3).representante(representante).build();
+                .uf("RJ").numero(3).codigoRepresentante(representante.getCodigo()).build();
 
         this.persisteArmazem(armazemForm);
 
@@ -172,7 +172,7 @@ public class ArmazemIntegrationTest {
 
         ArmazemForm armazemForm = ArmazemForm.builder()
                 .codArmazem("A-3").nome("central").endereco("rua qualquer")
-                .uf("RJ").numero(3).representante(representanteForm).build();
+                .uf("RJ").numero(3).codigoRepresentante(representanteForm.getCodigo()).build();
 
         this.persisteArmazem(armazemForm);
         this.mockMvc.perform(get("http://localhost:8080/armazem/obter/" + armazemForm.getCodArmazem()))
@@ -187,13 +187,13 @@ public class ArmazemIntegrationTest {
 
         ArmazemForm armazemForm = ArmazemForm.builder()
                 .codArmazem("A-4").nome("central").endereco("rua qualquer")
-                .uf("RJ").numero(3).representante(representanteForm).build();
+                .uf("RJ").numero(3).codigoRepresentante(representanteForm.getCodigo()).build();
 
         this.persisteArmazem(armazemForm);
 
         ArmazemForm armazemAlterado = ArmazemForm.builder()
                 .codArmazem("A-4").nome("oposto").endereco("rua qualquer")
-                .uf("SP").numero(3).representante(representanteForm).build();
+                .uf("SP").numero(3).codigoRepresentante(representanteForm.getCodigo()).build();
 
         String requestPayload = objectMapper.writeValueAsString(armazemAlterado);
         this.mockMvc.perform(put("http://localhost:8080/armazem/atualizar")

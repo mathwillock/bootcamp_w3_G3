@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * @autor Joaquim Borges
+ * @author Joaquim Borges
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -186,7 +186,9 @@ public class OrdemEntradaIntegrationTest {
                 .nome(setorForm.getNome())
                 .armazem(armazemSetor)
                 .espacoDisponivel(setorForm.getEspacoDisponivel())
-                .codigo(setorForm.getCodigo()).build();
+                .codigo(setorForm.getCodigo())
+                .build()
+        ;
 
         this.setorService.salvarSetor(setor);
     }
@@ -273,32 +275,47 @@ public class OrdemEntradaIntegrationTest {
     @Test
     public void deveRegistrarUmaOrdemDeEntrada() throws Exception{
         ProdutoForm produtoForm = ProdutoForm.builder()
-                .tipoProduto(TipoProduto.FRESCOS).nome("carne").codigoDoProduto(23)
-                .preco(20.0).temperaturaIndicada(13.1).build();
-
+                .tipoProduto(TipoProduto.FRESCOS)
+                .nome("carne")
+                .codigoDoProduto(23)
+                .preco(20.0).temperaturaIndicada(13.1)
+                .build()
+        ;
         ArmazemForm armazemForm = this.payloadArmazem();
         this.persisteArmazem(armazemForm);
 
-        SetorForm setorForm = SetorForm.builder().codigo("Se-1").nome("central")
-                .codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
+        SetorForm setorForm = SetorForm.builder()
+                .codigo("Se-1")
+                .nome("central")
+                .codigoArmazem(armazemForm.getCodArmazem())
+                .tipoProduto(TipoProduto.FRESCOS)
+                .espacoDisponivel(100)
+                .build()
+        ;
 
         this.persisteSetor1(setorForm, armazemForm);
         ProdutoForm produto = this.payloadProduto(produtoForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(15).codigoSetor(setorForm.getCodigo()).temperaturaAtual(17.0)
-                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .codigoProduto(produto.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
+                .numero(15)
+                .codigoSetor(setorForm.getCodigo())
+                .temperaturaAtual(17.0)
+                .temperaturaMinima(13.1)
+                .quantidadeMinina(2)
+                .quantidadeAtual(3)
+                .codigoProduto(produto.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
-                .dataDeFabricacao(LocalDate.now()).build();
-
+                .dataDeFabricacao(LocalDate.now())
+                .build()
+        ;
         this.persisteLote(loteForm, setorForm, produtoForm);
 
         VendedorForm vendedor = VendedorForm.builder()
-                .codigo("V-400")
+                .codigo("V-4001")
                 .nome("João")
                 .sobrenome("Pedro")
-                .cpf("12643546612")
+                .cpf("19238458765")
                 .telefone("11 9999999")
                 .endereco("Rua tal numero tal")
                 .build()
@@ -331,29 +348,50 @@ public class OrdemEntradaIntegrationTest {
     public void deveAlterarUmaOrdemDeEntrada() throws Exception {
 
         ProdutoForm produtoForm = ProdutoForm.builder()
-                .tipoProduto(TipoProduto.REFRIGERADOS).nome("sorvete").codigoDoProduto(43)
-                .preco(20.0).temperaturaIndicada(14.1).build();
-
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .nome("sorvete")
+                .codigoDoProduto(43)
+                .preco(20.0).temperaturaIndicada(14.1)
+                .build()
+        ;
         ProdutoForm produto = this.payloadProduto(produtoForm);
 
         ArmazemForm armazemForm = this.payloadArmazem2();
         this.persisteArmazem(armazemForm);
 
         SetorForm setorForm = SetorForm.builder().codigo("Se-2").nome("central")
-                .codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10).build();
+                .codigoArmazem(armazemForm.getCodArmazem())
+                .tipoProduto(TipoProduto.FRESCOS)
+                .espacoDisponivel(10)
+                .build()
+        ;
         this.persisteSetor2(setorForm, armazemForm);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(17).codigoSetor(setorForm.getCodigo()).temperaturaAtual(17.0)
-                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .codigoProduto(produto.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
+                .numero(17)
+                .codigoSetor(setorForm.getCodigo())
+                .temperaturaAtual(17.0)
+                .temperaturaMinima(13.1)
+                .quantidadeMinina(2)
+                .quantidadeAtual(3)
+                .codigoProduto(produto.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
-                .dataDeFabricacao(LocalDate.now()).build();
-
+                .dataDeFabricacao(LocalDate.now())
+                .build()
+        ;
         this.persisteLote(loteForm, setorForm, produtoForm);
 
-        VendedorForm vendedor = VendedorForm.builder().nome("João").codigo("V-2").build();
-        this.payloadVendedor(vendedor);
+        VendedorForm vendedorForm = VendedorForm.builder()
+                .codigo("V-2022")
+                .nome("João")
+                .sobrenome("João")
+                .cpf("12332112312")
+                .telefone("11 988888888")
+                .endereco("Vendedor na rua das cabras")
+                .build()
+        ;
+        this.payloadVendedor(vendedorForm);
 
         OrdemDeEntradaForm ordemDeEntrada = OrdemDeEntradaForm.builder()
                         .numeroOrdem(3)
@@ -362,9 +400,11 @@ public class OrdemEntradaIntegrationTest {
                         .dataOrdem(LocalDate.now())
                         .qtdLotes(2)
                         .codigoRepresentante(armazemForm.getCodigoRepresentante())
-                        .codigoVendedor(vendedor.getCodigo()).build();
+                        .codigoVendedor(vendedorForm.getCodigo())
+                        .build()
+        ;
 
-        this.persisteOrdem(ordemDeEntrada, setorForm, loteForm, vendedor);
+        this.persisteOrdem(ordemDeEntrada, setorForm, loteForm, vendedorForm);
 
 
         OrdemDeEntradaForm ordemDeEntradaAlterada = OrdemDeEntradaForm.builder()
@@ -374,14 +414,19 @@ public class OrdemEntradaIntegrationTest {
                 .dataOrdem(LocalDate.now())
                 .codigoRepresentante(armazemForm.getCodigoRepresentante())
                 .qtdLotes(4)
-                .codigoVendedor(vendedor.getCodigo()).build();
+                .codigoVendedor(vendedorForm.getCodigo())
+                .build()
+        ;
 
         String requestPayload = objectMapper.writeValueAsString(ordemDeEntradaAlterada);
 
         this.mockMvc.perform(put("http://localhost:8080/api/ordem-entrada/alterar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload))
-                        .andExpect(status().isCreated());
+                        .andExpect(status()
+                                .isCreated()
+                        )
+        ;
 
     }
 

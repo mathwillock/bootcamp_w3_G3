@@ -495,7 +495,7 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(10)
+                .numero(1010)
                 .codigoSetor(null)
                 .temperaturaAtual(17.0)
                 .temperaturaMinima(13.1)

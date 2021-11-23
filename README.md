@@ -21,22 +21,28 @@
 $ git clone git@github.com:Joaquimborges/bootcamp_w3_G3.git
 ```
 
+# :book: Documentação
+
+  * [Diagrama de Classes](https://github.com/Joaquimborges/bootcamp_w3_G3/blob/master/documentacao/diagrama%20de%20classes.pdf)
+  * [Modelagem de Classes](https://github.com/Joaquimborges/bootcamp_w3_G3/blob/master/documentacao/modelagem%20de%20classes.pdf)
+
+
 # :memo: Requisitos
 ### Histórico de Lançamentos
 
-  * v4.0.0 [Requisito 4](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v4.0.0)
+  * v4.0.0 :label: [Requisito 4](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v4.0.0)	
      * Atendendo o requisito 4.   
          
-  * v3.0.0 [Requisito 3](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v3.0.0)
+  * v3.0.0 :label: [Requisito 3](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v3.0.0)	
      * Atendendo o requisito 2 e feito o testes unitários e de integração.     
      
-  * v2.0.0 [Requisito 2](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v2.0.0)
+  * v2.0.0 :label: [Requisito 2](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v2.0.0)
      * Atendendo o requisito 2 e feito o testes unitários e de integração.
      
-  * v1.0.1 [Requisito 1](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.1)
+  * v1.0.1 :label: [Requisito 1](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.1)	
      * Atendendo o requisito 1 e feito o testes unitários e de integração. 
      
-  * v1.0.0 [Lançamento do projeto](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.0)
+  * v1.0.0 :label: [Lançamento do projeto](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v1.0.0)	
     * Lançamento do projeto para validações iniciais do Requisito 1.   
   
 # Membros do grupo 3

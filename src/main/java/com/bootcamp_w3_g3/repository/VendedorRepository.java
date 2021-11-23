@@ -15,6 +15,8 @@ public interface VendedorRepository extends JpaRepository<Vendedor, String> {
 
     Vendedor getById(Long id);
 
+    Vendedor getVendedorByCpf(String cpf);
+
 
 
 

@@ -11,6 +11,7 @@ import lombok.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CompradorForm {
 
     private String codigo;
@@ -19,9 +20,6 @@ public class CompradorForm {
     private String cpf;
     private String telefone;
     private String endereco;
-
-    public CompradorForm() {
-    }
 
     public Comprador converte(){
         return Comprador.builder()

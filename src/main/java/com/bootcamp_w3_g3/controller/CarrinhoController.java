@@ -31,7 +31,6 @@ public class CarrinhoController {
     private CompradorService compradorService;
 
 
-
     @PostMapping("/registrar")
     public ResponseEntity<BigDecimal> registrarPedido(@RequestBody CarrinhoForm carrinhoForm) {
         return new ResponseEntity<>(carrinhoService.registrarPedido(carrinhoForm

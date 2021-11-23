@@ -51,7 +51,7 @@ public class RepresentanteIntTest {
                 .nome("Pedro")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("12323434504")
                 .telefone("11-2473648")
                 .build();
     }
@@ -62,7 +62,7 @@ public class RepresentanteIntTest {
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("12323434545")
                 .telefone("11-2473648")
                 .build();
     }
@@ -73,7 +73,7 @@ public class RepresentanteIntTest {
                 .nome("Paulo")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("12323434765")
                 .telefone("11-2473648")
                 .build();
     }
@@ -84,7 +84,7 @@ public class RepresentanteIntTest {
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("12323434589")
                 .telefone("11-2473648")
                 .build();
     }
@@ -95,7 +95,7 @@ public class RepresentanteIntTest {
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
-                .cpf("123.234.345-04")
+                .cpf("12312312367")
                 .telefone("11-2473648")
                 .build();
     }
@@ -106,7 +106,7 @@ public class RepresentanteIntTest {
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
-                .cpf("123.234.345-04")
+                .cpf("12323434534")
                 .telefone("11-2473648")
                 .build();
     }
@@ -117,7 +117,7 @@ public class RepresentanteIntTest {
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
-                .cpf("123.234.345-04")
+                .cpf("12323434536")
                 .telefone("11-2473648")
                 .build();
     }
@@ -128,7 +128,7 @@ public class RepresentanteIntTest {
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
-                .cpf("123.234.345-04")
+                .cpf("12323434590")
                 .telefone("11-2473648")
                 .build();
     }
@@ -139,7 +139,7 @@ public class RepresentanteIntTest {
                 .nome("Alexia")
                 .sobrenome("Gomez")
                 .endereco("rua morundinumoraninguem")
-                .cpf("123.234.345-04")
+                .cpf("12323434098")
                 .telefone("11-2473648")
                 .build();
     }
@@ -279,7 +279,9 @@ public class RepresentanteIntTest {
         Representante representante = this.converte(representanteForm);
         this.representanteService.salvar(representante);
 
-        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/" + id.toString())).andExpect(result -> result.getResponse().equals(status().isNotFound()));
+        this.mockMvc.perform(delete("http://localhost:8080/representante/delete/"
+                + id.toString())).andExpect(result -> result.getResponse().equals(status().isNotFound())
+        );
 
     }
 

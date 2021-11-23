@@ -64,18 +64,18 @@ public class SetorIntegrationTest {
                 .nome("Joaquim")
                 .sobrenome("Borges")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253675666")
                 .telefone("11-2473648")
                 .build();
     }
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-20")
+                .codigo("R-201")
                 .nome("Alex")
                 .sobrenome("Cruz")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253675829")
                 .telefone("11-2473648")
                 .build();
     }
@@ -86,18 +86,18 @@ public class SetorIntegrationTest {
                 .nome("Hugo")
                 .sobrenome("Damm")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253675777")
                 .telefone("11-2473648")
                 .build();
     }
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("R-22")
+                .codigo("R-22o")
                 .nome("Marcelo")
                 .sobrenome("Santos")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253675889")
                 .telefone("11-2473648")
                 .build();
     }
@@ -108,7 +108,7 @@ public class SetorIntegrationTest {
                 .nome("MAtheus")
                 .sobrenome("Willock")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253675315")
                 .telefone("11-2473648")
                 .build();
     }

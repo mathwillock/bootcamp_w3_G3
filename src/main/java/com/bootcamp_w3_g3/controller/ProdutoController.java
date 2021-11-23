@@ -9,6 +9,9 @@ import com.bootcamp_w3_g3.model.entity.Produto;
 import com.bootcamp_w3_g3.model.entity.TipoProduto;
 import com.bootcamp_w3_g3.service.LoteService;
 import com.bootcamp_w3_g3.service.ProdutoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value="produtos/")
+@Api(description = "Conjunto de endpoints para criação, recuperação, atualização e exclusão de Produtos.")
 public class ProdutoController {
 
     @Autowired
@@ -40,7 +44,10 @@ public class ProdutoController {
      * @return ProdutoDTO
      */
     @PostMapping(value = "/cadastra")
-    public ResponseEntity<ProdutoDTO> cadastrar(@RequestBody ProdutoForm produtoForm) {
+    @ApiOperation("Criar um novo produto.")
+    public ResponseEntity<ProdutoDTO> cadastrar(
+            @ApiParam("Informações do produto para um novo produto a ser criado.")
+            @RequestBody ProdutoForm produtoForm) {
        Produto produto = produtoService.salvar(produtoForm.convert());
        return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.CREATED);
     }
@@ -50,6 +57,7 @@ public class ProdutoController {
      * @return produtoDTO
      */
     @GetMapping("/obter/{cod}")
+    @ApiOperation("Retorna um produto específico por seu identificador. Erro 404 se não existir.")
     public ResponseEntity<ProdutoDTO> obter(@PathVariable Integer cod) {
         Produto produto = produtoService.obter(cod);
         return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
@@ -60,6 +68,7 @@ public class ProdutoController {
      * @return Produtodto
      */
     @PutMapping("/alterar")
+    @ApiOperation("Atualiza as informações do produto cadastrado.")
     public ResponseEntity<ProdutoDTO> alterar(@RequestBody ProdutoForm produtoForm) {
         Produto produto = produtoService.atualizar(produtoForm.convert());
         return new ResponseEntity<>(ProdutoDTO.convertEmProdutoDTO(produto), HttpStatus.OK);
@@ -70,7 +79,9 @@ public class ProdutoController {
      * @return produtoDTO
      */
     @DeleteMapping(value="/deletar/{cod}")
-    public ResponseEntity<Produto> apagar(@PathVariable Long cod) {
+    public ResponseEntity<Produto> apagar(
+            @ApiParam("Código do Produto a ser excluído. Não pode estar vazio.")
+            @PathVariable Long cod) {
         produtoService.apagar(cod);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -80,6 +91,7 @@ public class ProdutoController {
      * @return List<ProdutoDTO>
      */
     @GetMapping("/listar")
+    @ApiOperation("Retorna lista de todos os produtos no sistema.")
     public ResponseEntity<List<ProdutoDTO>> listar() {
         try {
             List<Produto> produtos = produtoService.listar();
@@ -96,6 +108,7 @@ public class ProdutoController {
      * @author Joaquim Borges
      */
     @GetMapping("/listar/{categoria}")
+    @ApiOperation("Retorna lista de todos os produtos da mesma categoria no sistema.")
     public ResponseEntity<List<Produto>> listarPorCategoria(@PathVariable TipoProduto categoria) {
         try {
             return new ResponseEntity<>(produtoService.listarPorCategoria(categoria), HttpStatus.OK);
@@ -112,6 +125,7 @@ public class ProdutoController {
      * @author Joaquim Borges
      */
     @GetMapping("/lotes/listar/{codProduto}")
+    @ApiOperation("Consultar um produto em estoque para saber sua localização no setor e diferentes lotes.")
     public ResponseEntity<List<LoteDTO>> retornaLotesDoProduto(@PathVariable Integer codProduto) {
         try {
             List<Lote> lotes = loteService.retornaLotesDoProduto(codProduto);

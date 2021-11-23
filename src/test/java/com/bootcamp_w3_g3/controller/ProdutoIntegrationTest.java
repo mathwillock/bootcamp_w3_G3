@@ -204,7 +204,7 @@ public class ProdutoIntegrationTest {
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("22143212316")
                 .telefone("11-2473648")
                 .build();
     }
@@ -215,7 +215,7 @@ public class ProdutoIntegrationTest {
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("22143212344")
                 .telefone("11-2473648")
                 .build();
     }
@@ -226,7 +226,7 @@ public class ProdutoIntegrationTest {
                 .nome("Matheus")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("22143212348")
                 .telefone("11-2473648")
                 .build();
     }
@@ -238,18 +238,18 @@ public class ProdutoIntegrationTest {
                     .nome("Marcelo")
                     .sobrenome("Souza")
                     .endereco("Rua A")
-                    .cpf("345.123.678-04")
+                    .cpf("22143212104")
                     .telefone("11-24473648")
                     .build();
     }
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("R-103")
+                .codigo("R-1035")
                 .nome("Matheus")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("22143212320")
                 .telefone("11-2473648")
                 .build();
     }

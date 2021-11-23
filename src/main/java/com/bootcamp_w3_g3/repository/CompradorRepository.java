@@ -18,4 +18,6 @@ public interface CompradorRepository extends JpaRepository<Comprador, Long> {
 
     Comprador getByCodigo(String codigo);
 
+    Comprador getCompradorByCpf(String cpf);
+
 }

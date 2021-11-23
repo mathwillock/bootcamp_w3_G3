@@ -20,7 +20,6 @@ public class ProdutoDTO {
     private String nome;
     private Double preco;
     private Double temperaturaIndicada;
-    private Integer codigoLote;
 
     public ProdutoDTO() {
     }
@@ -36,7 +35,8 @@ public class ProdutoDTO {
         return new ProdutoDTO(produto.getCodigoDoProduto(),
                                 produto.getNome(),
                                 produto.getPreco(),
-                                produto.getTemperaturaIndicada(), produto.getCodLote());
+                                produto.getTemperaturaIndicada()
+        );
     }
 
     /**
@@ -54,7 +54,9 @@ public class ProdutoDTO {
                     new ProdutoDTO(produto.getCodigoDoProduto(),
                                     produto.getNome(),
                                     produto.getPreco(),
-                                    produto.getTemperaturaIndicada(), produto.getCodLote()));
+                                    produto.getTemperaturaIndicada()
+                    )
+            );
         }
         return produtoDTOList;
     }

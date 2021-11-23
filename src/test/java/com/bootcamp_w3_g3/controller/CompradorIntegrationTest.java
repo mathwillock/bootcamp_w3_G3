@@ -47,7 +47,7 @@ public class CompradorIntegrationTest {
                 .nome("Gabriel")
                 .sobrenome("Arrascaeta")
                 .endereco("Rua do Flamengo Sempre Campeão")
-                .cpf("234.456.543-92")
+                .cpf("12312312356")
                 .telefone("21 3425-7856")
                 .build();
     }
@@ -58,7 +58,7 @@ public class CompradorIntegrationTest {
                 .nome("Bruno")
                 .sobrenome("Henrique")
                 .endereco("Rua da Libertadores 2021")
-                .cpf("456.234.543-92")
+                .cpf("12312312392")
                 .telefone("21 3425-7856")
                 .build();
     }
@@ -88,7 +88,8 @@ public class CompradorIntegrationTest {
         this.mockMvc.perform(post("http://localhost:8080/comprador/salvar")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestPayload))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated()
+        );
     }
 
     @Test

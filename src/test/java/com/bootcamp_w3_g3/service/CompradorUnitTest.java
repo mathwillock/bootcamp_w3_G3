@@ -24,7 +24,7 @@ public class CompradorUnitTest{
     Comprador comprador  = Comprador.builder()
             .nome("Alex")
             .sobrenome("Cruz")
-            .cpf("2345678910")
+            .cpf("12312345567")
             .telefone("5555555")
             .endereco("Rua Joao neves 18")
             .build();
@@ -32,7 +32,7 @@ public class CompradorUnitTest{
     Comprador comprador2  = Comprador.builder()
             .nome("Hugo")
             .sobrenome("Damm")
-            .cpf("987654321")
+            .cpf("12312345590")
             .telefone("21 3333-1122")
             .endereco("Rua Copacabana")
             .build();

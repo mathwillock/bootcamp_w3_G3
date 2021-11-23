@@ -30,6 +30,9 @@ $ git clone git@github.com:Joaquimborges/bootcamp_w3_G3.git
 # :memo: Requisitos
 ### Histórico de Lançamentos
 
+  * v5.0.0 :label: [Requisito 5](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v5.0.0)	
+     * Atendendo o requisito 5 e feito todos testes unitários e de integração.
+
   * v4.0.0 :label: [Requisito 4](https://github.com/Joaquimborges/bootcamp_w3_G3/releases/tag/v4.0.0)	
      * Atendendo o requisito 4.   
          

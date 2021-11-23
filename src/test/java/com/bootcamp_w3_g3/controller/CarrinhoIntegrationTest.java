@@ -785,10 +785,94 @@ public class CarrinhoIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestPayload))
             .andExpect(status()
-            .isOk()
-    );
+            .isOk());
+            .andExpect(status().isCreated());
+    }
+
+    /**
+     * teste deve listar todos os carrinhos.
+     * @autor Alex Cruz
+     */
+    @Test
+    void deveListarCarrinhos() throws Exception {
+
+        RepresentanteForm representanteForm222 = this.payLoadRepresentante222();
+
+        ArmazemForm armazemForm222 = this.payLoadArmazem222(representanteForm222);
+        this.persisteArmazem(armazemForm222);
+
+        ProdutoForm produtoForm555 = this.payLoadProduto555();
+        this.persisteProduto(produtoForm555);
+
+        SetorForm setorDoLote333 =  SetorForm.builder()
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .nome("Setor de regrigerados").codigo("SeT-191191")
+                .codigoArmazem(armazemForm222.getCodArmazem())
+                .espacoDisponivel(10)
+                .build();
+
+        this.persisteSetor333(setorDoLote333);
+
+        LoteForm loteForm333 = LoteForm.builder()
+                .numero(111).codigoSetor(setorDoLote333.getCodigo()).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .codigoProduto(produtoForm555.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now())
+                .build();
+
+        this.persisteLote333(loteForm333);
+
+        CarrinhoForm carrinhoForm333 = this.payLoadCarrinho333();
+        this.persisteCarrinho(carrinhoForm333);
+
+        this.mockMvc.perform(get("http://localhost:8080/carrinho/listar"))
+                .andExpect(status().isOk());
+
+    }
 
 
+    /**
+     * Teste deve listar todos os produtos
+     * contidos no carrinho.
+     * @author Joaquim Borges
+     */
+    @Test
+    void deveMostrarProdutosDoCarrinho() throws Exception {
+        RepresentanteForm representanteForm = payLoadRepresentante22();
+        ArmazemForm armazemForm = payLoadArmazem22(representanteForm);
+        this.persisteArmazem(armazemForm);
+
+        SetorForm setorForm = SetorForm.builder().codigo("S-400")
+                .nome("B").codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS)
+                .espacoDisponivel(100).build();
+        this.persisteSetor111(setorForm);
+
+        ProdutoForm produtoForm = ProdutoForm.builder()
+                .codigoDoProduto(400).tipoProduto(TipoProduto.FRESCOS)
+                .nome("picanha").preco(60.0).build();
+        this.persisteProduto(produtoForm);
+
+        LoteForm loteForm = LoteForm.builder().numero(400).codigoSetor(setorForm.getCodigo())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
+                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
+                .build();
+        this.persisteLote222(loteForm);
+
+        ItensForm itensForm = ItensForm.builder()
+                .codigoDoProduto(produtoForm.getCodigoDoProduto())
+                .quantidade(5).build();
+        this.persisteItens(itensForm);
+
+        CompradorForm compradorForm = CompradorForm.builder().codigo("C-400")
+                .nome("Pedro").cpf("2374927494").build();
+        this.persisteComprador(compradorForm);
+
+        CarrinhoForm carrinhoForm = CarrinhoForm.builder()
+                .codigoCarrinho("Ca-400").codigoComprador(compradorForm.getCodigo())
+                .itensList(List.of(itensForm)).statusCompra(StatusCompra.CONCLUIDO)
+                .dataDaOrdem(LocalDate.now()).build();
 }
 
 

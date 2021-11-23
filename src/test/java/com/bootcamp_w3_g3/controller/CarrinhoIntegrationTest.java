@@ -180,6 +180,26 @@ public class CarrinhoIntegrationTest {
                 .build();
     }
 
+    private ProdutoForm payLoadProduto777() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(7777)
+                .nome("alface")
+                .preco(3.50)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.00)
+                .build();
+    }
+
+    private ProdutoForm payLoadProduto888() {
+        return ProdutoForm.builder()
+                .codigoDoProduto(8888)
+                .nome("alface")
+                .preco(3.50)
+                .tipoProduto(TipoProduto.FRESCOS)
+                .temperaturaIndicada(16.00)
+                .build();
+    }
+
     private void persisteProduto(ProdutoForm produtoForm) {
         Produto novoProduto = Produto.builder()
                 .codigoDoProduto(produtoForm.getCodigoDoProduto())
@@ -248,11 +268,11 @@ public class CarrinhoIntegrationTest {
 
     private RepresentanteForm payLoadRepresentante111(){
         return RepresentanteForm.builder()
-                .codigo("R-301o")
+                .codigo("R-3010")
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("12323434522")
+                .cpf("12323434524")
                 .telefone("11-2473648")
                 .build()
         ;
@@ -260,11 +280,22 @@ public class CarrinhoIntegrationTest {
 
     private RepresentanteForm payLoadRepresentante222(){
         return RepresentanteForm.builder()
-                .codigo("R-1000")
+                .codigo("R-2100")
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("12323434504")
+                    .cpf("12323434513")
+                .telefone("11-2473648")
+                .build();
+    }
+
+    private RepresentanteForm payLoadRepresentante333(){
+        return RepresentanteForm.builder()
+                .codigo("R-3100")
+                .nome("Alex")
+                .sobrenome("Gomes")
+                .endereco("rua qualquer")
+                .cpf("12323434505")
                 .telefone("11-2473648")
                 .build()
         ;
@@ -287,7 +318,7 @@ public class CarrinhoIntegrationTest {
                 .nome("Alexia")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("12345678907")
+                .cpf("12345678908")
                 .telefone("11-2473648")
                 .build()
         ;
@@ -310,7 +341,7 @@ public class CarrinhoIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-3000")
+                .codArmazem("AR-1000")
                 .nome("armazem central")
                 .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
@@ -324,7 +355,19 @@ public class CarrinhoIntegrationTest {
         this.persisteRepresentante(representanteForm);
 
         return ArmazemForm.builder()
-                .codArmazem("AR-100")
+                .codArmazem("AR-2000")
+                .nome("armazem central")
+                .codigoRepresentante(representanteForm.getCodigo())
+                .endereco("qualquer lugar")
+                .numero(100)
+                .uf("SP").build();
+    }
+
+    private ArmazemForm payLoadArmazem333(RepresentanteForm representanteForm) {
+        this.persisteRepresentante(representanteForm);
+
+        return ArmazemForm.builder()
+                .codArmazem("AR-3000")
                 .nome("armazem central")
                 .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
@@ -511,13 +554,13 @@ public class CarrinhoIntegrationTest {
 
         itensFormList.add(itensForm222);
 
-        return CarrinhoForm.builder()
-                .codigoCarrinho("CAR-1996")
-                .dataDaOrdem(LocalDate.parse("2021-10-22", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .statusCompra(StatusCompra.CANCELADO)
-                .codigoComprador(compradorForm222.getCodigo())
-                .itensList(itensFormList)
-                .build();
+            return CarrinhoForm.builder()
+                    .codigoCarrinho("CAR-1996")
+                    .dataDaOrdem(LocalDate.parse("2021-10-22", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                    .statusCompra(StatusCompra.CANCELADO)
+                    .codigoComprador(compradorForm222.getCodigo())
+                    .itensList(itensFormList)
+                    .build();
     }
 
    private CarrinhoForm payLoadCarrinho333(){
@@ -784,9 +827,69 @@ public class CarrinhoIntegrationTest {
     this.mockMvc.perform(put("http://localhost:8080/carrinho/atualizar/" + carrinho.getCodigo())
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestPayload))
-            .andExpect(status()
-            .isOk());
-            .andExpect(status().isCreated());
+            .andExpect(status().isOk());
+    }
+
+    /**
+     * teste deve alterar informações dos carrinhos.
+     * @autor Alex Cruz
+     */
+    @Test
+    void alteraPedidosCarrinhos() throws Exception {
+
+        RepresentanteForm representanteForm222 = this.payLoadRepresentante222();
+
+        ArmazemForm armazemForm222 = this.payLoadArmazem222(representanteForm222);
+        this.persisteArmazem(armazemForm222);
+
+        ProdutoForm produtoForm777 = this.payLoadProduto777();
+        this.persisteProduto(produtoForm777);
+
+        SetorForm setorDoLote222 =  SetorForm.builder()
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .nome("Setor de regrigerados").codigo("SeT-292292")
+                .codigoArmazem(armazemForm222.getCodArmazem())
+                .espacoDisponivel(10)
+                .build();
+
+        this.persisteSetor222(setorDoLote222);
+
+        LoteForm loteForm222 = LoteForm.builder()
+                .numero(111).codigoSetor(setorDoLote222.getCodigo()).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .codigoProduto(produtoForm777.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now())
+                .build();
+
+        this.persisteLote222(loteForm222);
+
+        CarrinhoForm carrinhoForm222 = this.payLoadCarrinho222();
+        this.persisteCarrinho(carrinhoForm222);
+
+        ProdutoForm produtoForm888 = this.payLoadProduto888();
+
+        ItensForm itensForm444 = this.payLoadItens444(produtoForm888);
+        this.persisteItens(itensForm444);
+
+        CarrinhoForm carrinhoForm222Alterado = CarrinhoForm.builder()
+                .codigoCarrinho("CAR-1996")
+                .dataDaOrdem(LocalDate.parse("2021-11-25", DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .statusCompra(StatusCompra.CONCLUIDO)
+                .codigoComprador(carrinhoForm222.getCodigoComprador())
+                .itensList(List.of(itensForm444))
+                .build();
+
+
+        String requestPayload = objectMapper.writeValueAsString(carrinhoForm222Alterado);
+
+
+        this.mockMvc.perform(put("http://localhost:8080/carrinho/alterar")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestPayload))
+                .andExpect(status().isOk());
+
     }
 
     /**
@@ -796,10 +899,10 @@ public class CarrinhoIntegrationTest {
     @Test
     void deveListarCarrinhos() throws Exception {
 
-        RepresentanteForm representanteForm222 = this.payLoadRepresentante222();
+        RepresentanteForm representanteForm333 = this.payLoadRepresentante333();
 
-        ArmazemForm armazemForm222 = this.payLoadArmazem222(representanteForm222);
-        this.persisteArmazem(armazemForm222);
+        ArmazemForm armazemForm333 = this.payLoadArmazem333(representanteForm333);
+        this.persisteArmazem(armazemForm333);
 
         ProdutoForm produtoForm555 = this.payLoadProduto555();
         this.persisteProduto(produtoForm555);
@@ -807,7 +910,7 @@ public class CarrinhoIntegrationTest {
         SetorForm setorDoLote333 =  SetorForm.builder()
                 .tipoProduto(TipoProduto.REFRIGERADOS)
                 .nome("Setor de regrigerados").codigo("SeT-191191")
-                .codigoArmazem(armazemForm222.getCodArmazem())
+                .codigoArmazem(armazemForm333.getCodArmazem())
                 .espacoDisponivel(10)
                 .build();
 
@@ -831,49 +934,6 @@ public class CarrinhoIntegrationTest {
                 .andExpect(status().isOk());
 
     }
-
-
-    /**
-     * Teste deve listar todos os produtos
-     * contidos no carrinho.
-     * @author Joaquim Borges
-     */
-    @Test
-    void deveMostrarProdutosDoCarrinho() throws Exception {
-        RepresentanteForm representanteForm = payLoadRepresentante22();
-        ArmazemForm armazemForm = payLoadArmazem22(representanteForm);
-        this.persisteArmazem(armazemForm);
-
-        SetorForm setorForm = SetorForm.builder().codigo("S-400")
-                .nome("B").codigoArmazem(armazemForm.getCodArmazem()).tipoProduto(TipoProduto.FRESCOS)
-                .espacoDisponivel(100).build();
-        this.persisteSetor111(setorForm);
-
-        ProdutoForm produtoForm = ProdutoForm.builder()
-                .codigoDoProduto(400).tipoProduto(TipoProduto.FRESCOS)
-                .nome("picanha").preco(60.0).build();
-        this.persisteProduto(produtoForm);
-
-        LoteForm loteForm = LoteForm.builder().numero(400).codigoSetor(setorForm.getCodigo())
-                .codigoProduto(produtoForm.getCodigoDoProduto()).quantidadeMinina(2).quantidadeAtual(10)
-                .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 30))
-                .build();
-        this.persisteLote222(loteForm);
-
-        ItensForm itensForm = ItensForm.builder()
-                .codigoDoProduto(produtoForm.getCodigoDoProduto())
-                .quantidade(5).build();
-        this.persisteItens(itensForm);
-
-        CompradorForm compradorForm = CompradorForm.builder().codigo("C-400")
-                .nome("Pedro").cpf("2374927494").build();
-        this.persisteComprador(compradorForm);
-
-        CarrinhoForm carrinhoForm = CarrinhoForm.builder()
-                .codigoCarrinho("Ca-400").codigoComprador(compradorForm.getCodigo())
-                .itensList(List.of(itensForm)).statusCompra(StatusCompra.CONCLUIDO)
-                .dataDaOrdem(LocalDate.now()).build();
-}
 
 
 }

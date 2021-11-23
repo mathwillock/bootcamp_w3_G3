@@ -44,9 +44,9 @@ public class ArmazemServiceUnitTest {
         Mockito.when(armazemRepository.save(Mockito.any(Armazem.class))).thenReturn(armazem1);
 
         armazemService = new ArmazemService(armazemRepository);
-        armazemService.criarArmazem(armazem1);
+        Armazem salvo = armazemService.criarArmazem(armazem1);
 
-        assertNotNull(armazem1);
+        assertNotNull(salvo);
     }
 
 

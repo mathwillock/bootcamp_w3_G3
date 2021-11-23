@@ -40,30 +40,50 @@ public class VendedorIntegrationTest {
 
     private VendedorForm payloadVendedor(){
         return VendedorForm.builder()
-                .codigo("V-10").nome("Alex").sobrenome("Cruz")
-                .endereco("teste 1").cpf("111.111.111.01")
-                .telefone("11-111111").build();
+                .codigo("V-10")
+                .nome("Alex")
+                .sobrenome("Cruz")
+                .endereco("teste 1")
+                .cpf("11111111101")
+                .telefone("11-111111")
+                .build()
+        ;
     }
 
     private VendedorForm payloadVendedor2(){
         return VendedorForm.builder()
-                .codigo("V-11").nome("Hugo").sobrenome("Damm")
-                .endereco("teste 1").cpf("111.111.111.01")
-                .telefone("11-111111").build();
+                .codigo("V-11")
+                .nome("Hugo")
+                .sobrenome("Damm")
+                .endereco("teste 1")
+                .cpf("11111111110")
+                .telefone("11-111111")
+                .build()
+        ;
     }
 
     private VendedorForm payloadVendedor3(){
         return VendedorForm.builder()
-                .codigo("V-12").nome("Marcelo").sobrenome("Sousa")
-                .endereco("teste 1").cpf("111.111.111.01")
-                .telefone("11-111111").build();
+                .codigo("V-12")
+                .nome("Marcelo")
+                .sobrenome("Sousa")
+                .endereco("teste 1")
+                .cpf("11111111112")
+                .telefone("11-111111")
+                .build()
+        ;
     }
 
     private VendedorForm payloadVendedor4(){
         return VendedorForm.builder()
-                .codigo("V-13").nome("Matheus").sobrenome("Will")
-                .endereco("teste 1").cpf("111.111.111.01")
-                .telefone("11-111111").build();
+                .codigo("V-13")
+                .nome("Matheus")
+                .sobrenome("Will")
+                .endereco("teste 1")
+                .cpf("11111111113")
+                .telefone("11-111111")
+                .build()
+        ;
     }
 
 

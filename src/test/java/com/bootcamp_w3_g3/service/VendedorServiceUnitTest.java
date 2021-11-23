@@ -13,25 +13,46 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class VendedorServiceUnitTest
-{
+public class VendedorServiceUnitTest {
+
     @Autowired
     private VendedorService vendedorService;
 
-    private VendedorRepository vendedorRepository = Mockito.mock(VendedorRepository.class);
+    private final VendedorRepository vendedorRepository = Mockito.mock(VendedorRepository.class);
 
-    Vendedor vendedor1 = Vendedor.builder().nome("Marcelo").sobrenome("de Oliveira Santos").codigo("MLVEN-342").cpf("444.444.444-33").endereco("Rua Estraburgo, 45, São Paulo - BR").build();
-    Vendedor vendedor2 = Vendedor.builder().nome("Manuella").sobrenome("Marques da Silva").codigo("MLVEN-377").cpf("77.777.777-77").endereco("Avendia Alsácia, 222, Cotia, BR").build();
-    Vendedor vendedor3 = Vendedor.builder().nome("Manuella").sobrenome("Marques da Silva").codigo("MLVEN-377").cpf("77.777.777-77").endereco("Avendia Alsácia, 222, Cotia, BR").build();
+    Vendedor vendedor1 = Vendedor.builder()
+            .nome("Marcelo")
+            .sobrenome("de Oliveira Santos")
+            .codigo("MLVEN-342")
+            .cpf("12312344567")
+            .endereco("Rua Estraburgo, 45, São Paulo - BR")
+            .build()
+    ;
+
+    Vendedor vendedor2 = Vendedor.builder()
+            .nome("Manuella")
+            .sobrenome("Marques da Silva")
+            .codigo("MLVEN-377")
+            .cpf("12312344569")
+            .endereco("Avendia Alsácia, 222, Cotia, BR")
+            .build()
+    ;
+
+    Vendedor vendedor3 = Vendedor.builder()
+            .nome("Manuella")
+            .sobrenome("Marques da Silva")
+            .codigo("MLVEN-377")
+            .cpf("12312344560")
+            .endereco("Avendia Alsácia, 222, Cotia, BR")
+            .build()
+    ;
 
     List<Vendedor> vendedorList = new ArrayList<>();
 
     @Test
-    public void salvarVendedorTest()
-    {
+    public void salvarVendedorTest() {
 
         Mockito.when(vendedorRepository.save(Mockito.any(Vendedor.class))).thenReturn(vendedor3);
-
 
         VendedorService vendedorService = new VendedorService(vendedorRepository);
         Vendedor salvo = vendedorService.salvar(vendedor3);

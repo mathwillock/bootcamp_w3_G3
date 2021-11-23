@@ -140,11 +140,11 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-102")
+                .codigo("R1020")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("14253675555")
+                .cpf("15526637744")
                 .telefone("11-2473648")
                 .build()
         ;
@@ -345,7 +345,6 @@ public class LoteIntegrationTest {
                 .espacoDisponivel(10)
                 .build()
         ;
-
         this.persisteSetor2(setorForm);
 
         Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
@@ -495,7 +494,7 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(1010)
+                .numero(1010000000)
                 .codigoSetor(null)
                 .temperaturaAtual(17.0)
                 .temperaturaMinima(13.1)
@@ -507,11 +506,11 @@ public class LoteIntegrationTest {
                 .dataDeFabricacao(LocalDate.now())
                 .build()
         ;
-
         this.persisteLote2(loteForm);
 
         this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + loteForm.getNumero()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        ;
 
     }
 

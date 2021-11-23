@@ -240,9 +240,18 @@ public class OrdemEntradaIntegrationTest {
 
 
     private VendedorForm payloadVendedor(VendedorForm vendedorForm) {
-        Vendedor novoVendedor = Vendedor.builder().codigo(vendedorForm.getCodigo()).build();
+        Vendedor novoVendedor = Vendedor.builder()
+                .codigo(vendedorForm.getCodigo())
+                .nome(vendedorForm.getNome())
+                .sobrenome(vendedorForm.getSobrenome())
+                .cpf(vendedorForm.getCpf())
+                .endereco(vendedorForm.getEndereco())
+                .telefone(vendedorForm.getTelefone())
+                .build()
+        ;
         novoVendedor.setNome( vendedorForm.getNome());
         this.vendedorService.salvar(novoVendedor);
+
         return VendedorForm.builder()
                 .codigo(novoVendedor.getCodigo())
                 .nome(novoVendedor.getNome())
@@ -312,7 +321,7 @@ public class OrdemEntradaIntegrationTest {
         this.persisteLote(loteForm, setorForm, produtoForm);
 
         VendedorForm vendedor = VendedorForm.builder()
-                .codigo("V-4001")
+                .codigo("v4010")
                 .nome("João")
                 .sobrenome("Pedro")
                 .cpf("19238458765")

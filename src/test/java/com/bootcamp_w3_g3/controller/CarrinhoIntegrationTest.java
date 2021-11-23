@@ -248,7 +248,7 @@ public class CarrinhoIntegrationTest {
                 .nome("Alex")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                    .cpf("123.234.345-04")
                 .telefone("11-2473648")
                 .build();
     }
@@ -606,6 +606,49 @@ public class CarrinhoIntegrationTest {
                 .content(requestPayload)
                 .header("Authorization", "Bearer " + tokenDTO.getToken()))
                 .andExpect(status().isCreated());
+    }
+
+    /**
+     * teste deve listar todos os carrinhos.
+     * @autor Alex Cruz
+     */
+    @Test
+    void deveListarCarrinhos() throws Exception {
+
+        RepresentanteForm representanteForm222 = this.payLoadRepresentante222();
+
+        ArmazemForm armazemForm222 = this.payLoadArmazem222(representanteForm222);
+        this.persisteArmazem(armazemForm222);
+
+        ProdutoForm produtoForm555 = this.payLoadProduto555();
+        this.persisteProduto(produtoForm555);
+
+        SetorForm setorDoLote333 =  SetorForm.builder()
+                .tipoProduto(TipoProduto.REFRIGERADOS)
+                .nome("Setor de regrigerados").codigo("SeT-191191")
+                .codigoArmazem(armazemForm222.getCodArmazem())
+                .espacoDisponivel(10)
+                .build();
+
+        this.persisteSetor333(setorDoLote333);
+
+        LoteForm loteForm333 = LoteForm.builder()
+                .numero(111).codigoSetor(setorDoLote333.getCodigo()).temperaturaAtual(17.0)
+                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
+                .codigoProduto(produtoForm555.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
+                .dataDeValidade(LocalDate.of(2021, 12, 20))
+                .dataDeFabricacao(LocalDate.now())
+                .build();
+
+        this.persisteLote333(loteForm333);
+
+        CarrinhoForm carrinhoForm333 = this.payLoadCarrinho333();
+        this.persisteCarrinho(carrinhoForm333);
+
+        this.mockMvc.perform(get("http://localhost:8080/carrinho/listar"))
+                .andExpect(status().isOk());
+
     }
 
 

@@ -58,7 +58,6 @@ public class LoteIntegrationTest {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
     private static ObjectMapper objectMapper;
 
     @BeforeAll
@@ -79,12 +78,13 @@ public class LoteIntegrationTest {
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
-                .build();
+                .build()
+        ;
     }
 
     private ProdutoForm payloadProduto2() {
         return ProdutoForm.builder()
-                .codigoDoProduto(17)
+                .codigoDoProduto(1709)
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
@@ -97,7 +97,8 @@ public class LoteIntegrationTest {
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
-                .build();
+                .build()
+        ;
     }
 
     private ProdutoForm payloadProduto4() {
@@ -106,7 +107,8 @@ public class LoteIntegrationTest {
                 .nome("carne seca")
                 .preco(50.0)
                 .temperaturaIndicada(16.0)
-                .build();
+                .build()
+        ;
     }
 
     private void persisteProduto(ProdutoForm produtoForm){
@@ -116,7 +118,9 @@ public class LoteIntegrationTest {
                 .nome(produtoForm.getNome())
                 .temperaturaIndicada(produtoForm.getTemperaturaIndicada())
                 .preco(produtoForm.getPreco())
-                .codLote(null).build();
+                .codLote(null)
+                .build()
+        ;
 
         produtoService.salvar(produto);
     }
@@ -124,46 +128,50 @@ public class LoteIntegrationTest {
 
     private RepresentanteForm payloadRepresentante(){
         return RepresentanteForm.builder()
-                .codigo("R-9")
+                .codigo("R-91")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253673189")
                 .telefone("11-2473648")
-                .build();
+                .build()
+        ;
     }
 
     private RepresentanteForm payloadRepresentante2(){
         return RepresentanteForm.builder()
-                .codigo("R-10")
+                .codigo("R1020")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("15526637744")
                 .telefone("11-2473648")
-                .build();
+                .build()
+        ;
     }
 
     private RepresentanteForm payloadRepresentante3(){
         return RepresentanteForm.builder()
-                .codigo("R-11")
+                .codigo("R-111")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253671332")
                 .telefone("11-2473648")
-                .build();
+                .build()
+        ;
     }
 
     private RepresentanteForm payloadRepresentante4(){
         return RepresentanteForm.builder()
-                .codigo("RP-12")
+                .codigo("RP-122")
                 .nome("Joao")
                 .sobrenome("Gomes")
                 .endereco("rua qualquer")
-                .cpf("123.234.345-04")
+                .cpf("14253679090")
                 .telefone("11-2473648")
-                .build();
+                .build()
+        ;
     }
 
 
@@ -174,11 +182,12 @@ public class LoteIntegrationTest {
                 .cpf(representanteForm.getCpf())
                 .telefone(representanteForm.getTelefone())
                 .endereco(representanteForm.getEndereco())
-                .codigo(representanteForm.getCodigo()).build();
+                .codigo(representanteForm.getCodigo())
+                .build()
+        ;
 
         this.representanteService.salvar(representante);
     }
-
 
     private ArmazemForm payloadArmazem() {
         RepresentanteForm representanteForm = this.payloadRepresentante();
@@ -187,10 +196,12 @@ public class LoteIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-7")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
-                .uf("SP").build();
+                .uf("SP")
+                .build()
+        ;
     }
 
     private ArmazemForm payloadArmazem2() {
@@ -200,10 +211,12 @@ public class LoteIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-8")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
-                .uf("SP").build();
+                .uf("SP")
+                .build()
+        ;
     }
 
     private ArmazemForm payloadArmazem3() {
@@ -213,10 +226,12 @@ public class LoteIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-9")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
-                .uf("SP").build();
+                .uf("SP")
+                .build()
+        ;
     }
 
     private ArmazemForm payloadArmazem4() {
@@ -226,15 +241,17 @@ public class LoteIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("ARM-10")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
-                .uf("SP").build();
+                .uf("SP")
+                .build()
+        ;
     }
 
     private void persisteArmazem(ArmazemForm armazemForm) {
 
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -242,7 +259,8 @@ public class LoteIntegrationTest {
                 .representante(representante)
                 .endereco(armazemForm.getEndereco())
                 .uf(armazemForm.getUf())
-                .build();
+                .build()
+        ;
 
         this.armazemService.criarArmazem(armazem);
     }
@@ -259,7 +277,9 @@ public class LoteIntegrationTest {
                 .nome(setorForm.getNome())
                 .armazem(armazemSetor)
                 .espacoDisponivel(setorForm.getEspacoDisponivel())
-                .codigo(setorForm.getCodigo()).build();
+                .codigo(setorForm.getCodigo())
+                .build()
+        ;
 
         this.setorService.salvarSetor(setor);
     }
@@ -274,7 +294,9 @@ public class LoteIntegrationTest {
                 .nome(setorForm.getNome())
                 .armazem(armazemSetor)
                 .espacoDisponivel(setorForm.getEspacoDisponivel())
-                .codigo(setorForm.getCodigo()).build();
+                .codigo(setorForm.getCodigo())
+                .build()
+        ;
 
         this.setorService.salvarSetor(setor);
     }
@@ -290,7 +312,9 @@ public class LoteIntegrationTest {
                 .nome(setorForm.getNome())
                 .armazem(armazemSetor)
                 .espacoDisponivel(setorForm.getEspacoDisponivel())
-                .codigo(setorForm.getCodigo()).build();
+                .codigo(setorForm.getCodigo())
+                .build()
+        ;
 
         this.setorService.salvarSetor(setor);
     }
@@ -305,7 +329,9 @@ public class LoteIntegrationTest {
                 .nome(setorForm.getNome())
                 .armazem(armazemSetor)
                 .espacoDisponivel(setorForm.getEspacoDisponivel())
-                .codigo(setorForm.getCodigo()).build();
+                .codigo(setorForm.getCodigo())
+                .build()
+        ;
 
         this.setorService.salvarSetor(setor);
     }
@@ -315,13 +341,14 @@ public class LoteIntegrationTest {
                 .tipoProduto(TipoProduto.CONGELADOS)
                 .nome("Setor de congelados")
                 .codigo("ST-1")
-                .armazem(null)
-                .espacoDisponivel(10).build();
-
+                .codigoArmazem(null)
+                .espacoDisponivel(10)
+                .build()
+        ;
         this.persisteSetor2(setorForm);
 
         Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -333,7 +360,9 @@ public class LoteIntegrationTest {
                 .quantidadeAtual(loteForm.getQuantidadeAtual())
                 .quantidadeMinina(loteForm.getQuantidadeMinina())
                 .temperaturaMinima(loteForm.getTemperaturaMinima())
-                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+                .temperaturaAtual(loteForm.getTemperaturaAtual())
+                .build()
+        ;
 
         loteService.salvar(loteEnviado);
     }
@@ -343,13 +372,15 @@ public class LoteIntegrationTest {
                 .tipoProduto(TipoProduto.CONGELADOS)
                 .nome("Setor de congelados")
                 .codigo("SE-3")
-                .armazem(null)
-                .espacoDisponivel(10).build();
+                .codigoArmazem(null)
+                .espacoDisponivel(10)
+                .build()
+        ;
 
         this.persisteSetor3(setorForm);
 
         Setor setorDoLote = setorService.obterSetor(setorForm.getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -361,15 +392,17 @@ public class LoteIntegrationTest {
                 .quantidadeAtual(loteForm.getQuantidadeAtual())
                 .quantidadeMinina(loteForm.getQuantidadeMinina())
                 .temperaturaMinima(loteForm.getTemperaturaMinima())
-                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+                .temperaturaAtual(loteForm.getTemperaturaAtual())
+                .build()
+        ;
 
         loteService.salvar(loteEnviado);
     }
 
     private void persisteLote4(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -381,7 +414,9 @@ public class LoteIntegrationTest {
                 .quantidadeAtual(loteForm.getQuantidadeAtual())
                 .quantidadeMinina(loteForm.getQuantidadeMinina())
                 .temperaturaMinima(loteForm.getTemperaturaMinima())
-                .temperaturaAtual(loteForm.getTemperaturaAtual()).build();
+                .temperaturaAtual(loteForm.getTemperaturaAtual())
+                .build()
+        ;
 
         loteService.salvar(loteEnviado);
     }
@@ -395,8 +430,12 @@ public class LoteIntegrationTest {
     void deveSalvarUmLote() throws Exception{
         SetorForm setorDoLote =  SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
-                .nome("Setor de congelados").codigo("Se-4")
-                .armazem(null).espacoDisponivel(10).build();
+                .nome("Setor de congelados")
+                .codigo("Se-4")
+                .codigoArmazem(null)
+                .espacoDisponivel(10)
+                .build()
+        ;
 
         this.persisteSetor1(setorDoLote);
 
@@ -408,11 +447,18 @@ public class LoteIntegrationTest {
         usuarioRepository.save(usuario);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(9).setorForm(setorDoLote).temperaturaAtual(17.0)
-                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .numero(9)
+                .codigoSetor(setorDoLote.getCodigo())
+                .temperaturaAtual(17.0)
+                .temperaturaMinima(13.1)
+                .quantidadeMinina(2)
+                .quantidadeAtual(3)
+                .codigoProduto(produtoForm.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
-                .dataDeFabricacao(LocalDate.now()).build();
+                .dataDeFabricacao(LocalDate.now())
+                .build()
+        ;
 
         String login = "representante";
         String senha = "123";
@@ -423,7 +469,8 @@ public class LoteIntegrationTest {
                 .perform(MockMvcRequestBuilders.post("http://localhost:8080/auth")
                         .content(isso)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk()).andReturn()
+        ;
 
         String response = result.getResponse().getContentAsString();
         TokenDTO tokenDTO = objectMapper.readValue(response, TokenDTO.class);
@@ -434,7 +481,8 @@ public class LoteIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestPayload)
                         .header("Authorization", "Bearer " + tokenDTO.getToken()))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated()
+        );
 
     }
 
@@ -446,16 +494,23 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto2();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(10).setorForm(null).temperaturaAtual(17.0)
-                .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .numero(1010000000)
+                .codigoSetor(null)
+                .temperaturaAtual(17.0)
+                .temperaturaMinima(13.1)
+                .quantidadeMinina(2)
+                .quantidadeAtual(3)
+                .codigoProduto(produtoForm.getCodigoDoProduto())
+                .horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
-                .dataDeFabricacao(LocalDate.now()).build();
-
+                .dataDeFabricacao(LocalDate.now())
+                .build()
+        ;
         this.persisteLote2(loteForm);
 
         this.mockMvc.perform(get("http://localhost:8080/lote/obter/" + loteForm.getNumero()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        ;
 
     }
 
@@ -467,9 +522,9 @@ public class LoteIntegrationTest {
         ProdutoForm produtoForm = this.payloadProduto3();
         this.persisteProduto(produtoForm);
         LoteForm loteForm = LoteForm.builder()
-                .numero(11).setorForm(null).temperaturaAtual(17.0)
+                .numero(11).codigoSetor(null).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
@@ -481,32 +536,35 @@ public class LoteIntegrationTest {
     }
 
 
-
     @Test
-    void deveAlterar_dadosDoLote() throws Exception {
+    void deveAlterarDadosDoLote() throws Exception {
         ProdutoForm produtoForm = this.payloadProduto4();
         this.persisteProduto(produtoForm);
 
         SetorForm setorDoLote =  SetorForm.builder()
                 .tipoProduto(TipoProduto.CONGELADOS)
-                .nome("Setor de congelados").codigo("SeT-191")
-                .armazem(null).espacoDisponivel(10).build();
+                .nome("Setor de congelados")
+                .codigo("SeT-191")
+                .codigoArmazem(null)
+                .espacoDisponivel(1100)
+                .build()
+        ;
 
         this.persisteSetor4(setorDoLote);
 
         LoteForm loteForm = LoteForm.builder()
-                .numero(13).temperaturaAtual(17.0).setorForm(setorDoLote)
+                .numero(13).temperaturaAtual(17.0).codigoSetor(setorDoLote.getCodigo())
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(3)
-                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
         this.persisteLote4(loteForm);
 
         LoteForm loteAlterado = LoteForm.builder()
-                .numero(13).setorForm(loteForm.getSetorForm()).temperaturaAtual(17.0)
+                .numero(13).codigoSetor(setorDoLote.getCodigo()).temperaturaAtual(17.0)
                 .temperaturaMinima(13.1).quantidadeMinina(2).quantidadeAtual(2)
-                .produtoForm(produtoForm).horaFabricacao(LocalTime.now())
+                .codigoProduto(produtoForm.getCodigoDoProduto()).horaFabricacao(LocalTime.now())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).build();
 
@@ -520,10 +578,6 @@ public class LoteIntegrationTest {
                         .andExpect(jsonPath("$.quantidadeAtual", is(loteAlterado.getQuantidadeAtual())));
 
     }
-
-
-
-
 
 
 }

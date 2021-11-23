@@ -21,4 +21,6 @@ public interface RepresentanteRepository extends JpaRepository <Representante, L
     Representante deleteByCodigo(String codigo);
 
     Representante getByCodigo(String codigo);
+
+    Representante getRepresentanteByCpf(String cpf);
 }

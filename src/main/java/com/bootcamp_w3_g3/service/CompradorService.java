@@ -23,9 +23,38 @@ public class CompradorService {
         this.compradorRepository = compradorRepository;
     }
 
+    /**
+     * Este método valida os campos: nome, sobrenome e cpf
+     * @param comprador Passamos o objeto representante.
+     * @return O save do objeto.
+     * @author Matheus Wllock
+     */
     @Transactional
-    public Comprador salvar(Comprador comprador) { return compradorRepository.save(comprador); }
+    public Comprador salvar(Comprador comprador) {
 
+        int validateCpf = comprador.getCpf().length();
+        String nome = comprador.getNome();
+        String sobrenome = comprador.getSobrenome();
+        Comprador copCPF = compradorRepository.getCompradorByCpf(comprador.getCpf());
+        Comprador copCod = compradorRepository.getByCodigo(comprador.getCodigo());
+
+        if( copCod == null && copCPF == null && validateCpf == 11 && nome != null && !nome.equals("") && !nome.equals(" ")
+                && sobrenome != null && !sobrenome.equals("") && !sobrenome.equals(" ")
+        ) {
+            return compradorRepository.save(comprador);
+        } if (sobrenome == null || sobrenome.equals("") || sobrenome.equals(" ")) {
+            throw new EntityNotFoundException("sobrenome inválido");
+        } if (nome == null || nome.equals("") || nome.equals(" ")) {
+            throw new EntityNotFoundException("nome inválido!");
+        } if (copCPF != null) {
+            throw new EntityNotFoundException("CPF já cadastrado!");
+        } if (copCod != null) {
+            throw new EntityNotFoundException("Código do comprador já cadastrado!");
+        }
+
+        throw new EntityNotFoundException("CPF inválido");
+
+    }
     public Comprador obter(String codigo) {
         try {
             return compradorRepository.findByCodigo(codigo);

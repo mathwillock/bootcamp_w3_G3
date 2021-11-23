@@ -217,7 +217,7 @@ public class CarrinhoUnitTest{
     void retornaPrecoDosItensTest(){
         itensList.add(item2);
         carrinho.setItensList(itensList);
-        Double valorEsperado = 0.00;
+        double valorEsperado = 0.00;
         for(Itens item : carrinho.getItensList()){
             valorEsperado += item.getProduto().getPreco() * item.getQuantidade();
         }
@@ -266,15 +266,16 @@ public class CarrinhoUnitTest{
         carrinho.setId(34234L);
         carrinho.setDataDeOrdem(LocalDate.now());
         carrinho.setItensList(itensList);
-        carrinho.setStatusCompra(CANCELADO);
-        Mockito.when(carrinhoRepository.getById(Mockito.any(Long.class))).thenReturn(carrinho);
+        carrinho.setStatusCompra(CONCLUIDO);
+        Mockito.when(carrinhoRepository.getByCodigo(Mockito.any(String.class))).thenReturn(carrinho);
         Mockito.when(carrinhoRepository.save(Mockito.any(Carrinho.class))).thenReturn(carrinho);
 
         carrinhoService = new CarrinhoService(carrinhoRepository, loteServiceMock);
-        Carrinho carrinhoAlterado = carrinhoService.alterarPedido(carrinho, carrinho.getId());
 
-        Mockito.verify(carrinhoRepository, Mockito.times(1)).getById(carrinho.getId());
+        Carrinho carrinhoAlterado = carrinhoService.alterarPedido(carrinho, carrinho.getCodigo());
+
         Mockito.verify(carrinhoRepository, Mockito.times(1)).save(carrinho);
+        Mockito.verify(carrinhoRepository, Mockito.times(1)).getByCodigo(carrinho.getCodigo());
 
         assertEquals(carrinhoAlterado.getStatusCompra(), carrinho.getStatusCompra());
 

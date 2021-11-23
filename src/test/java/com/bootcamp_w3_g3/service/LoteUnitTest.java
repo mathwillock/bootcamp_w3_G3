@@ -1,9 +1,10 @@
 package com.bootcamp_w3_g3.service;
 
 
-import com.bootcamp_w3_g3.model.entity.Lote;
-import com.bootcamp_w3_g3.model.entity.Produto;
-import com.bootcamp_w3_g3.model.entity.TipoProduto;
+import com.bootcamp_w3_g3.model.dtos.response.LoteDTO;
+import com.bootcamp_w3_g3.model.dtos.response.requisito4.DTOArmazem;
+import com.bootcamp_w3_g3.model.dtos.response.requisito5.DTOLote;
+import com.bootcamp_w3_g3.model.entity.*;
 import com.bootcamp_w3_g3.repository.LoteRepository;
 
 import com.bootcamp_w3_g3.repository.ProdutoRepository;
@@ -23,11 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Joaquim Borges
  * @author Matheus Willock
+ * @author Hugo Damm
  */
 
 public class LoteUnitTest {
 
-    private LoteService loteService;
+    private LoteService loteService = Mockito.mock(LoteService.class);
 
     ProdutoRepository produtoRepository = Mockito.mock(ProdutoRepository.class);
 
@@ -39,7 +41,21 @@ public class LoteUnitTest {
             .nome("carne")
             .preco(60.0)
             .build()
-    ;
+            ;
+
+    Produto produto2 = Produto.builder()
+            .codigoDoProduto(321)
+            .nome("peixe")
+            .preco(53.12)
+            .build()
+            ;
+
+    Produto produto3 = Produto.builder()
+            .codigoDoProduto(688)
+            .nome("bisteca")
+            .preco(29.98)
+            .build()
+            ;
 
     Lote lote = Lote.builder()
             .numero(10)
@@ -49,23 +65,63 @@ public class LoteUnitTest {
             .build()
     ;
 
-    Lote lote2 = Lote.builder()
-            .numero(9)
-            .dataDeValidade(LocalDate.of(2021, 12, 12))
-            .produto(produto)
-            .quantidadeAtual(25)
-            .build()
-    ;
+
+    Representante representante = Representante.builder()
+            .codigo("R-1").nome("Hugo").sobrenome("Damm")
+            .endereco("rua 1").build();
+
+    Representante representante2 = Representante.builder()
+            .codigo("R-2").nome("Pedro").sobrenome("Damm")
+            .endereco("rua 1").build();
+
+    Armazem armazem = Armazem.builder()
+            .codArmazem("Ar-1").nome("B")
+            .representante(representante).build();
+
+    Armazem armazem2 = Armazem.builder()
+            .codArmazem("Ar-2").nome("C")
+            .representante(representante2).build();
+
+    Setor setor = Setor.builder().codigo("S-1")
+            .armazem(armazem).nome("H").tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
+    Setor setor2 = Setor.builder().codigo("S-2")
+            .armazem(armazem2).nome("H").tipoProduto(TipoProduto.FRESCOS)
+            .build();
+    Setor setor3 = Setor.builder().codigo("S-3")
+            .armazem(armazem2).nome("I").tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
 
     Lote lote3 = Lote.builder()
             .numero(30)
+            .setor(setor)
             .dataDeValidade(LocalDate.of(2021, 12, 13))
             .quantidadeAtual(15)
-            .build()
-    ;
+            .build();
+
+    Lote lote2 = Lote.builder()
+            .numero(9)
+            .setor(setor2)
+            .dataDeValidade(LocalDate.of(2021, 12, 12))
+            .produto(produto)
+            .quantidadeAtual(25)
+            .build();
+
+    DTOArmazem dtoArmazem1 = DTOArmazem.builder()
+            .codigoArmazem(armazem.getCodArmazem())
+            .quantidadeDoProdutos(lote.getQuantidadeAtual()).build();
+
+    DTOArmazem dtoArmazem2 = DTOArmazem.builder()
+            .codigoArmazem(armazem2.getCodArmazem())
+            .quantidadeDoProdutos(lote2.getQuantidadeAtual()).build();
 
 
     List<Lote> loteList1 = new ArrayList<>();
+    List<DTOLote> loteDTOList = new ArrayList<>();
+    List<DTOArmazem> armazemList = new ArrayList<>();
+    List<Armazem> armazemList2 = new ArrayList<>();
 
 
     /**
@@ -200,6 +256,37 @@ public class LoteUnitTest {
 
     }
 
+    @Test
+    void deveListarOsArmazensDoProduto() {
+       armazemList2.add(armazem);
+       armazemList2.add(armazem2);
+       this.armazemList.add(dtoArmazem1);
+       this.armazemList.add(dtoArmazem2);
+
+       Mockito.when(loteService.retornaQuantidadesDoProdutosPorArmazem(Mockito.any(Integer.class)))
+               .thenReturn(armazemList);
+
+       List<DTOArmazem> armazensDoProduto = this.loteService.retornaQuantidadesDoProdutosPorArmazem(produto.getCodigoDoProduto());
+
+       assertEquals(2, armazensDoProduto.size());
+    }
+
+    @Test
+    void deveListarLotesDentroDoPeriodo()
+    {
+        lote.setProduto(produto3);
+        lote2.setProduto(produto2);
+        lote3.setProduto(produto);
+        loteDTOList.add(DTOLote.converter(lote3));
+        loteDTOList.add(DTOLote.converter(lote));
+        loteDTOList.add(DTOLote.converter(lote2));
+
+        Mockito.when(loteService.retornaLotesArmazenadosDoProduto(Mockito.any(String.class), Mockito.any(Integer.class)))
+                .thenReturn(loteDTOList);
+
+        assertEquals(3, loteDTOList.size());
+
+    }
 
 
 

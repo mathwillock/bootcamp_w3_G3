@@ -44,7 +44,7 @@ public class CarrinhoService {
                     return retornaPrecoDosItens(carrinho);
 
                 case CANCELADO:
-                    return new BigDecimal(00.0);
+                    return new BigDecimal("00.0");
 
                 case CONCLUIDO:
                     decrementaDoLote(itens);
@@ -104,9 +104,9 @@ public class CarrinhoService {
      * um pedido específico.
      * @autor Joaquim Borges
      */
-    public Carrinho alterarPedido(Carrinho carrinho, Long id) {
+    public Carrinho alterarPedido(Carrinho carrinho, String codigo) {
         try {
-            Carrinho carrinhoEncontrado = carrinhoRepository.getById(id);
+            Carrinho carrinhoEncontrado = carrinhoRepository.getByCodigo(codigo);
             carrinhoEncontrado.setItensList(carrinho.getItensList());
             carrinhoEncontrado.setDataDeOrdem(carrinho.getDataDeOrdem());
             carrinhoEncontrado.setStatusCompra(carrinho.getStatusCompra());

@@ -132,7 +132,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-16")
                 .nome("central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -144,7 +144,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-17")
                 .nome("teste1")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -156,7 +156,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-18")
                 .nome("teste3")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -168,7 +168,7 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-19")
                 .nome("central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
@@ -180,14 +180,14 @@ public class SetorIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-20")
                 .nome("central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("rua qualquer")
                 .uf("SP")
                 .build();
     }
 
     private void persisteArmazem(ArmazemForm armazemForm) {
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -203,7 +203,7 @@ public class SetorIntegrationTest {
 
     private Setor persisteSetor(SetorForm setorForm){
 
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -229,7 +229,7 @@ public class SetorIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-18").nome("B")
                 .tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         String requestPayload = objectMapper.writeValueAsString(setorForm);
 
@@ -258,7 +258,7 @@ public class SetorIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-19").nome("C")
                 .tipoProduto(TipoProduto.CONGELADOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         this.persisteSetor(setorForm);
 
@@ -295,7 +295,7 @@ public class SetorIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-20").nome("D")
                 .tipoProduto(TipoProduto.REFRIGERADOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         Setor setor = this.persisteSetor(setorForm);
 
@@ -316,11 +316,11 @@ public class SetorIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-21").nome("E")
                 .tipoProduto(TipoProduto.REFRIGERADOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         this.persisteSetor(setorForm);
 
-        this.mockMvc.perform(get("http://localhost:8080/setor/buscar-armazem/" + setorForm.getArmazem().getCodArmazem()))
+        this.mockMvc.perform(get("http://localhost:8080/setor/buscar-armazem/" + setorForm.getCodigoArmazem()))
                 .andExpect(status().isOk());
 
     }
@@ -337,13 +337,13 @@ public class SetorIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-22").nome("F")
                 .tipoProduto(TipoProduto.CONGELADOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         this.persisteSetor(setorForm);
 
         SetorForm setorAlterado = SetorForm.builder().codigo("S-22").nome("G")
                 .tipoProduto(TipoProduto.FRESCOS).espacoDisponivel(10)
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         String requestPayload = objectMapper.writeValueAsString(setorAlterado);
         this.mockMvc.perform(put("http://localhost:8080/setor/alterar")

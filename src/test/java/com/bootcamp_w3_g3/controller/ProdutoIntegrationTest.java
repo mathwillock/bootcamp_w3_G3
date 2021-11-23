@@ -272,7 +272,7 @@ public class ProdutoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-30")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -284,7 +284,7 @@ public class ProdutoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-100")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -296,7 +296,7 @@ public class ProdutoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-102")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(100)
                 .uf("SP").build();
@@ -309,7 +309,7 @@ public class ProdutoIntegrationTest {
             return ArmazemForm.builder()
                     .codArmazem("AR-105")
                     .nome("Armazem São Paulo")
-                    .representante(representanteForm)
+                    .codigoRepresentante(representanteForm.getCodigo())
                     .endereco("qualquer lugar")
                     .numero(100)
                     .uf("SP").build();
@@ -321,7 +321,7 @@ public class ProdutoIntegrationTest {
         return ArmazemForm.builder()
                 .codArmazem("AR-110")
                 .nome("armazem central")
-                .representante(representanteForm)
+                .codigoRepresentante(representanteForm.getCodigo())
                 .endereco("qualquer lugar")
                 .numero(110)
                 .uf("SP").build()
@@ -331,7 +331,7 @@ public class ProdutoIntegrationTest {
 
     private void persisteArmazem(ArmazemForm armazemForm) {
 
-        Representante representante = this.representanteService.obter(armazemForm.getRepresentante().getCodigo());
+        Representante representante = this.representanteService.obter(armazemForm.getCodigoRepresentante());
 
         Armazem armazem = Armazem.builder()
                 .codArmazem(armazemForm.getCodArmazem())
@@ -345,7 +345,7 @@ public class ProdutoIntegrationTest {
     }
 
     private void persisteSetor1(SetorForm setorForm){
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -358,7 +358,7 @@ public class ProdutoIntegrationTest {
     }
 
     private void persisteSetor10(SetorForm setorForm){
-        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getArmazem().getCodArmazem());
+        Armazem armazemSetor = this.armazemService.obterArmazem(setorForm.getCodigoArmazem());
 
         Setor setor = Setor.builder()
                 .tipoProduto(setorForm.getTipoProduto())
@@ -372,8 +372,8 @@ public class ProdutoIntegrationTest {
 
     private void persisteLote2(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -392,8 +392,8 @@ public class ProdutoIntegrationTest {
 
     private void persisteLote6(LoteForm loteForm) {
 
-        Setor setorDoLote = setorService.obterSetor(loteForm.getSetorForm().getCodigo());
-        Produto produto = produtoService.obter(loteForm.getProdutoForm().getCodigoDoProduto());
+        Setor setorDoLote = setorService.obterSetor(loteForm.getCodigoSetor());
+        Produto produto = produtoService.obter(loteForm.getCodigoProduto());
 
         Lote loteEnviado = Lote.builder()
                 .setor(setorDoLote)
@@ -584,13 +584,13 @@ public class ProdutoIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-50")
                 .nome("B").tipoProduto(TipoProduto.REFRIGERADOS)
-                .espacoDisponivel(10).armazem(armazemForm)
+                .espacoDisponivel(10).codigoArmazem(armazemForm.getCodArmazem())
                 .build();
 
         this.persisteSetor1(setorForm);
 
         LoteForm loteForm = LoteForm.builder().numero(50)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
@@ -618,14 +618,14 @@ public class ProdutoIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-100")
                 .nome("C").tipoProduto(TipoProduto.REFRIGERADOS)
-                .espacoDisponivel(10).armazem(armazemForm)
+                .espacoDisponivel(10).codigoArmazem(armazemForm.getCodArmazem())
                 .build()
         ;
 
         this.persisteSetor1(setorForm);
 
         LoteForm loteForm = LoteForm.builder().numero(110)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
@@ -635,7 +635,7 @@ public class ProdutoIntegrationTest {
         this.persisteLote2(loteForm);
 
         LoteForm loteForm2 = LoteForm.builder().numero(100)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
@@ -645,7 +645,7 @@ public class ProdutoIntegrationTest {
         this.persisteLote2(loteForm2);
 
         LoteForm loteForm3 = LoteForm.builder().numero(120)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
@@ -679,18 +679,18 @@ public class ProdutoIntegrationTest {
 
         SetorForm setorForm = SetorForm.builder().codigo("S-102")
                 .tipoProduto(TipoProduto.REFRIGERADOS).nome("B")
-                .armazem(armazemForm).build();
+                .codigoArmazem(armazemForm.getCodArmazem()).build();
 
         this.persisteSetor1(setorForm);
 
         LoteForm loteForm1 = LoteForm.builder().numero(102)
-                .produtoForm(produtoForm).setorForm(setorForm)
+                .codigoProduto(produtoForm.getCodigoDoProduto()).codigoSetor(setorForm.getCodigo())
                 .temperaturaAtual(14.2).temperaturaMinima(12.1)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 17))
                 .quantidadeAtual(4).build();
 
         LoteForm loteForm2 = LoteForm.builder().numero(103)
-                .produtoForm(produtoForm).setorForm(setorForm)
+                .codigoProduto(produtoForm.getCodigoDoProduto()).codigoSetor(setorForm.getCodigo())
                 .temperaturaAtual(14.2).temperaturaMinima(12.1)
                 .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 12, 27))
                 .quantidadeAtual(4).build();
@@ -721,25 +721,25 @@ public class ProdutoIntegrationTest {
                     .codigo("S-105")
                     .tipoProduto(TipoProduto.FRESCOS)
                     .nome("C")
-                    .armazem(armazemForm5)
+                    .codigoArmazem(armazemForm5.getCodArmazem())
                     .build();
 
             this.persisteSetor1(setorForm5);
 
             LoteForm loteForm5 = LoteForm.builder()
                     .numero(104)
-                    .produtoForm(produtoForm13)
-                    .setorForm(setorForm5)
+                    .codigoProduto(produtoForm13.getCodigoDoProduto())
+                    .codigoSetor(setorForm5.getCodigo())
                     .temperaturaAtual(14.2)
                     .temperaturaMinima(11.0)
-                    .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 9, 01))
+                    .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 9, 1))
                     .quantidadeAtual(10)
                     .build();
 
             LoteForm loteForm4 = LoteForm.builder()
                     .numero(105)
-                    .produtoForm(produtoForm13)
-                    .setorForm(setorForm5)
+                    .codigoProduto(produtoForm13.getCodigoDoProduto())
+                    .codigoSetor(setorForm5.getCodigo())
                     .temperaturaAtual(14.2)
                     .temperaturaMinima(11.0)
                     .dataDeFabricacao(LocalDate.now()).dataDeValidade(LocalDate.of(2021, 9, 20))
@@ -771,13 +771,13 @@ public class ProdutoIntegrationTest {
                 .nome("C")
                 .tipoProduto(TipoProduto.REFRIGERADOS)
                 .espacoDisponivel(100)
-                .armazem(armazemForm)
+                .codigoArmazem(armazemForm.getCodArmazem())
                 .build();
 
         this.persisteSetor10(setorForm);
 
         LoteForm loteForm2 = LoteForm.builder().numero(110)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)
@@ -787,7 +787,7 @@ public class ProdutoIntegrationTest {
         this.persisteLote6(loteForm2);
 
         LoteForm loteForm6 = LoteForm.builder().numero(100)
-                .setorForm(setorForm).produtoForm(produtoForm)
+                .codigoSetor(setorForm.getCodigo()).codigoProduto(produtoForm.getCodigoDoProduto())
                 .dataDeValidade(LocalDate.of(2021, 12, 20))
                 .dataDeFabricacao(LocalDate.now()).horaFabricacao(LocalTime.now())
                 .quantidadeAtual(4).quantidadeMinina(2).temperaturaAtual(13.2)

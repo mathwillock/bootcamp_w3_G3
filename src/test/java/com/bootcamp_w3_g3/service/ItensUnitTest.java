@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Criado teste unitário referente a classe itensService.
  * Desenvolvido testes para o CRUD.
- * @autor Alex Cruz
+ * @author Alex Cruz
  */
 public class ItensUnitTest{
 
@@ -50,6 +50,60 @@ public class ItensUnitTest{
             .build();
 
     List<Itens> itensList = new ArrayList<>();
+    List<Itens> comboList = new ArrayList<>();
+
+    Produto produto10 = Produto.builder()
+            .codigoDoProduto(2002)
+            .nome("Batata Doce")
+            .preco(12.69)
+            .temperaturaIndicada(18.5)
+            .tipoProduto(TipoProduto.FRESCOS)
+            .build();
+
+    Produto produto20 = Produto.builder()
+            .codigoDoProduto(2001)
+            .nome("Fruta Pão")
+            .preco(9.69)
+            .temperaturaIndicada(12.5)
+            .tipoProduto(TipoProduto.CONGELADOS)
+            .build();
+
+    Produto produto30 = Produto.builder()
+            .codigoDoProduto(2003)
+            .nome("Fruta Pão")
+            .preco(9.69)
+            .temperaturaIndicada(12.5)
+            .tipoProduto(TipoProduto.CONGELADOS)
+            .build();
+
+    Produto produto40 = Produto.builder()
+            .codigoDoProduto(10223)
+            .nome("Fruta Pão")
+            .preco(9.69)
+            .temperaturaIndicada(12.5)
+            .tipoProduto(TipoProduto.CONGELADOS)
+            .build();
+
+    Itens itens10  = Itens.builder()
+            .produto(produto10)
+            .quantidade(25)
+            .build();
+
+    Itens itens20  = Itens.builder()
+            .produto(produto20)
+            .quantidade(52)
+            .build();
+
+    Itens itens30  = Itens.builder()
+            .produto(produto30)
+            .quantidade(52)
+            .build();
+
+    Itens itens40  = Itens.builder()
+            .produto(produto40)
+            .quantidade(25)
+            .build();
+
 
     @Test
     void salvarCarrinhoTest(){
@@ -75,6 +129,24 @@ public class ItensUnitTest{
         Mockito.verify(itensRepository, Mockito.times(1)).findAll();
 
         assertEquals(lista.size(),itensList.size());
+
+    }
+
+    @Test
+    void entregarCombo(){
+        comboList.add(itens20);
+        comboList.add(itens30);
+        comboList.add(itens10);
+        comboList.add(itens40);
+
+        Mockito.when(itensRepository.findAll()).thenReturn(comboList);
+
+
+        itensService = new ItensService(itensRepository);
+        List<Itens> lista = itensService.listarCombos("carne", "integral", "uva");
+
+        assertNotEquals(comboList, lista);
+        assertNotEquals(comboList.size(), lista.size());
 
     }
 

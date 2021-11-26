@@ -38,4 +38,10 @@ public class ItensController {
         return new ResponseEntity<>(itensList, HttpStatus.OK);
     }
 
+    @PostMapping("/combos/{proteina}/{arroz}/{suco}")
+    public ResponseEntity<List<Itens>> combos(@PathVariable String proteina, @PathVariable String arroz, @PathVariable String suco ){
+        List<Itens> itensList = itensService.listarCombos(proteina, arroz, suco);
+        return new ResponseEntity<>(itensList, HttpStatus.OK);
+    }
+
 }
